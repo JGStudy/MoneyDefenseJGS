@@ -7,71 +7,59 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Pretendard', ...defaultTheme.fontFamily.sans],
+        nums: ['Roboto', 'sans-serif'],
       },
       colors: {
-        // KB Yellow & Gray
-        kbYellowPositive: '#F9C600',
-        kbYellow: '#F7D338',
-        kbYellowNative: '#FFCC00',
-        kbGray: '#6D5A4C',
-        kbGrayAlt: '#918E84',
+        // KB Colors
+        'kb-yellow-positive': '#FFBC00',
+        'kb-yellow-native': '#FFCC00',
+        'kb-yellow': '#FFD338',
+        'kb-gray': '#60584C',
+        'kb-gray-alt': '#918274',
 
         // UI Grayscale
-        kbUi01: '#000000',
-        kbUi02: '#202122',
-        kbUi03: '#404B51',
-        kbUi04: '#606E76',
-        kbUi05: '#848B91',
-        kbUi06: '#A8A8A8',
-        kbUi07: '#C8CCD0',
-        kbUi08: '#DDE1E4',
-        kbUi09: '#EBEEF0',
-        kbUi10: '#F7F7F8',
-        kbUi11: '#FFFFFF',
+        'kb-ui-01': '#000000',
+        'kb-ui-02': '#26282C',
+        'kb-ui-03': '#484B51',
+        'kb-ui-04': '#696E76',
+        'kb-ui-05': '#8C949E',
+        'kb-ui-06': '#AAB0B8',
+        'kb-ui-07': '#C6CBD0',
+        'kb-ui-08': '#DDE1E4',
+        'kb-ui-09': '#EBEEF0',
+        'kb-ui-10': '#F7F7F8',
+        'kb-ui-11': '#FFFFFF',
 
-        // 상태 색상
-        statusPositive: '#529EFF',
-        statusError: '#F25252',
-        statusErrorInput: '#F98585',
-        statusCaution: '#F7D338',
-
-        // 지갑색상
-        kbBlueGray: '#3796C6',
-        kbPointBlue: '#2C44C2',
-        kbMultiSky: '#92D3F8',
-        kbMultiBlue: '#57D9FD',
-        kbMultiGreen: '#3FD3B8',
-        kbSkyBlue: '#C6E9F0',
+        // Status Colors
+        'status-positive': '#287EFF',
+        'status-error': '#F23F3F',
+        'status-error-input': '#FF5858',
+        'status-caution': '#FFD338',
+        'status-font-error': '#EC645E',
       },
       fontSize: {
-        // 타이틀 계열
-        'page-title': ['28px', { lineHeight: '39px', letterSpacing: '-0.2px' }],
-        'complete-title': ['24px', { lineHeight: '33px', letterSpacing: '-0.2px' }],
-        'popup-title': ['20px', { lineHeight: '28px', letterSpacing: '-0.2px' }],
-        'section-title': ['18px', { lineHeight: '25px', letterSpacing: '-0.2px' }],
+        // title
+        title01: ['28px', { lineHeight: '39px', letterSpacing: '-0.2px' }],
+        title02: ['24px', { lineHeight: '33px', letterSpacing: '-0.2px' }],
+        title03: ['20px', { lineHeight: '28px', letterSpacing: '-0.2px' }],
 
-        // 바디 계열
+        // body
         body01: ['18px', { lineHeight: '25px', letterSpacing: '-0.2px' }],
         body02: ['16px', { lineHeight: '23px', letterSpacing: '-0.2px' }],
-        'guide-copy': ['15px', { lineHeight: '21px', letterSpacing: '-0.2px' }],
         body03: ['14px', { lineHeight: '20px', letterSpacing: '-0.1px' }],
-        caption: ['14px', { lineHeight: '20px', letterSpacing: '-0.1px' }],
+        'guide-notice': ['15px', { lineHeight: '21px', letterSpacing: '-0.2px' }],
         'table-caption': ['13px', { lineHeight: '18px', letterSpacing: '-0.1px' }],
 
-        // 숫자 표시
+        // num(font-family: Roboto)
         'number-lg': ['19px', { lineHeight: '25px', letterSpacing: '-0.2px' }],
         'number-md': ['17px', { lineHeight: '23px', letterSpacing: '-0.2px' }],
         'number-sm': ['15px', { lineHeight: '20px', letterSpacing: '-0.1px' }],
-
-        // 입력 필드
-        'input-text': ['19px', { letterSpacing: '-0.1px' }],
-        'input-label': ['16px', { letterSpacing: '0px' }],
-
-        // 버튼
-        'btn-lg': ['20px', { letterSpacing: '-0.2px' }],
-        'btn-md': ['16px', { letterSpacing: '-0.2px' }],
-        'btn-text-md': ['15px', { letterSpacing: '-0.1px' }],
-        'btn-text-sm': ['14px', { letterSpacing: '-0.1px' }],
+      },
+      boxShadow: {
+        // effect style
+        list: '0px 4px 20px rgba(65, 66, 77, 0.22)',
+        card: '0px 4px 6px rgba(0, 0, 0, 0.07)',
+        module: '0px 0px 12px rgba(0, 0, 0, 0.04)',
       },
     },
   },
