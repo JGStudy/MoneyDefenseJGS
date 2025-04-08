@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between items-center px-4 py-3 bg-kbUi10 hover:bg-kbUi09 text-kbUi02 rounded-xl cursor-pointer transition"
+    class="flex justify-between items-center px-4 py-3 bg-kb-ui-10 hover:bg-kb-ui-09 text-kb-ui-02 rounded-xl cursor-pointer transition"
     @click="$emit('click')"
   >
     <span class="text-body02 font-medium">{{ label }}</span>
