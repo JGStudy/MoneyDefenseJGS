@@ -1,13 +1,14 @@
+// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '../pages/HomPage.vue'
+import SettingsPage from '@/pages/SettingsPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomePage,
+      name: 'settings',
+      component: SettingsPage,
     },
   ],
 })
