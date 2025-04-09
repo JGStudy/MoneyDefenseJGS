@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import assetData from '@/db/Asset.json'
-import AmountEditForm from '@/components/AmountEditForm.vue'
+import axios from 'axios'
+import AmountEditForm from '@/components/common/AmountEditForm.vue'
 
 // 자산 데이터 가져오기
 const assetItem = assetData.asset[0]

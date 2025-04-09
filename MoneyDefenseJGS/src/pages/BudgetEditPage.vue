@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import assetData from '@/db/Asset.json'
-import AmountEditForm from '@/components/AmountEditForm.vue'
+import AmountEditForm from '@/components/common/AmountEditForm.vue'
 
 // 예시: 수정할 대상 월 (차후 드롭다운으로 변경 가능)
 const targetMonth = 'April'
