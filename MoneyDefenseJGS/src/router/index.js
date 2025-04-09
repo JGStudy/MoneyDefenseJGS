@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomPage.vue'
+import ReportPage from '@/pages/ReportPage.vue'
 
 // 상은 파트 - 자산
 import AssetTotalPage from '@/pages/AssetTotalPage.vue'
@@ -41,6 +42,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
+    },
+    {
+      path:'/report',
+      name:'report',
+      component: ReportPage,
     },
   ],
 })
