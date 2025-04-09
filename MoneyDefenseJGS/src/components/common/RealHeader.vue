@@ -23,6 +23,11 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
+// props 추가
+const props = defineProps({
+  title: String,
+})
+
 const route = useRoute()
 const isHome = computed(() => route.path === '/')
 </script>
