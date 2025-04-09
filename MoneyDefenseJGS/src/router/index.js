@@ -13,33 +13,6 @@ import AssetEditPage from '@/pages/AssetEditPage.vue'
 import BudgetTotalPage from '@/pages/BudgetTotalPage.vue'
 import BudgetEditPage from '@/pages/BudgetEditPage.vue'
 
-// 상은 파트 - 자산
-const routes = [
-  // 자산 관련 라우트
-  {
-    path: '/asset',
-    name: 'AssetTotal',
-    component: AssetTotalPage,
-  },
-  {
-    path: '/asset/edit',
-    name: 'AssetEdit',
-    component: AssetEditPage,
-  },
-
-  // 예산 관련 라우트
-  {
-    path: '/budget',
-    name: 'BudgetTotal',
-    component: BudgetTotalPage,
-  },
-  {
-    path: '/budget/edit',
-    name: 'BudgetEdit',
-    component: BudgetEditPage,
-  },
-]
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -59,6 +32,31 @@ const router = createRouter({
       path: '/transaction',
       name: 'transaction',
       component: TransactionPage,
+    },
+    {
+      // 자산 탭
+      path: '/asset',
+      name: 'AssetTotal',
+      component: AssetTotalPage,
+    },
+    {
+      // 자산 수정 탭
+      path: '/asset/edit',
+      name: 'AssetEdit',
+      component: AssetEditPage,
+    },
+
+    {
+      // 예산 탭
+      path: '/budget',
+      name: 'BudgetTotal',
+      component: BudgetTotalPage,
+    },
+    {
+      // 예산 수정 탭
+      path: '/budget/edit',
+      name: 'BudgetEdit',
+      component: BudgetEditPage,
     },
   ],
 })
