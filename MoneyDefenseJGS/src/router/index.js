@@ -5,6 +5,7 @@ import ReportPage from '@/pages/report/ReportPage.vue'
 import SettingsPage from '@/pages/setting/UserEditPage.vue'
 import UserEditPage from '@/pages/setting/UserEditPage.vue'
 import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
+import TransactionPage from '@/pages/TransactionPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,13 @@ const router = createRouter({
       path: '/transaction/create',
       name: 'TransactionCreate',
       component: TransactionCreatePage,
+    },
+
+    {
+      // 가계부 탭
+      path: '/transaction',
+      name: 'transaction',
+      component: TransactionPage,
     },
   ],
 })
