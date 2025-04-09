@@ -10,7 +10,7 @@
         <i>logo</i>
       </h1>
       <!-- 타이틀(메인에서만 hidden) -->
-      <div v-else class="font-bold font-sans text-title02 text-kb-ui-02">타이틀</div>
+      <div v-else class="font-bold font-sans text-title02 text-kb-ui-02">{{ title }}</div>
     </div>
     <!-- Right Fix -->
     <div class="w-6 h-6 flex items-center justify-center">
@@ -18,6 +18,7 @@
     </div>
   </header>
 </template>
+
 <script setup>
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
