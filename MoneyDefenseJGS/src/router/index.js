@@ -11,8 +11,8 @@ const router = createRouter({
       component: HomePage,
     },
     {
-      path:'/report',
-      name:'report',
+      path: '/report',
+      name: 'report',
       component: ReportPage,
     },
   ],
