@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { onMounted, computed } from 'vue'
 
 // 자산 상태 가져오기
 import { useAssetStore } from '@/stores/assetStore'
@@ -26,6 +26,12 @@ import AssetDisplay from '@/components/assetTotal/AssetDisplay.vue'
 // Pinia 스토어 인스턴스
 const assetStore = useAssetStore()
 const transactionStore = useTransactionStore()
+
+// 마운트 시 데이터 불러오기
+onMounted(async () => {
+  await assetStore.fetchAsset()
+  await transactionStore.fetchTransactions()
+})
 
 // 자산 입력 시점 이후의 수입만 합산
 // 거래 내역 중에서 수입 타입이면서,

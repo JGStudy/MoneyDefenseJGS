@@ -3,7 +3,7 @@
   <!-- 총 자산, 수정 버튼 -->
   <div>
     <span>오늘의 총 자산</span>
-    <<!-- 수정 버튼 클릭 시 수정 페이지로 라우팅 -->
+    <!-- 수정 버튼 클릭 시 수정 페이지로 라우팅 -->
     <button @click="goToAssetEditPage">수정</button>
   </div>
 
@@ -18,8 +18,8 @@
 </template>
 
 <script setup>
-// 라우터 인스턴스 가져오기
 import { useRouter } from 'vue-router'
+import BaseBox from '@/components/common/BaseBox.vue'
 
 const router = useRouter()
 
@@ -35,7 +35,7 @@ function formatCurrency(amount) {
 }
 
 // 자산 수정 페이지로 이동하는 함수
-function goToEditPage() {
+function goToAssetEditPage() {
   router.push('/asset/edit') // 라우트 경로에 맞게 수정
 }
 </script>

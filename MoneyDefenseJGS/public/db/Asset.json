@@ -1,20 +1,23 @@
 {
   "asset": [
     {
+      "id": 1,
       "totalAsset": 5000000,
       "lastModified": "2025-04-01"
     }
   ],
-  "month": [
+  "transactions": [
     {
-      "monthly": "April",
-      "spent": 100000,
-      "budget": 1900000
+      "id": 1,
+      "type": "income",
+      "amount": 100000,
+      "date": "2025-04-04"
     },
     {
-      "monthly": "March",
-      "spent": 500000,
-      "budget": 2000000
+      "id": 2,
+      "type": "expense",
+      "amount": 50000,
+      "date": "2025-04-05"
     }
   ]
 }

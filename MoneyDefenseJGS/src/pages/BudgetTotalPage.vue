@@ -8,33 +8,30 @@
 
     <!-- 예산 정보 보여주는 컴포넌트 -->
     <!-- 예산/지출/잔여예산 및 게이지 바 시각화 -->
-    <BudgetDisplay :budget="monthlyBudget" :expense="monthlyExpense" />
+    <BudgetDisplay :budget="budget" :expense="monthlyExpense" />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
-// 예산 상태 가져오기
-import { useBudgetStore } from '@/stores/budgetStore'
-
-// 거래 내역 상태 가져오기
-import { useTransactionStore } from '@/stores/transactionStore'
-
-// 컴포넌트 임포트
+// 컴포넌트
 import TabSwitch from '@/components/common/TabSwitch.vue'
-import MonthSelector from '@/components/budget/MonthSelector.vue'
+import MonthSelector from '@/components/common/MonthSelector.vue'
 import BudgetDisplay from '@/components/budgetTotal/BudgetDisplay.vue'
 
-// Pinia 스토어 인스턴스
+// Pinia 스토어
+import { useTransactionStore } from '@/stores/transactionStore'
+import { useBudgetStore } from '@/stores/budgetStore'
+
 const transactionStore = useTransactionStore()
 const budgetStore = useBudgetStore()
 
-// 선택된 월 (YYYY-MM 형식)
+// 현재 월 선택 (예: 2025-04)
 const selectedMonth = ref(new Date().toISOString().slice(0, 7))
 
 // 선택한 월의 예산 불러오기
-const monthlyBudget = computed(() => budgetStore.getBudgetByMonth(selectedMonth.value))
+const budget = computed(() => budgetStore.budgetMap[selectedMonth.value] ?? 0)
 
 // 선택한 월의 지출 계산
 const monthlyExpense = computed(() => {
@@ -42,8 +39,14 @@ const monthlyExpense = computed(() => {
     .filter((t) => t.type === 'expense' && t.date.startsWith(selectedMonth.value))
     .reduce((sum, t) => sum + t.amount, 0)
 })
-// 월 변경 시
-function onMonthChange(newMonth) {
-  selectedMonth.value = newMonth
-}
+
+// 월 변경 시 예산 데이터 새로 가져오기
+watch(selectedMonth, async (newMonth) => {
+  await budgetStore.fetchBudgetByMonth(newMonth)
+})
+
+// 첫 진입 시 현재 월 예산 로딩
+onMounted(async () => {
+  await budgetStore.fetchBudgetByMonth(selectedMonth.value)
+})
 </script>

@@ -1,42 +1,31 @@
-<script setup>
-import { ref } from 'vue'
-import axios from 'axios'
-import AmountEditForm from '@/components/common/AmountEditForm.vue'
-
-// 자산 데이터 가져오기
-const assetItem = assetData.asset[0]
-const totalAsset = ref(assetItem?.totalAsset ?? 0)
-const lastModified = ref(assetItem?.lastModified ?? '')
-
-const saved = ref(false)
-
-const handleSave = (newAmount) => {
-  totalAsset.value = newAmount
-  lastModified.value = new Date().toISOString().split('T')[0] // YYYY-MM-DD
-  saved.value = true
-  console.log(`저장된 총 자산: ₩${newAmount.toLocaleString()}`)
-}
-
-const handleCancel = () => {
-  totalAsset.value = assetItem?.totalAsset ?? 0
-  saved.value = false
-}
-</script>
-
 <template>
-  <div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded-xl shadow">
-    <h1 class="text-2xl font-bold text-center mb-4">총 자산 수정</h1>
-
+  <div class="p-4">
+    <!-- 공통 금액 입력 폼 컴포넌트 사용 -->
     <AmountEditForm
       label="자산"
-      :initialAmount="totalAsset"
+      :initial-amount="assetStore.totalAsset"
       @save="handleSave"
-      @cancel="handleCancel"
+      @cancel="goBack"
     />
-
-    <p v-if="saved" class="text-green-600 text-center mt-4">
-      자산이 성공적으로 저장되었습니다: ₩{{ totalAsset.toLocaleString() }}<br />
-      마지막 수정일: {{ lastModified }}
-    </p>
   </div>
 </template>
+
+<script setup>
+import { useRouter } from 'vue-router'
+import { useAssetStore } from '@/stores/assetStore'
+import AmountEditForm from '@/components/common/AmountEditForm.vue'
+
+const assetStore = useAssetStore()
+const router = useRouter()
+
+// 저장 버튼 눌렀을 때 실행될 함수
+const handleSave = async (newAmount) => {
+  await assetStore.updateAsset(newAmount)
+  router.push('/asset') // 저장 후 자산 페이지로 이동
+}
+
+// 취소 버튼 눌렀을 때 이전 페이지로
+const goBack = () => {
+  router.back()
+}
+</script>
