@@ -2502,21 +2502,21 @@ i {
   content: '\ec32';
 }
 .xi-x {
-  font-size: 1.33333333em;
+  font-size: 14px;
   line-height: 0.75em;
   vertical-align: -15%;
 }
+.xi-1x {
+  font-size: 18px;
+}
 .xi-2x {
-  font-size: 2em;
+  font-size: 20px;
 }
 .xi-3x {
-  font-size: 3em;
+  font-size: 28px;
 }
 .xi-4x {
-  font-size: 4em;
-}
-.xi-5x {
-  font-size: 5em;
+  font-size: 40px;
 }
 .xi-spin {
   -webkit-animation: xi-spin 2s infinite linear;
