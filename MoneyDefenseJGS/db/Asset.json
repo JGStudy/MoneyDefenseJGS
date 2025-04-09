@@ -1,0 +1,22 @@
+{
+    "asset": [
+    {
+      "totalAsset": 5000000,
+      "lastModified": "2025-04-01"
+    }
+    ],
+    "month":[
+    {
+    "monthly":"April",
+    "spent": 100000,
+    "budget": 1900000
+    },
+    {
+    "monthly":"March", 
+     "spent": 500000,
+     "budget": 2000000
+    }
+]
+  }
+
+// 입력한 예산 표시 & 거래내역에서 지출을 가져옴
