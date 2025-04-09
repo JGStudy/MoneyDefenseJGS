@@ -1,7 +1,12 @@
 <template>
-  <Header :title="title" />
+  <Header
+    :title="title"
+    :titleCustomClass="titleCustomClass"
+    :close="close"
+    :popupMessage="popupMessage"
+  />
   <div class="pt-[98px] pb-[80px] relative">
-    <slot />
+    <slot></slot>
     <!-- <router-view /> -->
   </div>
   <BottomBar v-if="isTabMenu" />
@@ -21,4 +26,13 @@ const props = defineProps({
 const route = useRoute()
 const tabMenuRoutes = ['/', '/transaction', '/transaction/calendar', '/asset', '/report']
 const isTabMenu = computed(() => tabMenuRoutes.includes(route.path))
+
+// Props
+// default 처리 시 [props함수명]=""으로 작성해 주세요.
+const props = defineProps({
+  titleCustomClass: String, // Menu 이외의 title은 font-light text-body01 로 변경해 주세요.
+  title: String,
+  close: String,
+  popupMessage: String, // 팝업을 띄우지 않는 경우도 popupMessage=""로 작성해 주세요.
+})
 </script>
