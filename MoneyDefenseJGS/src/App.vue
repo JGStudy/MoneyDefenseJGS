@@ -1,4 +1,5 @@
 <template>
+  <AppLayout />
   <div :class="{ dark: isDark }">
     <router-view />
   </div>
@@ -21,12 +22,5 @@ watchEffect(() => {
 })
 
 const isDark = darkMode
+import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 </script>
-
-<style>
-body {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-</style>
