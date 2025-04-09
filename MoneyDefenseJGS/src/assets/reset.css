@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*  전체 페이지용 */
+@layer components {
+  .kb-modal-content {
+    @apply absolute left-0 top-0 w-full h-full p-6 shadow-2xl
+            bg-kb-ui-11 dark:bg-kb-ui-07
+            text-kb-ui-02 dark:text-kb-ui-01;
+  }
+
+  .kb-modal-wrapper {
+    @apply fixed inset-0 z-50 overflow-hidden;
+  }
+  .kb-modal-overlay {
+    @apply absolute inset-0 bg-black/40 backdrop-blur-sm;
+  }
+
+  .kb-modal {
+    @apply absolute left-0 top-0 w-full h-full bg-kb-ui-01 dark:bg-kb-ui-02
+            text-kb-ui-02 dark:text-kb-ui-01 p-6 shadow-2xl;
+  }
+
+  .kb-modal-footer {
+    @apply mt-8 flex justify-end gap-2;
+  }
+
+  .slide-fade-enter-active,
+  .slide-fade-leave-active {
+    @apply transition-all duration-700 ease-in-out;
+  }
+
+  .slide-fade-enter-from {
+    @apply opacity-0 -translate-x-full;
+  }
+
+  .slide-fade-leave-to {
+    @apply opacity-0 -translate-x-full;
+  }
+}

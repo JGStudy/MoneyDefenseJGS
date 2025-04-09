@@ -16,6 +16,11 @@ export default {
         'kb-yellow': '#FFD338',
         'kb-gray': '#60584C',
         'kb-gray-alt': '#918274',
+        // KB Dark Mode
+        'kb-bg-dark': '#1a1a1a',
+        'kb-text-dark': '#f5f5f5',
+        'kb-card-dark': '#2b2b2b',
+        'kb-line-dark': '#444444',
 
         // UI Grayscale
         'kb-ui-01': '#000000',
