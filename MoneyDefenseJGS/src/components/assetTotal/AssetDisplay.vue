@@ -7,19 +7,15 @@
     <button @click="goToAssetEditPage">수정</button>
   </div>
 
-  <!-- 박스 공통 컴포넌트 -->
-  <BaseBox>
-    <!-- 중앙: 총 자산 금액 -->
-    <div>{{ formatCurrency(totalAsset) }}원</div>
+  <!-- 중앙: 총 자산 금액 -->
+  <div>{{ formatCurrency(totalAsset) }}원</div>
 
-    <!-- 하단: 마지막 수정일 -->
-    <div>{{ lastModified }} 기준</div>
-  </BaseBox>
+  <!-- 하단: 마지막 수정일 -->
+  <div>{{ lastModified }} 기준</div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
-import BaseBox from '@/components/common/BaseBox.vue'
 
 const router = useRouter()
 
