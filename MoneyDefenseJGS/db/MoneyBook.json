@@ -1,0 +1,28 @@
+{
+    "year": 2025,
+    "month": 4,
+    "fileter":[{"category":"식비"}],
+    "select":[{"type":"expense"}],
+    "items" :[
+        {
+            "id": "txn_003",
+            "date": "2025-04-04",
+            "type": "expense",
+                "category": "식비",
+            "거래처": "김윤지",
+            "amount": 70000,   
+            "payment_method": "card",
+            "details": "tossbank"
+        },
+        {
+        "id": "txn_004",
+        "date": "2025-04-05",
+        "type": "expense",
+        "category": "식비",
+        "거래처": "맥도날드",
+        "amount": 8700,
+        "payment_method": "card",
+        "details": "국민카드"
+      }
+    ]
+}
