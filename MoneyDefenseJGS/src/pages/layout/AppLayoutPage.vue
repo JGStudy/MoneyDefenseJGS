@@ -13,6 +13,6 @@ import Header from '@/components/common/RealHeader.vue'
 import BottomBar from '@/components/common/BottomNavBar.vue'
 
 const route = useRoute()
-const tabMenuRoutes = ['/', '/transaction', '/asset', '/report']
+const tabMenuRoutes = ['/', '/transaction', '/transaction/calendar', '/asset', '/report']
 const isTabMenu = computed(() => tabMenuRoutes.includes(route.path))
 </script>
