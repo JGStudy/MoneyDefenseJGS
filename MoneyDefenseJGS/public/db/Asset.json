@@ -1,0 +1,20 @@
+{
+  "asset": [
+    {
+      "totalAsset": 5000000,
+      "lastModified": "2025-04-01"
+    }
+  ],
+  "month": [
+    {
+      "monthly": "April",
+      "spent": 100000,
+      "budget": 1900000
+    },
+    {
+      "monthly": "March",
+      "spent": 500000,
+      "budget": 2000000
+    }
+  ]
+}
