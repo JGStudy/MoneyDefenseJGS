@@ -1,8 +1,8 @@
 <template>
-  <Header />
-  <BottomBar />
+  <div class="w-full max-w-[375px] mx-auto px-4 relative">
+    <AppLayout />
+  </div>
 </template>
 <script setup>
-import Header from '@/components/common/RealHeader.vue'
-import BottomBar from '@/components/common/BottomNavBar.vue'
+import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 </script>
