@@ -1,4 +1,5 @@
 <template>
+  <AppLayout />
   <div :class="{ dark: isDark }">
     <router-view />
   </div>
