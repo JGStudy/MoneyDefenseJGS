@@ -1,7 +1,7 @@
 <template>
   <AppLayout title="" titleCustomClass="" close="" popupMessage="">
     <div class="text-title02 font-bold font-sans pr-1 pl-1 mt-11 mb-[23px]">
-      <p>진기스 님</p>
+      <p>{{ userStore.user?.name }} 님</p>
       <p>지갑을 지키세요!</p>
     </div>
     <Card class="font-sans flex justify-between items-center">
@@ -31,4 +31,29 @@
 import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 import Card from '@/components/common/BaseBox.vue'
 import Button from '@/components/button/EditCardBoardButton.vue'
+import { onMounted } from 'vue'
+import { getUserById } from '@/api/userApi'
+import { useUserStore } from '@/stores/userStore'
+
+// 쿠키에서 userId 가져오기
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+const userStore = useUserStore()
+const userId = getCookie('userId')
+
+onMounted(async () => {
+  if (userId) {
+    const res = await getUserById(userId)
+    userStore.setUser(res.data)
+  } else {
+    // 쿠키 없으면 온보딩으로 이동
+    window.location.href = '/onboarding'
+  }
+})
+
+// const { user } = userStore
 </script>
