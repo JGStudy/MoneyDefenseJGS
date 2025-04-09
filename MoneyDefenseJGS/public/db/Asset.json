@@ -9,13 +9,13 @@
   "transactions": [
     {
       "id": 1,
-      "type": "income",
+      "type": "수입",
       "amount": 100000,
       "date": "2025-04-04"
     },
     {
       "id": 2,
-      "type": "expense",
+      "type": "지출",
       "amount": 50000,
       "date": "2025-04-05"
     }
