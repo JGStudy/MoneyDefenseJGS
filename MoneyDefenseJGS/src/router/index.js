@@ -1,38 +1,20 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 
-import SettingsPage from '@/pages/SettingsPage.vue'
-
 import HomePage from '@/pages/start/HomePage.vue'
-import ReportPage from '@/pages/ReportPage.vue'
+import ReportPage from '@/pages/report/ReportPage.vue'
+import SettingsPage from '@/pages/setting/UserEditPage.vue'
+import UserEditPage from '@/pages/setting/UserEditPage.vue'
 import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      // 홈 탭
-      path: '/',
-      name: 'home',
-      component: HomePage,
-    },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: SettingsPage,
-    },
-    { path: '/user-edit', name: 'user-edit', component: UserEditPage },
-    {
-      path: '/report',
-      name: 'report',
-      component: ReportPage,
-    },
-    {
-      path: '/transaction/create',
-      name: 'TransactionCreate',
-      component: TransactionCreatePage,
-    },
+    { path: '/', name: 'home', component: HomePage },
+    { path: '/report', name: 'report', component: ReportPage },
+    { path: '/setting', name: 'setting', component: SettingsPage },
+    { path: '/setting/user-edit', name: 'user-edit', component: UserEditPage },
+
     {
       path: '/transaction/create',
       name: 'TransactionCreate',
