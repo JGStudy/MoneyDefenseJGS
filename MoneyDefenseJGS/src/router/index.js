@@ -32,11 +32,6 @@ const routes = [
     name: 'BudgetEdit',
     component: BudgetEditPage,
   },
-  // 기본 리다이렉트
-  {
-    path: '/',
-    redirect: '/asset',
-  },
 ]
 
 const router = createRouter({
