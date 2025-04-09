@@ -1,7 +1,8 @@
 <template>
-  <Header />
+  <Header :title="title" />
   <div class="pt-[98px] pb-[80px] relative">
-    <router-view />
+    <slot />
+    <!-- <router-view /> -->
   </div>
   <BottomBar v-if="isTabMenu" />
 </template>
@@ -11,6 +12,11 @@ import { computed } from 'vue'
 
 import Header from '@/components/common/RealHeader.vue'
 import BottomBar from '@/components/common/BottomNavBar.vue'
+
+// props 추가
+const props = defineProps({
+  title: String,
+})
 
 const route = useRoute()
 const tabMenuRoutes = ['/', '/transaction', '/transaction/calendar', '/asset', '/report']
