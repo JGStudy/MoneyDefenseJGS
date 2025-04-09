@@ -1,10 +1,8 @@
 <template>
-  <!-- App.vue -->
-  <template>
-    <AssetTotalPage />
-  </template>
-
-  <script setup>
-    import AssetTotalPage from '@/pages/AssetTotalPage.vue'
-  </script>
+  <Header />
+  <BottomBar />
 </template>
+<script setup>
+import Header from '@/components/common/RealHeader.vue'
+import BottomBar from '@/components/common/BottomNavBar.vue'
+</script>
