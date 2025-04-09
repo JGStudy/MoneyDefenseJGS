@@ -1,7 +1,17 @@
 <template>
-  <header
-    class="fixed top-0 left-0 z-50 w-full h-[98px] bg-kb-ui-11 px-6 pt-[50px] flex items-center justify-between"
-  >
+  <div>
+    <h1>
+      <i>logo</i>
+    </h1>
+    <p>타이틀명</p>
+    <i>설정</i>
+  </div>
+</template>
+<script setup></script>
+=======
+<header
+  class="fixed top-0 left-0 z-50 w-full h-[98px] bg-kb-ui-11 px-6 pt-[50px] flex items-center justify-between"
+>
     <!-- Left Fix -->
     <div class="flex items-center">
       <!-- Logo(메인 이외 hidden) -->
@@ -17,7 +27,7 @@
       <i class="xi-cog xi-2x"></i>
     </div>
   </header>
-</template>
+]
 <script setup>
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
@@ -25,3 +35,4 @@ import { computed } from 'vue'
 const route = useRoute()
 const isHome = computed(() => route.path === '/')
 </script>
+>>>>>>> 421ee4531cfeef20af13437ff39c459d0100af40
