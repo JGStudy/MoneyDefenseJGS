@@ -1,18 +1,40 @@
 <template>
-  <div class="fixed inset-0 z-50 flex">
-    <!-- 어두운 배경 -->
-    <div class="flex-1 bg-black/40" @click="$emit('close')" />
-
-    <!-- 슬라이드 모달 -->
-    <div
-      class="w-[90%] max-w-md h-full bg-white dark:bg-kbUi02 shadow-xl overflow-auto transition-all duration-300 ease-in-out"
-    >
-      <slot />
-    </div>
+  <div class="kb-modal-wrapper">
+    <div class="kb-modal-overlay" @click="startClose" />
+    <transition name="slide-fade">
+      <div v-if="isVisible" class="kb-modal">
+        <slot />
+        <div class="kb-modal-footer">
+          <button @click="startClose" class="kb-button-secondary">취소</button>
+          <button @click="$emit('save')" class="kb-button-primary">저장</button>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup>
-// 필요한 props, emits 등은 아래처럼 추가 가능
-defineEmits(['close'])
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+
+const emit = defineEmits(['close', 'save'])
+const isVisible = ref(false)
+
+function startClose() {
+  isVisible.value = false
+}
+
+function handleKeydown(e) {
+  if (e.key === 'Escape') startClose()
+}
+
+onMounted(() => {
+  nextTick(() => {
+    isVisible.value = true
+  })
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>

@@ -13,10 +13,12 @@
 
     <!-- 버튼 -->
     <div class="flex gap-4 justify-center mt-6">
-      <button class="bg-kbUi02 text-white px-6 py-2 rounded-full" @click="handleSave">저장</button>
-      <button class="bg-kbUi05 text-white px-6 py-2 rounded-full" @click="router.back()">
+      <BaseButton class="bg-kbUi08 text-kbUi01 text-sm rounded-full px-3 py-1" @click="handleSave">
+        저장
+      </BaseButton>
+      <BaseButton class="bg-kbUi09 text-kbUi02 text-sm rounded-full px-3 py-1" @click="router.back">
         취소
-      </button>
+      </BaseButton>
     </div>
 
     <!-- 하단 푸터 -->
@@ -28,6 +30,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProfileStore } from '@/stores/profileStore'
+import BaseButton from '@/components/common/BaseButton.vue'
 // import InputItem from '@/components/InputItem.vue'
 // import Footer from '@/components/Footer.vue'
 

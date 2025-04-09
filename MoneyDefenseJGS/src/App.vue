@@ -3,30 +3,19 @@
     <router-view />
   </div>
 </template>
-
 <script setup>
 import { useThemeStore } from '@/stores/themeStore'
 import { storeToRefs } from 'pinia'
-import { watchEffect, onMounted } from 'vue' // 상태 가져오기
+import { watch } from 'vue'
+
 const themeStore = useThemeStore()
-const { darkMode } = storeToRefs(themeStore)
+const { darkMode } = storeToRefs(themeStore) // ✅ 이거 하나만 있으면 충분!
 
-// body에도 dark 클래스 반영
-onMounted(() => {
-  document.body.classList.toggle('dark', darkMode.value)
-})
-
-watchEffect(() => {
-  document.body.classList.toggle('dark', darkMode.value)
-})
-
-const isDark = darkMode
+watch(
+  darkMode,
+  (isDark) => {
+    document.body.classList.toggle('dark', isDark)
+  },
+  { immediate: true },
+)
 </script>
-
-<style>
-body {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-</style>
