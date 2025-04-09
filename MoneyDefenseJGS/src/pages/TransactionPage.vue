@@ -1,5 +1,7 @@
 <template>
-  <h2>TransactionPage</h2>
+  <TransactionList />
 </template>
 
-<script setup></script>
+<script setup>
+import TransactionList from '@/components/transaction/TransactionList.vue'
+</script>

@@ -1,9 +1,13 @@
 <template>
-  <div class=""></div>
+  <TransactionListItem />
+  <TransactionListItem />
+  <TransactionListItem />
+  <TransactionListItem />
+  <TransactionListItem />
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import TransactionListItem from './TransactionListItem.vue'
 </script>
 
 <style scoped></style>
