@@ -2,13 +2,13 @@
   <Card class="font-sans flex justify-between items-center cursor-pointer" @click="$emit('click')">
     <div>
       <h3 class="text-body01">총 자산</h3>
-      <div class="flex items-center text-title03 font-bold font-sans gap-1">
+      <div class="flex items-center text-title03 font-bold font-sans gap-1 mt-1">
         <span class="text-number-lg translate-y-[1px] font-nums">
           {{ (currentAsset || 0).toLocaleString() }}
         </span>
         <span>원</span>
       </div>
-      <div class="text-body03 flex items-center gap-1">
+      <div class="text-body03 flex items-center mt-1 gap-1 text-kb-ui-04">
         <span> 지난 달보다 </span>
         <div
           :class="[
