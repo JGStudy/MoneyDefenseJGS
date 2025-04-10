@@ -1,23 +1,20 @@
 <template>
   <Teleport to="body">
-    <div v-if="isRendered" class="fixed inset-0 z-50 flex font-sans">
-      <!-- 딤 처리 (외부 클릭 시 닫힘) -->
-      <div class="flex-1 bg-black/30 backdrop-blur-sm" @click.self="closeModal" />
+    <div v-if="isRendered" class="fixed inset-0 z-50 flex">
+      <!-- 배경 딤처리 -->
+      <div class="flex-1 bg-black/30 backdrop-blur-sm" @click.self="$emit('close')" />
 
       <!-- 슬라이드 모달 -->
       <div
-        class="w-full h-full bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text transition-transform duration-500 ease-in-out transform"
+        class="w-full h-full bg-white dark:bg-kb-dark-muted text-kb-ui-02 dark:text-kb-dark-text transition-transform duration-500 ease-in-out transform"
         :class="isVisible ? 'translate-x-0' : 'translate-x-full'"
-        role="dialog"
-        aria-modal="true"
       >
-        <div class="flex flex-col h-full justify-between px-6 pt-10 pb-8">
-          <!-- 제목 / 설명 -->
+        <div class="p-6 flex flex-col h-full justify-between">
           <div>
-            <h2 class="text-title02 font-bold mb-4">
+            <h2 class="text-title02 font-semibold mb-4">
               {{ modalTitle[type] || '설정' }}
             </h2>
-            <p class="text-body01 text-kb-ui-05 dark:text-kb-dark-subtext leading-relaxed">
+            <p class="text-body03 text-kb-ui-05 dark:text-kb-dark-subtext">
               {{
                 type === 'reset'
                   ? '정말 초기화하시겠습니까?'
@@ -28,21 +25,21 @@
             </p>
           </div>
 
-          <!-- 버튼 영역 -->
           <div
-            class="flex justify-end gap-2 pt-6 border-t border-kb-ui-08 dark:border-kb-dark-line mt-10"
+            class="mt-6 flex justify-center gap-3 pt-6 border-t border-kb-ui-08 dark:border-kb-dark-line"
           >
             <button
-              class="px-5 py-3 rounded-xl text-body02 font-semibold bg-kb-yellow-positive text-black hover:opacity-90 transition"
-              @click="closeModal"
-            >
-              아니오
-            </button>
-            <button
-              class="px-5 py-3 rounded-xl text-body02 font-semibold bg-kb-yellow-positive text-black hover:opacity-90 transition"
               @click="handleSave"
+              class="px-5 py-3 rounded-xl text-body03 font-semibold bg-kb-yellow-positive text-kb-ui-02 dark:text-kb-dark-text hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted transition w-full"
             >
               네
+            </button>
+
+            <button
+              @click="$emit('close')"
+              class="px-5 py-3 rounded-xl text-body03 font-semibold border border-kb-ui-07 text-black hover:brightness-105 transition w-full"
+            >
+              아니오
             </button>
           </div>
         </div>
@@ -52,18 +49,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, nextTick } from 'vue'
 import apiClient from '@/api/apiClient'
 
 const props = defineProps({ type: String })
 const emit = defineEmits(['close'])
 
-const router = useRouter()
-
 const isRendered = ref(false)
 const isVisible = ref(false)
 
+// 모달 제목 매핑
 const modalTitle = {
   user: '사용자 정보',
   theme: '테마 설정',
@@ -71,62 +66,35 @@ const modalTitle = {
   reset: '데이터 초기화',
 }
 
-// 모달 열릴 때 실행됨
+// 모달 mount
 onMounted(async () => {
   isRendered.value = true
   await nextTick()
-
-  // 브라우저 히스토리에 모달 열림 상태를 추가
-  history.pushState({ modal: true }, '')
-
-  // 살짝 delay 주고 슬라이드 인
   requestAnimationFrame(() => {
     isVisible.value = true
   })
-
-  // ESC 키, 뒤로가기 감지용 이벤트 등록
-  window.addEventListener('popstate', handleBack)
-  window.addEventListener('keydown', handleEsc)
 })
 
-// 모달이 닫힐 때 정리
-onUnmounted(() => {
-  window.removeEventListener('popstate', handleBack)
-  window.removeEventListener('keydown', handleEsc)
-})
-
-// 뒤로가기 or history.back() 시 모달 닫기
-function handleBack() {
-  isVisible.value = false
-  setTimeout(() => emit('close'), 300) // 애니메이션 고려
-}
-
-// ESC 키 눌렀을 때도 닫기
-function handleEsc(e) {
-  if (e.key === 'Escape') {
-    closeModal()
-  }
-}
-
-// 닫기 버튼 or 딤 클릭 시 실행
+// 닫기 (네 or 아니오 모두 사용)
 function closeModal() {
-  history.back() // popstate 트리거
+  emit('close')
 }
 
-// 확인 버튼 눌렀을 때
+// 확인 버튼 처리
 function handleSave() {
   if (props.type === 'export') {
     exportToCSV()
   } else if (props.type === 'reset') {
     resetDatabase()
   }
+
   closeModal()
 }
 
-// 데이터 CSV로 내보내기
+// CSV 내보내기
 async function exportToCSV() {
   try {
-    const { data } = await apiClient.get('/transactions')
+    const { data } = await apiClient.get('/Title') // 사용자가 직접 입력한 내용
     const csv = convertToCSV(data)
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
@@ -137,12 +105,14 @@ async function exportToCSV() {
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
+
+    console.log('✅ CSV 저장 완료')
   } catch (error) {
-    console.error('CSV 내보내기 실패:', error)
+    console.error('❌ CSV 내보내기 실패:', error)
   }
 }
 
-// 전체 데이터 리셋
+// 전체 데이터 초기화
 async function resetDatabase() {
   try {
     const endpoints = [
@@ -157,6 +127,9 @@ async function resetDatabase() {
       'items',
       'fileter',
       'select',
+      'budgetmap',
+      'monthlyData',
+      'totalmoney',
     ]
 
     for (const endpoint of endpoints) {
@@ -164,17 +137,31 @@ async function resetDatabase() {
       await Promise.all(data.map((item) => apiClient.delete(`/${endpoint}/${item.id}`)))
     }
 
-    console.log('✅ 모든 주요 데이터가 초기화되었습니다.')
+    console.log('✅ 모든 데이터 초기화 완료')
   } catch (error) {
-    console.error('전체 초기화 실패:', error)
+    console.error('❌ 전체 초기화 실패:', error)
   }
 }
 
-// 배열 → CSV 텍스트로 변환
+// CSV 변환 함수
 function convertToCSV(data) {
   if (!data || !data.length) return ''
-  const headers = Object.keys(data[0]).join(',')
-  const rows = data.map((obj) => Object.values(obj).join(',')).join('\n')
-  return `${headers}\n${rows}`
+
+  //  추출할 필드 순서 정의
+  const headers = ['날짜', '분류', '카테고리', '거래처', '금액', '메모']
+
+  //  각 행을 순서대로 구성
+  const rows = data.map((item) => [
+    item.date,
+    item.type,
+    item.category,
+    item.name,
+    item.amount,
+    item.memo ?? '',
+  ])
+
+  //  문자열로 합치기
+  const csvRows = rows.map((row) => row.join(','))
+  return `${headers.join(',')}\n${csvRows.join('\n')}`
 }
 </script>
