@@ -5,9 +5,7 @@ import HomePage from '@/pages/start/HomePage.vue'
 import ReportPage from '@/pages/report/ReportPage.vue'
 import SettingsPage from '@/pages/setting/SettingsPage.vue'
 import UserEditPage from '@/pages/setting/UserEditPage.vue'
-import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
-import TransactionDetailPage from '@/pages/TransactionDetailPage.vue'
 
 // 404 페이지
 import NotFound from '@/pages/NotFound.vue'
@@ -29,14 +27,9 @@ const router = createRouter({
     { path: '/setting/user-edit', name: 'user-edit', component: UserEditPage },
 
     {
-      path: '/transaction/create',
-      name: 'TransactionCreate',
-      component: TransactionCreatePage,
-    },
-    {
-      path: '/transactiondetail',
-      name: 'TransactionDetail',
-      component: TransactionDetailPage,
+      path: '/transaction/create/:id?',
+      name: 'transaction-page',
+      component: () => import('@/pages/TransactionCreatePage.vue'),
     },
 
     {
@@ -82,8 +75,10 @@ const router = createRouter({
     },
     {
       // 404페이지
-      path:'/:paths(.*)*', name:'NotFound',component:NotFound
+      path: '/:paths(.*)*',
+      name: 'NotFound',
+      component: NotFound,
     },
-  ]
+  ],
 })
 export default router
