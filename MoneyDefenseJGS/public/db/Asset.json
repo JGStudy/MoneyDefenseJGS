@@ -2,6 +2,7 @@
   "asset": [
     {
       "id": "1",
+      "userId": "1",
       "totalAsset": 100000,
       "lastModified": "2025-04-10"
     }

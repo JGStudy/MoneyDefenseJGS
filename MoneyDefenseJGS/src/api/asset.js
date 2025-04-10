@@ -18,3 +18,22 @@ export function updateAsset(newAmount) {
 export function fetchTransactions() {
   return axios.get('/transactions')
 }
+
+// Post
+export const createAsset = async (userId, amount) => {
+  const today = new Date().toISOString().split('T')[0]
+
+  const response = await axios.post('/asset', {
+    userId,
+    totalAsset: amount,
+    lastModified: today,
+  })
+
+  return response.data // { id, userId, totalAsset, lastModified }
+}
+
+// Get
+export const getAssetByUserId = async (userId) => {
+  const response = await axios.get(`/asset?userId=${userId}`)
+  return response.data[0]
+}

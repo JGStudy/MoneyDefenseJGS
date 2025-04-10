@@ -1,9 +1,19 @@
 <template>
   <div class="pt-24 pt-mx-1 font-sans relative h-screen">
-    <p class="font-bold text-title02 mb-2">지갑을 지켜라</p>
-    <p class="font-body01">지금부터 지갑지켜진기스를</p>
-    <p class="font-body01 mb-5">시작하지</p>
-    <InputUser v-model="userName" label="자기소개 좀" placeholder="누구 지갑 지켜야지?" />
+    <p class="text-body01 mb-2">💰지갑을 지켜라!</p>
+    <p class="font-bold text-title02">지금부터</p>
+    <p class="font-bold text-title02 mb-5">
+      <span class="text-kb-yellow-positive">지갑지켜진기스</span>를 시작하지
+    </p>
+
+    <OnboardingForm
+      v-model:userName="userName"
+      v-model:assetTotal="assetTotal"
+      :showNameValidation="showNameValidation"
+      :showAmountValidation="showAmountValidation"
+      @enter="handleSubmit"
+    />
+
     <StartButton
       @click="handleSubmit"
       label="시작하기"
@@ -15,24 +25,49 @@
 
 <script setup>
 import StartButton from '@/components/common/BaseButton.vue'
-import InputUser from '@/components/form/TextInputField.vue'
+import OnboardingForm from '@/components/form/OnboardingForm.vue'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
-import { createUser } from '@/api/userApi'
+import { ref, computed, watch } from 'vue'
+import { createAsset } from '@/api/asset'
+import { createUser } from '@/api/user'
 import { useUserStore } from '@/stores/userStore'
 
 const router = useRouter()
-const userName = ref('')
 const userStore = useUserStore()
 
-const handleSubmit = async () => {
-  // if (!userName.value) return alert('닉네임을 입력하세요!')
+const userName = ref('') // userName값
+const assetTotal = ref('') //assetTotal값
+const showNameValidation = ref(false) // userName유효성여부확인
+const showAmountValidation = ref(false) // assetTotal유효성여부확인
 
+const isNameValid = (val) => val.trim().length >= 2 && val.trim().length <= 20 //userName 유효성 조건
+const isAmountValid = (val) => !!val //amount 유효성 조건
+
+const isInvalid = computed(() => {
+  return !isNameValid(userName.value) || !isAmountValid(assetTotal.value)
+}) // 둘 중 하나라도 만족하지 못한다면 유효성 false
+
+// 실시간 감시
+watch(userName, (newVal) => {
+  if (newVal !== '') showNameValidation.value = true
+})
+watch(assetTotal, (newVal) => {
+  if (newVal !== '') showAmountValidation.value = true
+})
+
+const handleSubmit = async () => {
+  showNameValidation.value = true
+  showAmountValidation.value = true // 유효성여부 메세지 보여주기
+
+  if (isInvalid.value) return
+
+  // userName과 assetTotal 쿠키에 올리기
   const newUser = await createUser(userName.value)
   userStore.setUser(newUser)
+  document.cookie = `userId=${newUser.id}; path=/;`
 
-  document.cookie = `userId=${newUser.id}; path=/;` // 쿠키 저장
+  await createAsset(newUser.id, Number(assetTotal.value))
 
-  router.push('/')
+  router.push('/') // Home으로 이동
 }
 </script>
