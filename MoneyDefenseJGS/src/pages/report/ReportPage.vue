@@ -1,9 +1,7 @@
 <template>
-  <div class="Report">
     <TotalMoney />
     <MonthlyChart />
     <CategoryChart />
-  </div>
 </template>
 
 <script setup>

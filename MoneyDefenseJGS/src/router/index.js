@@ -7,6 +7,8 @@ import SettingsPage from '@/pages/setting/UserEditPage.vue'
 import UserEditPage from '@/pages/setting/UserEditPage.vue'
 import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
+import TransactionDetailPage from '@/pages/TransactionDetailPage.vue'
+import UserEditPage from '@/pages/UserEditPage.vue'
 
 // 상은 파트 - 자산
 import AssetTotalPage from '@/pages/AssetTotalPage.vue'
@@ -27,6 +29,11 @@ const router = createRouter({
       path: '/transaction/create',
       name: 'TransactionCreate',
       component: TransactionCreatePage,
+    },
+    {
+      path: '/transactiondetail',
+      name: 'TransactionDetail',
+      component: TransactionDetailPage,
     },
 
     {

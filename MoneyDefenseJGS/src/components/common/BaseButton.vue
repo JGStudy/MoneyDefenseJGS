@@ -1,10 +1,10 @@
 <template>
   <button
     type="button"
-    class="w-full h-[60px] bg-kb-yellow rounded-[10px] flex justify-center items-center overflow-hidden"
+    class="w-full h-[60px] bg-kb-yellow rounded-[10px] flex justify-center items-center"
     :class="customClass"
   >
-    <span class="text-title03 font-bold font-sans">
+    <span class="text-title03 font-bold font-sans text-kb-ui-02">
       {{ label }}
     </span>
   </button>

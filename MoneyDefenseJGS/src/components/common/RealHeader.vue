@@ -51,7 +51,7 @@
     <!-- 취소 버튼 클릭 시 visible -->
     <ConfirmPopup
       :visible="showConfirm"
-      :message="confirmMessage"
+      :message="popupMessage"
       @confirm="handleConfirm"
       @cancel="handleCancel"
     />
@@ -70,7 +70,7 @@ const isHome = computed(() => route.path === '/')
 const isSetting = computed(() => route.path === '/setting')
 
 // 뒤로가기가 필요 없는 페이지인지 체크
-const noNeedBackRoutes = ['/transaction/create', '/asset/edit', '/budget/edit']
+const noNeedBackRoutes = ['/transaction/create', '/onboarding', '/asset/edit', '/budget/edit']
 const noNeedBack = computed(() => noNeedBackRoutes.includes(route.path))
 // 뒤로가기 이벤트
 const backspace = () => {
