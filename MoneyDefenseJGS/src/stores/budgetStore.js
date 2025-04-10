@@ -11,20 +11,25 @@ export const useBudgetStore = defineStore('budget', {
       try {
         const data = await fetchBudgetByMonth(month)
 
-        // month가 같은 것 중에서 id 기준으로 최신 항목 찾기
-        const filtered = data.filter((b) => b.month === month)
-        const latest = filtered.sort((a, b) => b.id - a.id)[0]
+        if (data.length > 0) {
+          // createdAt 기준 최신값으로 정렬
+          const latest = data
+            .filter((item) => item.createdAt)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0]
 
-        this.budgetMap[month] = latest?.amount ?? 0
+          this.budgetMap[month] = latest.amount
+        } else {
+          this.budgetMap[month] = 0
+        }
       } catch (error) {
         console.error('예산 데이터를 가져오는 데 실패했습니다:', error)
-        this.budgetMap[month] = 0
       }
     },
+
     // 예산 업데이트
     async updateBudget(month, newAmount) {
       await updateBudget(month, newAmount)
       this.budgetMap[month] = newAmount
     },
-  },
+  }, // <-- 여기가 빠졌던 닫는 괄호!
 })

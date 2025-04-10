@@ -2,7 +2,7 @@
   "asset": [
     {
       "id": "1",
-      "totalAsset": 500000,
+      "totalAsset": 100000,
       "lastModified": "2025-04-10"
     }
   ],
@@ -16,6 +16,23 @@
       "id": 2,
       "month": "2025-04",
       "amount": 1000000
+    },
+    {
+      "id": "75d1",
+      "month": "2025-04",
+      "amount": 1000020
+    },
+    {
+      "id": "062d",
+      "month": "2025-04",
+      "amount": 100000,
+      "createdAt": "2025-04-10T06:35:18.890Z"
+    },
+    {
+      "id": "d999",
+      "month": "2025-04",
+      "amount": 300000,
+      "createdAt": "2025-04-10T06:35:48.778Z"
     }
   ],
   "transactions": [
