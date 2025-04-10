@@ -6,8 +6,11 @@
     </div>
 
     <div class="mt-5 font-sans text-kb-ui-02">
-      <p>진짜기깔난스터디</p>
-      <p>김윤지 김려린 김하연 사윤민 유상은 조혜련 황선주</p>
+      <p class="text-body03">진짜기깔난스터디</p>
+      <!-- 이름 한줄로 표시 -->
+      <p class="text-[12px] text-kb-ui-06 whitespace-nowrap w-[80%] tracking-tight font-medium">
+        김윤지 김려린 김하연 사윤민 유상은 조혜련 황선주
+      </p>
       <p>Copyright©️JGS.</p>
     </div>
     <!-- GitHub 아이콘 -->

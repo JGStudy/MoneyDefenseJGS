@@ -1,51 +1,49 @@
 <template>
-  <Teleport to="body">
-    <div v-if="isRendered" class="fixed inset-0 z-50 flex">
-      <!-- 배경 딤처리 -->
-      <div class="flex-1 bg-black/30 backdrop-blur-sm" @click.self="$emit('close')" />
+  <!-- ✨ Teleport 제거 -->
+  <div v-if="isRendered" class="absolute inset-0 z-40 flex items-center justify-center font-sans">
+    <!-- ✅ 배경 딤 -->
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" @click.self="closeModal" />
 
-      <!-- 슬라이드 모달 -->
-      <div
-        class="w-full h-full bg-white dark:bg-kb-dark-muted text-kb-ui-02 dark:text-kb-dark-text transition-transform duration-500 ease-in-out transform"
-        :class="isVisible ? 'translate-x-0' : 'translate-x-full'"
-      >
-        <div class="p-6 flex flex-col h-full justify-between">
-          <div>
-            <h2 class="text-title02 font-semibold mb-4">
-              {{ modalTitle[type] || '설정' }}
-            </h2>
-            <p class="text-body03 text-kb-ui-05 dark:text-kb-dark-subtext">
-              {{
-                type === 'reset'
-                  ? '정말 초기화하시겠습니까?'
-                  : type === 'export'
-                    ? '데이터를 CSV 파일로 저장하시겠습니까?'
-                    : `여기에 ${type} 내용`
-              }}
-            </p>
-          </div>
+    <!-- ✅ 컨테이너 박스: 크기 자동 + 중앙 정렬 -->
+    <div
+      class="relative w-full max-w-sm bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text rounded-xl shadow-xl p-6 transition-all"
+      role="dialog"
+      aria-modal="true"
+    >
+      <!-- ✅ 콘텐츠 -->
+      <div>
+        <h2 class="text-title02 font-bold mb-4 text-center">
+          {{ modalTitle[type] || '설정' }}
+        </h2>
+        <p class="text-body01 text-kb-ui-05 dark:text-kb-dark-subtext leading-relaxed text-center">
+          {{
+            type === 'reset'
+              ? '정말 초기화하시겠습니까?'
+              : type === 'export'
+                ? '데이터를 CSV 파일로 저장하시겠습니까?'
+                : `이 작업을 진행하시겠습니까?`
+          }}
+        </p>
+      </div>
 
-          <div
-            class="mt-6 flex justify-center gap-3 pt-6 border-t border-kb-ui-08 dark:border-kb-dark-line"
-          >
-            <button
-              @click="handleSave"
-              class="px-5 py-3 rounded-xl text-body03 font-semibold bg-kb-yellow-positive text-kb-ui-02 dark:text-kb-dark-text hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted transition w-full"
-            >
-              네
-            </button>
+      <!-- ✅ 버튼 -->
+      <div class="mt-6 flex justify-end gap-3">
+        <button
+          @click="closeModal"
+          class="px-5 py-3 rounded-xl text-body02 font-semibold border border-kb-ui-07 text-kb-ui-02 dark:text-kb-dark-text hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted transition w-full"
+        >
+          아니오
+        </button>
 
-            <button
-              @click="$emit('close')"
-              class="px-5 py-3 rounded-xl text-body03 font-semibold border border-kb-ui-07 text-black hover:brightness-105 transition w-full"
-            >
-              아니오
-            </button>
-          </div>
-        </div>
+        <button
+          @click="handleSave"
+          class="px-5 py-3 rounded-xl text-body02 font-semibold bg-kb-yellow-positive text-black hover:brightness-105 transition w-full"
+        >
+          네
+        </button>
       </div>
     </div>
-  </Teleport>
+  </div>
 </template>
 
 <script setup>

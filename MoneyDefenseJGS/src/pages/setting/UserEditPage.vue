@@ -51,7 +51,7 @@
   </div>
 
   <!--  바텀바 -->
-  <BottomBar class="fixed bottom-0 left-0 right-0 z-0" />
+  <BottomBar />
 </template>
 
 <script setup>

@@ -10,7 +10,6 @@
 
     <!-- 설정 리스트 -->
     <section class="mb-12">
-      <h2 class="text-title03 font-semibold mb-4">설정</h2>
       <ul class="space-y-3">
         <ListItem title="사용자 정보" @click="goToUserEdit" />
         <ListItem title="데이터 내보내기" @click="openModal('export')" />
@@ -31,6 +30,7 @@
 
     <!-- 푸터 -->
     <RealFooter class="mt-20" />
+    <BottomNavBar />
   </div>
 </template>
 
@@ -43,6 +43,7 @@ import ListItem from '@/components/setting/ListItem.vue'
 import SideModal from '@/components/setting/SideModal.vue'
 // import ToggleSwitchTheme from '@/components/setting/ToggleSwitchTheme.vue'
 import { useUserStore } from '@/stores/userStore'
+import BottomNavBar from '@/components/common/BottomNavBar.vue'
 
 const router = useRouter()
 const activeModal = ref(null)
