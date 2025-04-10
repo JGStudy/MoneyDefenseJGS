@@ -1,23 +1,38 @@
 <template>
-  <div class="w-[327px] min-h-[70px]">
-    <!-- input label -->
-    <label class="font-sans font-light text-body02 text-kb-ui-04 mb-[-3px]">
+  <div class="w-[327px] min-h-[70px] mb-5 relative">
+    <!-- 입력값 title -->
+    <label class="font-sans text-body02 text-kb-ui-04 mb-[-3px] block">
       {{ label }}
     </label>
-    <!-- input main -->
-    <div class="flex items-center px-[2px] py-[7px] h-[41px]">
+
+    <div
+      class="flex items-center h-[41px] px-[2px] py-[7px]"
+      :class="{ 'justify-between': isAmountType, 'justify-start': !isAmountType }"
+    >
+      <!-- default: String -->
       <input
-        v-model="modelValue"
-        :type="type"
+        :value="modelValue"
+        @focus="emit('focus', $event)"
+        @blur="emit('blur', $event)"
+        @input="onInput"
+        @keyup.enter="emit('enter')"
+        :type="type === 'amount' ? 'tel' : type"
+        :inputmode="isAmountType ? 'numeric' : undefined"
         :placeholder="placeholder"
-        @focus="focused = true"
-        @blur="focused = false"
-        @input="handleInput"
-        class="w-full outline-none font-sans text-body02"
-        :class="inputTextColor"
+        class="w-full outline-none font-sans text-body02 text-kb-ui-02"
+        :class="[isAmountType ? 'text-right pr-1' : '']"
       />
+      <!-- type: Number인 경우 -->
       <div
-        v-if="showClear && modelValue"
+        v-if="isAmountType"
+        class="flex items-center gap-[1px] text-number-lg font-nums text-kb-ui-02"
+      >
+        <span class="font-sans text-body01 font-bold">원</span>
+      </div>
+
+      <!-- type: String -->
+      <div
+        v-if="showClear && modelValue && !isAmountType"
         class="w-5 h-5 ml-2 cursor-pointer text-kb-ui-06"
         @click="clearInput"
       >
@@ -25,13 +40,12 @@
       </div>
     </div>
 
-    <!-- underline design -->
     <div :class="['h-[2px]', underlineColor]"></div>
 
-    <!-- status -->
+    <!-- 유효성 검사 메세지 항목 -->
     <div v-if="showMessage" class="flex items-center gap-1 mt-1">
       <i :class="iconClass" class="w-5 h-5"></i>
-      <span :class="messageClass">{{ message }}</span>
+      <span :class="messageClass">{{ validationMessage }}</span>
     </div>
   </div>
 </template>
@@ -40,61 +54,69 @@
 import { ref, computed } from 'vue'
 
 const props = defineProps({
-  modelValue: String,
+  modelValue: [String, Number],
   label: String,
   placeholder: String,
   type: {
     type: String,
     default: 'text',
   },
+  showClear: {
+    type: Boolean,
+    default: true,
+  },
+  validator: {
+    type: Function,
+    default: (val, type = 'text') => {
+      const value = String(val || '').trim()
+      return {
+        isValid: !!value,
+        message: value ? '입력 완료!' : '금액을 입력해 주세요.',
+      }
+    },
+  },
+  showValidation: {
+    type: Boolean,
+    default: false,
+  }, //유효성여부 체크
 })
 
-const emit = defineEmits(['update:modelValue']) // v-model update
+const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'input', 'keydown', 'enter'])
+const focused = ref(false) // inputField에 값을 입력할 준비
 
-const modelValue = ref(props.modelValue || '') // modelValue reset
+const isAmountType = computed(() => props.type === 'amount') // 숫자 입력 판단
 
-const focused = ref(false)
-const nameLength = computed(() => modelValue.value.trim().length)
+const onInput = (e) => {
+  let value = e.target.value
+  if (isAmountType.value) {
+    value = value.replace(/[^0-9]/g, '')
+  }
+  emit('update:modelValue', value)
+  emit('input', e)
+} // 입력 후 숫자 필터링(붙여넣기 때문에 추가)
 
-const isEmpty = computed(() => nameLength.value === 0)
-const isValid = computed(() => nameLength.value >= 2 && nameLength.value <= 20)
-const isInvalid = computed(() => isEmpty.value || !isValid.value)
+const clearInput = () => {
+  emit('update:modelValue', '')
+} // 입력 초기화 -> 텍스트
+
+const validation = computed(() => props.validator(String(props.modelValue || ''), props.type)) // 유효성 검증
+const validationMessage = computed(() => validation.value.message) // 유효성 검증 메세지
+const isInvalid = computed(() => !validation.value.isValid) // 유효성 검증 결과
 
 const underlineColor = computed(() => {
-  if (nameLength.value > 0) {
+  if (props.modelValue?.length > 0) {
     return isInvalid.value ? 'bg-status-error-input' : 'bg-status-positive'
   }
   return 'bg-kb-ui-02/[.2]'
-})
-
-const message = computed(() => {
-  if (isEmpty.value) {
-    return '두 글자 이상 입력해 주세요.'
-  } else if (nameLength.value >= 2 && nameLength.value <= 20) {
-    return '이제 지갑지킴이로 등록할 수 있어요.'
-  } else {
-    return '20자 이내로 입력해 주세요.'
-  }
-})
+}) // 유효성 검증에 따른 밑줄 색상
 
 const iconClass = computed(() =>
   isInvalid.value ? 'xi-error text-status-error-input' : 'xi-check-circle text-status-positive',
-)
+) // 유효성 검증에 따른 아이콘
 
 const messageClass = computed(() =>
   isInvalid.value ? 'text-status-error-input' : 'text-status-positive',
-)
+) // 유효성 검증에 따른 메세지 색상
 
-const showMessage = computed(() => !isEmpty.value && (focused.value || isInvalid.value))
-
-const clearInput = () => {
-  modelValue.value = ''
-  emit('update:modelValue', '')
-}
-
-const handleInput = () => {
-  emit('update:modelValue', modelValue.value.trim())
-}
-
-//  코드 다시 뜯어보자;;
+const showMessage = computed(() => props.showValidation && validationMessage.value) // 메세지 show 처리
 </script>
