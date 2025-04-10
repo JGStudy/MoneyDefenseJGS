@@ -6,8 +6,8 @@
     "category":"식비",
     "name":"sang",
     "date":"2025-04-05",
-    "create_date":"2025-04-05T12:04", // 결제했을때 db.json에 저장되는 날짜
-    "update_date":"2025-04-06T13:32", // 거래 수정 페이지에서 수정했을때 db.json에 저장되는 날짜
+    "create_date":"2025-04-05T12:04", 
+    "update_date":"2025-04-06T13:32", 
     "memo":"12324"
     },
      {"amount": 300000,

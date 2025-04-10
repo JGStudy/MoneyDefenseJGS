@@ -4,23 +4,17 @@
     <router-view />
   </div>
 </template>
+/template>
 
 <script setup>
-// import AppLayout from '@/pages/layout/AppLayoutPage.vue'
+import { onMounted } from 'vue'
 import { useThemeStore } from '@/stores/themeStore'
 import { storeToRefs } from 'pinia'
-import { watchEffect, onMounted } from 'vue' // 상태 가져오기
+
 const themeStore = useThemeStore()
-const { darkMode } = storeToRefs(themeStore)
+const { isDark } = storeToRefs(themeStore)
 
-// body에도 dark 클래스 반영
 onMounted(() => {
-  document.body.classList.toggle('dark', darkMode.value)
+  themeStore.initTheme()
 })
-
-watchEffect(() => {
-  document.body.classList.toggle('dark', darkMode.value)
-})
-
-const isDark = darkMode
 </script>
