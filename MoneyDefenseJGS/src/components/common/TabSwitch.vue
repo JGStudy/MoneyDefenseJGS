@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-start border-b border-gray-200 space-x-6 px-4">
+  <div class="flex justify-start border-b border-gray-200 space-x-6 px-4 mt-5 font-sans">
     <button :class="tabClass('asset')" @click="$emit('update:activeTab', 'asset')">총 자산</button>
-    <button :class="tabClass('budget')" @click="$emit('update:activeTab', 'budget')">예 산</button>
+    <button :class="tabClass('budget')" @click="$emit('update:activeTab', 'budget')">예산</button>
   </div>
 </template>
 

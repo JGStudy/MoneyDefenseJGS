@@ -1,6 +1,6 @@
 <template>
   <AppLayoutPage title="자산" close="취소">
-    <div class="p-4 space-y-6">
+    <div class="space-y-6">
       <!-- 자산/예산 탭 전환 -->
       <TabSwitch v-model:activeTab="currentTab" />
 
