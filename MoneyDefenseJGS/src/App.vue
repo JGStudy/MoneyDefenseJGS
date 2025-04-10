@@ -1,11 +1,26 @@
 <template>
-  <!-- <Header /> -->
-  <!-- <BottomBar /> -->
-  <Report/>
-  <!-- <router-view /> -->
+  <div class="w-full max-w-[375px] mx-auto px-4 relative" :class="{ dark: isDark }">
+    <!-- <AppLayout /> -->
+    <router-view />
+  </div>
 </template>
+
 <script setup>
-import Report from './pages/ReportPage.vue';
-// import Header from '@/components/common/RealHeader.vue'
-// import BottomBar from '@/components/common/BottomNavBar.vue'
+// import AppLayout from '@/pages/layout/AppLayoutPage.vue'
+import { useThemeStore } from '@/stores/themeStore'
+import { storeToRefs } from 'pinia'
+import { watchEffect, onMounted } from 'vue' // 상태 가져오기
+const themeStore = useThemeStore()
+const { darkMode } = storeToRefs(themeStore)
+
+// body에도 dark 클래스 반영
+onMounted(() => {
+  document.body.classList.toggle('dark', darkMode.value)
+})
+
+watchEffect(() => {
+  document.body.classList.toggle('dark', darkMode.value)
+})
+
+const isDark = darkMode
 </script>
