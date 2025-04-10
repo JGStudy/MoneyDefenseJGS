@@ -1,16 +1,17 @@
-<!-- 예산 조회 페이지 -->
 <template>
   <AppLayoutPage title="예산" :popupMessage="''">
     <div class="p-4 space-y-6">
-      <!-- 월 선택 컴포넌트 -->
-      <MonthSelector v-model="selectedMonth" />
+      <!-- 자산/예산 탭 전환 -->
+      <TabSwitch v-model:activeTab="currentTab" />
 
-      <!-- 자산/예산 탭 전환: 현재 예산 탭 활성화 -->
-      <TabSwitch active-tab="budget" />
+      <!-- 예산 탭 내용 (현재 currentTab이 'budget'일 때만 표시) -->
+      <div v-if="currentTab === 'budget'">
+        <!-- 월 선택 컴포넌트 -->
+        <MonthSelector v-model="selectedMonth" />
 
-      <!-- 예산 정보 보여주는 컴포넌트 -->
-      <!-- 예산/지출/잔여예산 및 게이지 바 시각화 -->
-      <BudgetDisplay :budget="budget" :expense="monthlyExpense" />
+        <!-- 예산 정보 표시 -->
+        <BudgetDisplay :budget="budget" :expense="monthlyExpense" />
+      </div>
     </div>
   </AppLayoutPage>
 </template>
@@ -70,4 +71,7 @@ const monthlyExpense = computed(() => {
 watch(selectedMonth, async (newMonth) => {
   await budgetStore.fetchBudgetByMonth(newMonth)
 })
+
+// 자산/예산 탭을 전환할 때 사용할 변수
+const currentTab = ref('budget')
 </script>
