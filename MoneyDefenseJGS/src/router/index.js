@@ -31,6 +31,43 @@ const router = createRouter({
       component: TransactionCreatePage,
     },
     {
+      path: '/transactiondetail',
+      name: 'TransactionDetail',
+      component: TransactionDetailPage,
+    },
+
+    {
+      // 가계부 탭
+      path: '/transaction',
+      name: 'transaction',
+      component: TransactionPage,
+    },
+    {
+      // 자산 탭
+      path: '/asset',
+      name: 'AssetTotal',
+      component: AssetTotalPage,
+    },
+    {
+      // 자산 수정 탭
+      path: '/asset/edit',
+      name: 'AssetEdit',
+      component: AssetEditPage,
+    },
+
+    {
+      // 예산 탭
+      path: '/budget',
+      name: 'BudgetTotal',
+      component: BudgetTotalPage,
+    },
+    {
+      // 예산 수정 탭
+      path: '/budget/edit',
+      name: 'BudgetEdit',
+      component: BudgetEditPage,
+    },
+    {
       path: '/report',
       name: 'report',
       component: ReportPage,
