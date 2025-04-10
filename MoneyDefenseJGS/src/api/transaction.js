@@ -10,3 +10,4 @@ export const getTransactions = async () => {
     throw error
   }
 }
+
