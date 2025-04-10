@@ -1,14 +1,14 @@
 {
     "monthlyData": [
       {
-        "month": "2024-02",
+        "month": "2025-02",
         "totalIncome": 1200000,
         "totalExpense": 500000,
         "netIncome": 700000,
         "netAssets": 5000000
       },
       {
-        "month": "2024-03",
+        "month": "2025-04",
         "totalIncome": 1300000,
         "totalExpense": 600000,
         "netIncome": 700000,
@@ -18,8 +18,8 @@
     "transactions": [
       {
         "id": 1,
-        "month": "2024-02",
-        "date": "2024-02-15",
+        "month": "2025-04",
+        "date": "2025-04-10",
         "type": "income",
         "category": "급여",
         "amount": 300000,

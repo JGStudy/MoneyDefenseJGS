@@ -1,22 +1,41 @@
 {
-    "asset": [
+  "asset": [
     {
-      "totalAsset": 5000000,
-      "lastModified": "2025-04-01"
+      "id": "1",
+      "totalAsset": 100000,
+      "lastModified": "2025-04-10"
     }
-    ],
-    "month":[
+  ],
+  "budgetmap": [
     {
-    "monthly":"April",
-    "spent": 100000,
-    "budget": 1900000
+      "id": 1,
+      "month": "2025-04",
+      "amount": 900000
     },
     {
-    "monthly":"March", 
-     "spent": 500000,
-     "budget": 2000000
+      "id": 2,
+      "month": "2025-04",
+      "amount": 1000000
+    },
+    {
+      "id": "43f5",
+      "month": "2025-04",
+      "amount": 120000,
+      "createdAt": "2025-04-10T06:38:12.341Z"
     }
-]
-  }
-
-// 입력한 예산 표시 & 거래내역에서 지출을 가져옴
+  ],
+  "transactions": [
+    {
+      "id": "1",
+      "type": "수입",
+      "amount": 100000,
+      "date": "2025-04-12"
+    },
+    {
+      "id": "2",
+      "type": "지출",
+      "amount": 50000,
+      "date": "2025-04-12"
+    }
+  ]
+}

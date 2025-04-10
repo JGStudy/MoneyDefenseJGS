@@ -7,6 +7,14 @@ import SettingsPage from '@/pages/setting/UserEditPage.vue'
 import UserEditPage from '@/pages/setting/UserEditPage.vue'
 import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
+import TransactionDetailPage from '@/pages/TransactionDetailPage.vue'
+import UserEditPage from '@/pages/UserEditPage.vue'
+
+// 상은 파트 - 자산
+import AssetTotalPage from '@/pages/AssetTotalPage.vue'
+import AssetEditPage from '@/pages/AssetEditPage.vue'
+import BudgetTotalPage from '@/pages/BudgetTotalPage.vue'
+import BudgetEditPage from '@/pages/BudgetEditPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,12 +30,42 @@ const router = createRouter({
       name: 'TransactionCreate',
       component: TransactionCreatePage,
     },
+    {
+      path: '/transactiondetail',
+      name: 'TransactionDetail',
+      component: TransactionDetailPage,
+    },
 
     {
       // 가계부 탭
       path: '/transaction',
       name: 'transaction',
       component: TransactionPage,
+    },
+    {
+      // 자산 탭
+      path: '/asset',
+      name: 'AssetTotal',
+      component: AssetTotalPage,
+    },
+    {
+      // 자산 수정 탭
+      path: '/asset/edit',
+      name: 'AssetEdit',
+      component: AssetEditPage,
+    },
+
+    {
+      // 예산 탭
+      path: '/budget',
+      name: 'BudgetTotal',
+      component: BudgetTotalPage,
+    },
+    {
+      // 예산 수정 탭
+      path: '/budget/edit',
+      name: 'BudgetEdit',
+      component: BudgetEditPage,
     },
   ],
 })
