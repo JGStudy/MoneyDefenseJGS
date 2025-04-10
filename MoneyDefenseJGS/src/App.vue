@@ -1,10 +1,11 @@
 <template>
-  <AppLayout />
-  <div :class="{ dark: isDark }">
+  <div class="w-full max-w-[375px] mx-auto px-4 relative" :class="{ dark: isDark }">
+    <AppLayout />
   </div>
 </template>
 
 <script setup>
+import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 import { useThemeStore } from '@/stores/themeStore'
 import { storeToRefs } from 'pinia'
 import { watchEffect, onMounted } from 'vue' // 상태 가져오기
@@ -21,5 +22,4 @@ watchEffect(() => {
 })
 
 const isDark = darkMode
-import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 </script>

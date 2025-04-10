@@ -45,8 +45,8 @@
 </template>
 
 <script setup>
-import UserInfoCard from '@/components/UserInfoCard.vue'
-import SettingListItem from '@/components/common/SettingListItem.vue'
-import ThemeToggle from '@/components/ThemeToggle.vue'
+import UserInfoCard from '@/components/setting/UserInfoCard.vue'
+import SettingListItem from '@/components/setting/SettingListItem.vue'
+import ThemeToggle from '@/components/button/ThemeToggle.vue'
 // import Footer from '@/components/Footer.vue'
 </script>
