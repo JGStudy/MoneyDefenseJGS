@@ -20,7 +20,6 @@ const router = useRouter()
 const route = useRoute()
 
 const goToCreatePage = () => {
-  console.log('버튼 클릭됨! 이동 중...')
   router.push('/transaction/create')
 }
 </script>
