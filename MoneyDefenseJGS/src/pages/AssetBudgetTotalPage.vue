@@ -50,44 +50,48 @@ const currentTab = ref('asset') // 기본적으로 자산 탭 활성화
 // 자산 계산
 const totalIncome = computed(() =>
   assetStore.transactions
-    .filter((t) => t.type === '수입' && new Date(t.date) >= new Date(assetStore.lastModified))
+    .filter((t) => t.type === '수입' && new Date(t.date) > new Date(assetStore.lastModified))
     .reduce((sum, t) => sum + t.amount, 0),
 )
 
 const totalExpense = computed(() =>
   assetStore.transactions
-    .filter((t) => t.type === '지출' && new Date(t.date) >= new Date(assetStore.lastModified))
+    .filter((t) => t.type === '지출' && new Date(t.date) > new Date(assetStore.lastModified))
     .reduce((sum, t) => sum + t.amount, 0),
 )
 
-const calculatedTotalAsset = computed(
-  () => assetStore.totalAsset + totalIncome.value - totalExpense.value,
-)
+const calculatedTotalAsset = computed(() => {
+  const total = assetStore.transactions
+    .filter((t) => new Date(t.date) > new Date(assetStore.lastModified))
+    .reduce((acc, t) => acc + (t.type === '수입' ? t.amount : -t.amount), assetStore.totalAsset)
+  return total
+})
 
 // 예산 관련
 const selectedMonth = ref(new Date().toISOString().slice(0, 7))
 const budget = computed(() => budgetStore.budgetMap[selectedMonth.value] ?? 0)
 
-const transactions = ref([])
-
+// 거래 내역을 로컬 파일에서 가져오는 함수 (asset.json에서 가져오기)
 const fetchTransactions = async () => {
   try {
-    const res = await fetch('db/Asset.json')
+    const res = await fetch('db/Asset.json') // JSON 파일에서 거래 내역 가져오기
     const data = await res.json()
-    transactions.value = data.transactions
+    assetStore.transactions = data.transactions // Pinia store에 거래 내역 저장
   } catch (err) {
     console.error('거래내역 가져오기 실패:', err)
   }
 }
 
+// 페이지가 마운트될 때 거래 내역과 예산 정보를 불러옴
 onMounted(async () => {
+  assetStore.loadFromStorage() // 로컬스토리지에서 자산 불러오기
   await fetchTransactions()
   await budgetStore.fetchBudgetByMonth(selectedMonth.value)
 })
 
 // 월별 지출 계산
 const monthlyExpense = computed(() => {
-  return transactions.value
+  return assetStore.transactions
     .filter((t) => t.type === '지출' && t.date.startsWith(selectedMonth.value))
     .reduce((sum, t) => sum + t.amount, 0)
 })
