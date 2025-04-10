@@ -13,7 +13,7 @@
       <slot></slot>
     </div>
     <!--AddButton : BottomBar보다 20px 상단에 위치-->
-    <AddButton />
+    <AddButton v-if="isTabMenu" />
     <BottomBar v-if="isTabMenu" />
   </div>
 </template>
