@@ -1,12 +1,15 @@
 <template>
   <button
-    type="button"
-    class="w-full h-[60px] bg-kb-yellow rounded-[10px] flex justify-center items-center"
-    :class="customClass"
+    :disabled="disabled"
+    :class="[
+      'w-full h-[60px] rounded-[10px] font-bold font-sans text-title03 transition-colors flex justify-center items-center',
+      disabled
+        ? 'bg-kb-ui-08 text-kb-ui-06 cursor-not-allowed'
+        : 'bg-kb-yellow-positive text-kb-ui-02',
+      customClass,
+    ]"
   >
-    <span class="text-title03 font-bold font-sans text-kb-ui-02">
-      {{ label }}
-    </span>
+    {{ label }}
   </button>
 </template>
 
@@ -19,6 +22,10 @@ defineProps({
   label: {
     type: String,
     default: '버튼',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 })
 </script>
