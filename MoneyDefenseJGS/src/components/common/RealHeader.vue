@@ -63,11 +63,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import ConfirmPopup from '@/components/popup/ConfirmPopup.vue'
 
-// props 추가
-const props = defineProps({
-  title: String,
-})
-
 const route = useRoute()
 const router = useRouter()
 // path 체크

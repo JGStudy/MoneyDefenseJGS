@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './apiClient'
 
 // 자산 가져오기 (GET)
 export function fetchAsset() {
