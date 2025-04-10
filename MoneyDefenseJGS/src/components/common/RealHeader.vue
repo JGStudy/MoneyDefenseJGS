@@ -70,7 +70,7 @@ const isHome = computed(() => route.path === '/')
 const isSetting = computed(() => route.path === '/setting')
 
 // 뒤로가기가 필요 없는 페이지인지 체크
-const noNeedBackRoutes = ['/transaction/create', '/onboarding']
+const noNeedBackRoutes = ['/transaction/create', '/onboarding', '/asset/edit', '/budget/edit']
 const noNeedBack = computed(() => noNeedBackRoutes.includes(route.path))
 // 뒤로가기 이벤트
 const backspace = () => {
