@@ -106,5 +106,5 @@ onMounted(async () => {
       },
     },
   })
-}) // <- ✅ onMounted 닫는 괄호!
+})
 </script>
