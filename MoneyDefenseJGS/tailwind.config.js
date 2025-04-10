@@ -36,6 +36,20 @@ export default {
         'status-error-input': '#FF5858',
         'status-caution': '#FFD338',
         'status-font-error': '#EC645E',
+        //다크 모드
+        'kb-dark-bg': '#F5F5F7', // 전체 배경 (밝은 회색)
+        'kb-dark-card': '#FFFFFF', // 카드 배경 (화이트)
+        'kb-dark-line': '#E0E0E0', // 라인 / 테두리
+        'kb-dark-muted': '#8C949E', // 비활성 텍스트
+        'kb-dark-text': '#2E3148', // 메인 텍스트
+        'kb-dark-accent': '#FFD338', // 포인트 (KB 노랑)
+
+        // 포인트 컬러도 필요 시 유지
+        'kb-point-blue': '#3E4CCA',
+        'kb-main-sky': '#62B2EA',
+        'kb-main-blue': '#3172DC',
+        'kb-main-green': '#52AD8A',
+        'kb-skyblue': '#C3DDFD',
       },
       fontSize: {
         // title

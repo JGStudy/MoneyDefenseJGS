@@ -26,19 +26,20 @@
           </div>
 
           <div
-            class="flex justify-end gap-2 pt-6 border-t border-kb-ui-08 dark:border-kb-dark-line"
+            class="mt-6 flex justify-center gap-3 pt-6 border-t border-kb-ui-08 dark:border-kb-dark-line"
           >
             <button
-              class="px-4 py-2 rounded-xl bg-kb-ui-09 dark:bg-kb-dark-line text-body03 text-kb-ui-02 dark:text-kb-dark-text hover:bg-kb-ui-08 dark:hover:bg-kb-dark-muted"
-              @click="$emit('close')"
-            >
-              아니오
-            </button>
-            <button
-              class="px-4 py-2 rounded-xl bg-status-positive text-white text-body03 hover:opacity-90"
               @click="handleSave"
+              class="px-5 py-3 rounded-xl text-body03 font-semibold bg-kb-yellow-positive text-kb-ui-02 dark:text-kb-dark-text hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted transition w-full"
             >
               네
+            </button>
+
+            <button
+              @click="$emit('close')"
+              class="px-5 py-3 rounded-xl text-body03 font-semibold border border-kb-ui-07 text-black hover:brightness-105 transition w-full"
+            >
+              아니오
             </button>
           </div>
         </div>
@@ -57,6 +58,7 @@ const emit = defineEmits(['close'])
 const isRendered = ref(false)
 const isVisible = ref(false)
 
+// 모달 제목 매핑
 const modalTitle = {
   user: '사용자 정보',
   theme: '테마 설정',
@@ -64,6 +66,7 @@ const modalTitle = {
   reset: '데이터 초기화',
 }
 
+// 모달 mount
 onMounted(async () => {
   isRendered.value = true
   await nextTick()
@@ -72,18 +75,26 @@ onMounted(async () => {
   })
 })
 
+// 닫기 (네 or 아니오 모두 사용)
+function closeModal() {
+  emit('close')
+}
+
+// 확인 버튼 처리
 function handleSave() {
   if (props.type === 'export') {
     exportToCSV()
   } else if (props.type === 'reset') {
-    resetTransactions()
+    resetDatabase()
   }
-  emit('close')
+
+  closeModal()
 }
 
+// CSV 내보내기
 async function exportToCSV() {
   try {
-    const { data } = await apiClient.get('/transactions')
+    const { data } = await apiClient.get('/Title') // 사용자가 직접 입력한 내용
     const csv = convertToCSV(data)
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
@@ -94,11 +105,14 @@ async function exportToCSV() {
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
+
+    console.log('✅ CSV 저장 완료')
   } catch (error) {
-    console.error('CSV 내보내기 실패:', error)
+    console.error('❌ CSV 내보내기 실패:', error)
   }
 }
 
+// 전체 데이터 초기화
 async function resetDatabase() {
   try {
     const endpoints = [
@@ -113,21 +127,41 @@ async function resetDatabase() {
       'items',
       'fileter',
       'select',
+      'budgetmap',
+      'monthlyData',
+      'totalmoney',
     ]
+
     for (const endpoint of endpoints) {
       const { data } = await apiClient.get(`/${endpoint}`)
       await Promise.all(data.map((item) => apiClient.delete(`/${endpoint}/${item.id}`)))
     }
-    console.log('✅ 모든 주요 데이터가 초기화되었습니다.')
+
+    console.log('✅ 모든 데이터 초기화 완료')
   } catch (error) {
-    console.error('전체 초기화 실패:', error)
+    console.error('❌ 전체 초기화 실패:', error)
   }
 }
 
+// CSV 변환 함수
 function convertToCSV(data) {
   if (!data || !data.length) return ''
-  const headers = Object.keys(data[0]).join(',')
-  const rows = data.map((obj) => Object.values(obj).join(',')).join('\n')
-  return `${headers}\n${rows}`
+
+  //  추출할 필드 순서 정의
+  const headers = ['날짜', '분류', '카테고리', '거래처', '금액', '메모']
+
+  //  각 행을 순서대로 구성
+  const rows = data.map((item) => [
+    item.date,
+    item.type,
+    item.category,
+    item.name,
+    item.amount,
+    item.memo ?? '',
+  ])
+
+  //  문자열로 합치기
+  const csvRows = rows.map((row) => row.join(','))
+  return `${headers.join(',')}\n${csvRows.join('\n')}`
 }
 </script>

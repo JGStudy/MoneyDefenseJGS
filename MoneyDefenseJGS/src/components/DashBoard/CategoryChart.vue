@@ -20,11 +20,15 @@ const category = ref([])
 onMounted(async () => {
   try {
     const res = await categories()
-    // 현재 월(예: 2025-04) 데이터만 필터링
     category.value = res.data
   } catch (error) {
     console.error('카테고리 데이터 로드 실패:', error)
   }
+})
+
+// 카테고리 제한
+const displayedCategories=computed(()=>{
+  return isExpanded.value ? category.value : category.value.slice(0,3)
 })
 
 // 차트 데이터 계산 (computed로 반응형)
@@ -35,7 +39,7 @@ const chartData = computed(() => ({
       label: '카테고리별 지출',
       data: category.value.map(item => item.amount),
       backgroundColor: [
-        '#7C3AED', '#EC4899', '#F59E0B', '#10B981', '#EF4444', '#3B82F6'
+       '#C4B5FD', '#F9A8D4', '#FCD34D', '#6EE7B7', '#F87171', '#60A5FA'
       ]
     }
   ]
@@ -70,7 +74,7 @@ const chartOptions = {
 
     <!-- 목록 -->
     <div
-      v-for="(item, index) in category"
+      v-for="(item, index) in displayedCategories"
       :key="index"
       class="flex justify-between items-center"
     >
@@ -82,7 +86,9 @@ const chartOptions = {
     </div>
 
     <!-- 더보기 버튼 -->
-    <button @click="isExpanded = !isExpanded" class="text-sm text-blue-600 underline mt-2">
+    <button v-if="category.length > 3"
+      @click="isExpanded = !isExpanded"
+      class="text-sm text-blue-600 underline mt-2">
       {{ isExpanded ? '접기 ▲' : '더보기 ▼' }}
     </button>
   </div>
