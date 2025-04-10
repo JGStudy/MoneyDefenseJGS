@@ -34,8 +34,8 @@ import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 import Card from '@/components/common/BaseBox.vue'
 import Button from '@/components/button/EditCardBoardButton.vue'
 import { ref, onMounted, computed } from 'vue'
-import { getUserById } from '@/api/userApi'
-import { getAssetByUserId } from '@/api/assetApi'
+import { getUserById } from '@/api/user'
+import { getAssetByUserId } from '@/api/asset'
 import { useUserStore } from '@/stores/userStore'
 
 // 쿠키에서 userId 가져오기
