@@ -14,7 +14,6 @@
 
 <script setup>
 import { onMounted, computed, ref } from 'vue'
-import axios from 'axios'
 
 // 레이아웃 가져오기
 import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
