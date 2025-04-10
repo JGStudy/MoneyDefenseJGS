@@ -1,20 +1,28 @@
 {
   "asset": [
     {
-      "id": 1,
-      "totalAsset": 5000000,
-      "lastModified": "2025-04-01"
+      "id": "1",
+      "totalAsset": 300000,
+      "lastModified": "2025-04-10"
     }
   ],
+
+  "budgetmap": [
+    { "monthly": "2025-01", "budget": 1000000 },
+    { "monthly": "2025-02", "budget": 1200000 },
+    { "monthly": "2025-03", "budget": 1100000 },
+    { "monthly": "2025-04", "budget": 900000 }
+  ],
+
   "transactions": [
     {
-      "id": 1,
+      "id": "1",
       "type": "수입",
       "amount": 100000,
       "date": "2025-04-04"
     },
     {
-      "id": 2,
+      "id": "2",
       "type": "지출",
       "amount": 50000,
       "date": "2025-04-05"

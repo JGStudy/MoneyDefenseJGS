@@ -1,18 +1,32 @@
 import { defineStore } from 'pinia'
-import { fetchMonthlyBudget, updateMonthlyBudget } from '@/api/budget'
+import { fetchBudgetByMonth, updateBudget } from '@/api/budget'
 
 export const useBudgetStore = defineStore('budget', {
   state: () => ({
-    budget: 0,
-    month: 'April', // 기본값, 혹은 동적으로
+    budgetMap: {},
   }),
   actions: {
-    async fetchBudget() {
-      const res = await fetchMonthlyBudget(this.month)
-      this.budget = res?.data?.budget ?? 0
+    // 예산 특정 월에 맞게 가져오기
+    async fetchBudgetByMonth(month) {
+      try {
+        const res = await fetch('/db/Asset.json')
+        const data = await res.json()
+
+        const budgetItem = data?.budgetmap?.find((item) => item.monthly === month)
+
+        if (budgetItem) {
+          this.budgetMap[month] = budgetItem.budget
+        } else {
+          console.warn(`"${month}"에 해당하는 예산 없음`)
+          this.budgetMap[month] = 0
+        }
+      } catch (error) {
+        console.error('예산 데이터를 가져오는 데 실패했습니다:', error)
+      }
     },
-    async updateBudget(newAmount) {
-      await updateMonthlyBudget(this.month, newAmount)
+    // 예산 업데이트
+    async updateBudget(month, newAmount) {
+      await updateBudget(this.month, newAmount)
       this.budget = newAmount
     },
   },

@@ -8,10 +8,11 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  percentage: {
-    type: Number,
-    default: 0,
-  },
-})
+// const props = defineProps({
+//   percentage: {
+//     type: Number,
+//     default: 0,
+//   },
+// })
+const percentage = 30 // 테스트용
 </script>
