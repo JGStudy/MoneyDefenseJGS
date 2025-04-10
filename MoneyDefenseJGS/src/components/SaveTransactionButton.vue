@@ -1,5 +1,8 @@
 <template>
-  <button @click="save" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+  <button
+    @click="save"
+    class="w-full bg-kb-yellow-positive text-black py-3 rounded-xl text-body02 font-semibold hover:brightness-105 transition"
+  >
     저장
   </button>
 </template>

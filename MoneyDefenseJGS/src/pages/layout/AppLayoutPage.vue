@@ -9,12 +9,11 @@
       :close="close"
       :popupMessage="popupMessage"
     />
-    <div class="pt-[98px] pb-[80px] relative">
+    <div class="pt-[98px] pb-[80px] mx-6 relative">
       <slot></slot>
-      <!-- <router-view /> -->
     </div>
     <!--AddButton : BottomBar보다 20px 상단에 위치-->
-    <AddButton />
+    <AddButton v-if="isTabMenu" />
     <BottomBar v-if="isTabMenu" />
   </div>
 </template>

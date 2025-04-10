@@ -11,7 +11,7 @@
     >
       <!-- default: String -->
       <input
-        :value="modelValue"
+        :value="formattedValue"
         @focus="emit('focus', $event)"
         @blur="emit('blur', $event)"
         @input="onInput"
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: [String, Number],
@@ -82,18 +82,30 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'focus', 'blur', 'input', 'keydown', 'enter'])
-const focused = ref(false) // inputField에 값을 입력할 준비
+// const focused = ref(false) // inputField에 값을 입력할 준비
 
 const isAmountType = computed(() => props.type === 'amount') // 숫자 입력 판단
+
+const formattedValue = computed(() => {
+  if (isAmountType.value && props.modelValue) {
+    return Number(props.modelValue).toLocaleString() // 쉼표 추가
+  }
+  return props.modelValue
+})
 
 const onInput = (e) => {
   let value = e.target.value
   if (isAmountType.value) {
-    value = value.replace(/[^0-9]/g, '')
+    const rawValue = value.replace(/[^0-9]/g, '')
+    const formattedValue = Number(rawValue).toLocaleString()
+    emit('update:modelValue', rawValue)
+    e.target.value = formattedValue
+  } else {
+    emit('update:modelValue', value)
   }
-  emit('update:modelValue', value)
+
   emit('input', e)
-} // 입력 후 숫자 필터링(붙여넣기 때문에 추가)
+}
 
 const clearInput = () => {
   emit('update:modelValue', '')

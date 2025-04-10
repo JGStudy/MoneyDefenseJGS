@@ -2,7 +2,7 @@ import axios from './apiClient'
 
 export const getBudget = async () => {
   try {
-    const res = await axios.get('/budget')
+    const res = await axios.get('/asset')
     return res.data
   } catch (error) {
     console.error('예산 데이터 가져오기 실패:', error)

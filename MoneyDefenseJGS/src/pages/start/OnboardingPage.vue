@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-24 pt-mx-1 font-sans relative h-screen">
+  <div class="mx-6 pt-24 pt-mx-1 font-sans relative h-screen">
     <p class="text-body01 mb-2">💰지갑을 지켜라!</p>
     <p class="font-bold text-title02">지금부터</p>
     <p class="font-bold text-title02 mb-5">
