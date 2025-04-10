@@ -7,6 +7,28 @@
     {
       "id": "2",
       "name": "김려린"
+    },
+    {
+      "id": "52ab",
+      "name": "김유위나러ㅏㅣㅁ젇ㄹ"
+    },
+    {
+      "id": "4e1e",
+      "name": "dㄹㅇ"
+    },
+    {
+      "id": "0f90",
+      "name": "김윤지짱"
+    },
+    {
+      "id": "d750",
+      "name": "ㅇㄹㅇㄹ"
+    },
+    {
+      "id": "cd0a",
+      "userId": "52ab",
+      "totalAsset": 34789237849728390,
+      "lastModified": "2025-04-10"
     }
   ],
   "month": [
@@ -39,12 +61,12 @@
   ],
   "budgetmap": [
     {
-      "id": "1",
+      "id": 1,
       "month": "2025-04",
       "amount": 900000
     },
     {
-      "id": "2",
+      "id": 2,
       "month": "2025-04",
       "amount": 1000000
     },
@@ -366,7 +388,67 @@
       "category": "교통비",
       "date": "2025-04-11",
       "type": "지출",
-      "memo": "하 힘들다"
+      "memo": "ㄴㅇ"
+    },
+    {
+      "id": "c45d",
+      "amount": "300000000",
+      "partner": "df",
+      "method": "",
+      "category": "기타",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": "df"
+    },
+    {
+      "id": "4f08",
+      "amount": "878978978",
+      "partner": "진짜진짜",
+      "method": "",
+      "category": "정기구독비",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": "dfsfdsf"
+    },
+    {
+      "id": "59a8",
+      "amount": "2342",
+      "partner": "ewr",
+      "method": "",
+      "category": "교통비",
+      "date": "2025-04-10",
+      "type": "이체",
+      "memo": ""
+    },
+    {
+      "id": "2b36",
+      "amount": "3535",
+      "partner": "gfdg",
+      "method": "",
+      "category": "도서비",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": ""
+    },
+    {
+      "id": "356c",
+      "amount": "5235234",
+      "partner": "Sfdsf",
+      "method": "",
+      "category": "용돈",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": ""
+    },
+    {
+      "id": "cb96",
+      "amount": "999999999",
+      "partner": "거래거거ㅏ머ㅓㄷ",
+      "method": "",
+      "category": "교통비",
+      "date": "2025-05-01",
+      "type": "지출",
+      "memo": "shfjshjf"
     }
   ]
 }
