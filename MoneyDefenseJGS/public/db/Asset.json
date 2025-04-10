@@ -2,18 +2,28 @@
   "asset": [
     {
       "id": "1",
-      "totalAsset": 300000,
+      "totalAsset": 1000000,
       "lastModified": "2025-04-10"
     }
   ],
-
   "budgetmap": [
-    { "monthly": "2025-01", "budget": 1000000 },
-    { "monthly": "2025-02", "budget": 1200000 },
-    { "monthly": "2025-03", "budget": 1100000 },
-    { "monthly": "2025-04", "budget": 900000 }
+    {
+      "monthly": "2025-01",
+      "budget": 1000000
+    },
+    {
+      "monthly": "2025-02",
+      "budget": 1200000
+    },
+    {
+      "monthly": "2025-03",
+      "budget": 1100000
+    },
+    {
+      "monthly": "2025-04",
+      "budget": 900000
+    }
   ],
-
   "transactions": [
     {
       "id": "1",

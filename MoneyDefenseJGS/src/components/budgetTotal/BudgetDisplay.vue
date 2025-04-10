@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import GaugeBar from './GaugeBar.vue'
 import { useRouter } from 'vue-router'
 
@@ -40,6 +40,13 @@ const remainingBudget = computed(() => props.budget - props.expense)
 const spendingRate = computed(() => {
   if (props.budget <= 0) return 0
   return Math.min((props.expense / props.budget) * 100, 100)
+})
+
+// 콘솔로 확인
+watch(spendingRate, (newRate) => {
+  console.log('예산:', props.budget)
+  console.log('지출:', props.expense)
+  console.log('퍼센트:', newRate)
 })
 
 // 통화 포맷

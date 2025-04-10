@@ -62,7 +62,7 @@ onMounted(async () => {
 // 선택한 월의 지출 계산
 const monthlyExpense = computed(() => {
   return transactions.value
-    .filter((t) => t.type === 'expense' && t.date.startsWith(selectedMonth.value))
+    .filter((t) => t.type === '지출' && t.date.startsWith(selectedMonth.value))
     .reduce((sum, t) => sum + t.amount, 0)
 })
 
