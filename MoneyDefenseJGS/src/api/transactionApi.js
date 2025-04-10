@@ -6,12 +6,34 @@ export const getTransactionById = (id) => {
   return axios.get(`/Title/${id}`)
 }
 
-export const createTransaction = (payload) => {
-  return axios.post('/Title', payload)
-}
+// export const createTransaction = (payload) => {
+//   return axios.post('/Title', payload)
+// }
 
 export const updateTransaction = (id, payload) => {
   return axios.put(`/Title/${id}`, payload)
+}
+
+// 거래 등록
+export const createTransaction = async (transactionData) => {
+  try {
+    const response = await axios.post('/transactions', transactionData)
+    return response.data
+  } catch (error) {
+    console.error('💥 거래 등록 실패:', error)
+    throw error
+  }
+}
+
+// 거래 삭제
+export const deleteTransaction = async (transactionId) => {
+  try {
+    const response = await axios.delete(`/transactions/${transactionId}`)
+    return response.data
+  } catch (error) {
+    console.error('💥 거래 삭제 실패:', error)
+    throw error
+  }
 }
 
 // 하연 사용

@@ -20,10 +20,31 @@
       </button>
     </div>
 
-    <!-- 📂 카테고리 -->
+    <!-- 📂 카테고리: 수입일 때만 버튼 리스트로 표시 -->
     <div style="margin-bottom: 16px">
       <label>카테고리:</label><br />
-      <input v-model="category" type="text" placeholder="카테고리를 입력하세요" />
+
+      <div v-if="selectedType === '수입'">
+        <button
+          v-for="cat in incomeCategories"
+          :key="cat"
+          @click="category = cat"
+          :style="{
+            margin: '4px 8px 4px 0',
+            backgroundColor: category === cat ? '#2196F3' : '#eee',
+            color: category === cat ? 'white' : '#333',
+            padding: '6px 12px',
+            border: 'none',
+            borderRadius: '4px',
+          }"
+        >
+          {{ cat }}
+        </button>
+      </div>
+
+      <div v-else>
+        <input v-model="category" type="text" placeholder="카테고리를 입력하세요" />
+      </div>
     </div>
 
     <!-- 🏢 거래처 -->
@@ -61,7 +82,9 @@
 import { ref } from 'vue'
 
 const types = ['수입', '지출', '이체']
-const selectedType = ref('수입') // 기본값
+const selectedType = ref('수입')
+
+const incomeCategories = ['월급', '용돈', '급여', '투자수익', '배당금', '기타']
 
 const category = ref('')
 const partner = ref('')

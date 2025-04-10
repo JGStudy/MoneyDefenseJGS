@@ -60,8 +60,7 @@ const chartData = computed(() => {
     const amount = found?.amount || found?.money || 0
     return typeof amount === 'string' ? parseInt(amount) : amount
   })
-
-
+  
   return {
     labels: months.value,
     datasets: [
@@ -91,8 +90,8 @@ const chartOptions = {
 
 <template>
   <div class="MonthlyChart space-y-2">
-    <div class="bg-gray-200 rounded-2xl shadow-inner p-4 mt-6">
-      <p class="text-lg font-semibold">이번 달</p>
+    <div class="rounded-2xl shadow-inner p-4 mt-6">
+      <p class="text-lg font-semibold">수입 지출 변화</p>
       <div class="flex justify-center space-x-2">
         <button
           :class="selectedTab==='수입' ? 'bg-blue-500 text-white': 'bg-gray-200 text-black'"
