@@ -8,6 +8,9 @@ import UserEditPage from '@/pages/setting/UserEditPage.vue'
 import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
 import TransactionDetailPage from '@/pages/TransactionDetailPage.vue'
+
+// 404 페이지
+import NotFound from '@/pages/NotFound.vue'
 import Calendar from '@/pages/Calendar.vue'
 
 // 상은 파트 - 자산
@@ -77,6 +80,10 @@ const router = createRouter({
       name: 'calendar',
       component: Calendar,
     },
-  ],
+    {
+      // 404페이지
+      path:'/:paths(.*)*', name:'NotFound',component:NotFound
+    },
+  ]
 })
 export default router
