@@ -4,7 +4,6 @@
     <router-view />
   </div>
 </template>
-/template>
 
 <script setup>
 import { onMounted } from 'vue'
