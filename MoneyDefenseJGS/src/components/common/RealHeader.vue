@@ -1,6 +1,6 @@
 <template>
   <header
-    class="fixed top-0 left-0 z-50 w-full h-[98px] bg-kb-ui-11 pt-[50px] px-6 flex items-center justify-between"
+    class="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-[375px] h-[98px] bg-kb-ui-11 pt-[50px] px-6 flex items-center justify-between"
   >
     <!-- Left Fix -->
     <div class="flex items-center gap-1">
