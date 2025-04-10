@@ -12,7 +12,9 @@
     <p class="text-red-500" v-if="amount < 0">0 이상의 값을 입력해주세요.</p>
 
     <div class="flex justify-center gap-4">
-      <button @click="save" class="bg-gray-300 px-4 py-2 rounded">저장</button>
+      <button @click="save" :disabled="amount < 0" class="bg-gray-300 px-4 py-2 rounded">
+        저장
+      </button>
       <button @click="$emit('cancel')" class="bg-gray-300 px-4 py-2 rounded">취소</button>
     </div>
   </div>
