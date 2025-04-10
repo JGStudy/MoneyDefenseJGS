@@ -1,17 +1,22 @@
 <template>
-  <Header
-    :title="title"
-    :titleCustomClass="titleCustomClass"
-    :close="close"
-    :popupMessage="popupMessage"
-  />
-  <div class="pt-[98px] pb-[80px] relative">
-    <slot></slot>
-    <!-- <router-view /> -->
+  <div
+    class="bg-white dark:bg-kb-dark-bg text-kb-ui-02 dark:text-kb-dark-text min-h-screen flex flex-col"
+  >
+    <!-- 토글 스위치시 다크모드로 변경 할 수 있게 클래스 삽입 -->
+    <Header
+      :title="title"
+      :titleCustomClass="titleCustomClass"
+      :close="close"
+      :popupMessage="popupMessage"
+    />
+    <div class="pt-[98px] pb-[80px] relative">
+      <slot></slot>
+      <!-- <router-view /> -->
+    </div>
+    <!--AddButton : BottomBar보다 20px 상단에 위치-->
+    <AddButton />
+    <BottomBar v-if="isTabMenu" />
   </div>
-  <!--AddButton : BottomBar보다 20px 상단에 위치-->
-  <AddButton />
-  <BottomBar v-if="isTabMenu" />
 </template>
 <script setup>
 import { useRoute } from 'vue-router'

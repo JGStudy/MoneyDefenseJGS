@@ -1,30 +1,40 @@
 <template>
   <div class="space-y-4 p-4">
     <!-- 거래처 표시 -->
-    <div class="text-sm text-gray-500">
-      거래처: {{ store.partner || '없음' }}
-    </div>
+    <div class="text-sm text-gray-500">거래처: {{ store.partner || '없음' }}</div>
 
     <!-- 금액 입력 -->
     <div class="space-y-1">
       <label class="font-semibold text-gray-700">금액</label>
-      <input ref="amountInputRef" :value="formattedAmount" @input="onAmountInput" @keypress="preventInvalidInput"
-        @focus="moveCursorToEnd" placeholder="금액을 입력하세요" class="w-full border rounded px-3 py-2 text-right text-xl"
-        inputmode="numeric" pattern="[0-9]*" />
+      <input
+        ref="amountInputRef"
+        :value="formattedAmount"
+        @input="onAmountInput"
+        @keypress="preventInvalidInput"
+        @focus="moveCursorToEnd"
+        placeholder="금액을 입력하세요"
+        class="w-full border rounded px-3 py-2 text-right text-xl"
+        inputmode="numeric"
+        pattern="[0-9]*"
+      />
       <div v-show="showValidationError && !isValidAmount" class="text-sm text-red-500">
         ⚠️ 1원 이상 입력하세요
       </div>
-      <div v-if="nonNumericError" class="text-sm text-red-500">
-        ⚠️ 숫자만 입력할 수 있습니다
-      </div>
+      <div v-if="nonNumericError" class="text-sm text-red-500">⚠️ 숫자만 입력할 수 있습니다</div>
     </div>
 
     <!-- 버튼들 -->
     <div class="space-y-2">
-      <button @click="clearAmount" class="w-full bg-red-100 text-red-500 py-2 rounded hover:bg-red-200">
+      <button
+        @click="clearAmount"
+        class="w-full bg-red-100 text-red-500 py-2 rounded hover:bg-red-200"
+      >
         금액 초기화
       </button>
-      <button @click="confirmAmount" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
+      <button
+        @click="confirmAmount"
+        class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+      >
         확인
       </button>
     </div>
