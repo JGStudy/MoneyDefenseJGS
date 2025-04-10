@@ -6,16 +6,16 @@
     <div class="flex items-center gap-1">
       <template v-if="isHome">
         <!-- Home 전용 -->
-        <h1 class="w-6 h-6 bg-[#D9D9D9]">
+        <h1 class="w-6 h-6">
           <!-- 클릭 시 자산 숨기기 기능 on(구현 예정)) -->
-          <i>logo</i>
+          <img src="@/assets/img/Logo.png" alt="진짜기깔난스터디" />
         </h1>
       </template>
 
       <!-- Home 이외 모든 페이지 -->
       <template v-else>
         <button
-          v-if="!noNeedBack"
+          v-if="!noNeedCancel"
           type="button"
           @click="backspace"
           aria-label="뒤로가기"
@@ -38,7 +38,7 @@
       aria-label="설정 이동"
       class="w-6 h-6 flex items-center justify-center"
     >
-      <i class="xi-cog xi-2x"></i>
+      <i class="xi-cog xi-2x text-kb-gray"></i>
     </button>
     <button
       v-else-if="noNeedBack && !isSetting"
@@ -69,9 +69,16 @@ const router = useRouter()
 const isHome = computed(() => route.path === '/')
 const isSetting = computed(() => route.path === '/setting')
 
-// 뒤로가기가 필요 없는 페이지인지 체크
-const noNeedBackRoutes = ['/transaction/create', '/onboarding', '/asset/edit', '/budget/edit']
+// 뒤로가기 또는 취소가 필요 없는 페이지인지 체크
+const noNeedCancelRoutes = ['/transaction', '/report', '/asset']
+const noNeedBackRoutes = [
+  '/transaction/create',
+  '/asset/edit',
+  '/budget/edit',
+  '/setting/user-edit',
+]
 const noNeedBack = computed(() => noNeedBackRoutes.includes(route.path))
+const noNeedCancel = computed(() => noNeedCancelRoutes.includes(route.path))
 // 뒤로가기 이벤트
 const backspace = () => {
   router.back()
@@ -96,7 +103,7 @@ const handleCancel = () => {
 }
 
 // Props
-defineProps({
+const props = defineProps({
   titleCustomClass: {
     type: String,
     default: 'font-bold text-title02',
