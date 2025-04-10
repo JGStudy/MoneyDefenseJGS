@@ -11,7 +11,6 @@ import TransactionDetailPage from '@/pages/TransactionDetailPage.vue'
 
 // 404 페이지
 import NotFound from '@/pages/NotFound.vue'
-import Calendar from '@/pages/Calendar.vue'
 
 // 상은 파트 - 자산
 import AssetTotalPage from '@/pages/AssetTotalPage.vue'
@@ -76,14 +75,11 @@ const router = createRouter({
       component: ReportPage,
     },
     {
-      path: '/transaction/calendar',
-      name: 'calendar',
-      component: Calendar,
-    },
-    {
       // 404페이지
-      path:'/:paths(.*)*', name:'NotFound',component:NotFound
+      path: '/:paths(.*)*',
+      name: 'NotFound',
+      component: NotFound,
     },
-  ]
+  ],
 })
 export default router

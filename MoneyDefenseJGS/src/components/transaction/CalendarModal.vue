@@ -22,9 +22,9 @@
           <div
             :class="
               tx.type === '지출'
-                ? 'text-kb-yellow'
+                ? 'text-status-positive'
                 : tx.type === '수입'
-                  ? 'text-status-positive'
+                  ? 'text-red-500'
                   : 'text-status-caution'
             "
           >
@@ -51,8 +51,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const formatAmount = (amt) => {
-  const sign = amt < 0 ? '-' : '+'
-  return sign + Math.abs(amt).toLocaleString() + '원'
+  return Math.abs(amt).toLocaleString() + '원'
 }
 </script>
 
