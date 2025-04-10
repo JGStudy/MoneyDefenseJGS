@@ -1,30 +1,29 @@
-// stores/transactionStore.js
 import { defineStore } from 'pinia'
 
 export const useTransactionStore = defineStore('transaction', {
   state: () => ({
-    transactions: [],
-
-    amount: '', // 금액
-    partner: '', // 거래처
-    type: '', // 분류
-    category: '', // 카테고리
-    paymentMethod: '', // 결제 수단
-    date: '', // 날짜
-    memo: '', // 메모
+    id: null,
+    partner: '',
+    category: '',
+    amount: 0,
+    memo: '',
+    date: '',
+    type: 'expense',
   }),
   actions: {
-    add(transaction) {
-      this.transactions.push(transaction)
+    setTransaction(payload) {
+      Object.assign(this, payload)
     },
-    reset() {
-      this.amount = ''
-      this.partner = ''
-      this.type = ''
-      this.category = ''
-      this.paymentMethod = ''
-      this.date = ''
-      this.memo = ''
+    getPayload() {
+      return {
+        id: this.id,
+        partner: this.partner,
+        category: this.category,
+        amount: this.amount,
+        memo: this.memo,
+        date: this.date,
+        type: this.type,
+      }
     },
   },
 })

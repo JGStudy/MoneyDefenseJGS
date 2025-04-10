@@ -12,85 +12,71 @@
 
     <!-- 카테고리 -->
     <div class="relative w-full">
-      <!-- 라벨과 선택 박스를 한 줄로 -->
-      <div class="flex items-center gap-2" @click="toggleCategory">
-        <label class="font-semibold whitespace-nowrap">카테고리 {{ store.category || '카테고리를 선택하세요' }}
-        </label>
-
+      <div class="flex items-center gap-2 cursor-pointer" @click="toggleCategory">
+        <label class="font-semibold whitespace-nowrap">카테고리:</label>
+        <span class="text-gray-600">
+          {{ store.category || '카테고리를 선택하세요' }}
+        </span>
       </div>
-
-      <!-- 드롭다운 -->
       <div v-if="showCategory"
         class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-20 max-h-60 overflow-auto">
-        <button v-for="cat in categories" :key="cat" @click="selectCategory(cat)"
+        <button v-for="cat in currentCategories" :key="cat" @click="selectCategory(cat)"
           class="w-full text-left px-4 py-2 hover:bg-blue-100">
           {{ cat }}
         </button>
       </div>
     </div>
 
-    <!-- -- 거래처 입력 -->
-    <div>
-      <label class="font-semibold">거래처</label>
-      <input v-model="store.partner" type="text" placeholder="입력하세요" class="w-full border rounded px-3 py-2" />
-    </div>
-
-    <!-- 결제수단 -->
-    <div class="relative w-full">
-      <!-- 라벨과 선택 박스를 한 줄로 -->
-      <div class="flex items-center gap-2" @click="toggleMethod">
-        <label class="font-semibold whitespace-nowrap">결제수단 {{ store.method || '결제수단을 선택하세요' }}
-
-        </label>
-        <!-- <div class="border p-2 rounded cursor-pointer flex-1 bg-white" > -->
-
+    <!-- 결제수단 (수입일 경우 숨김) -->
+    <div class="relative w-full" v-if="store.type !== '수입'">
+      <div class="flex items-center gap-2 cursor-pointer" @click="toggleMethod">
+        <label class="font-semibold whitespace-nowrap">결제수단:</label>
+        <span class="text-gray-600">
+          {{ store.paymentMethods || '결제수단을 선택하세요' }}
+        </span>
+      </div>
+      <div v-if="showMethod" class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-20">
+        <button v-for="method in paymentMethods" :key="method" @click="selectMethod(method)"
+          class="w-full text-left px-4 py-2 hover:bg-blue-100">
+          {{ method }}
+        </button>
       </div>
     </div>
 
-    <!-- 드롭다운 리스트 -->
-    <div v-if="showMethod" class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-20">
-      <button v-for="method in paymentMethods" :key="method" @click="selectMethod(method)"
-        class="w-full text-left px-4 py-2 hover:bg-blue-100">
-        {{ method }}
-      </button>
+    <!-- 날짜 선택 -->
+    <div>
+      <label class="font-semibold">날짜</label>
+      <input v-model="store.date" type="date" class="w-full border rounded px-3 py-2" />
+    </div>
+
+    <!-- 메모 -->
+    <div>
+      <label class="font-semibold">메모</label>
+      <input v-model="store.memo" type="text" placeholder="입력하세요" class="w-full border rounded px-3 py-2" />
     </div>
   </div>
-
-  <!-- 날짜 선택 -->
-  <div>
-    <label class="font-semibold">날짜</label>
-    <input v-model="store.date" type="date" class="w-full border rounded px-3 py-2" />
-  </div>
-
-  <!-- 메모 -->
-  <div>
-    <label class="font-semibold">메모</label>
-    <input v-model="store.memo" type="text" placeholder="입력하세요" class="w-full border rounded px-3 py-2" />
-  </div>
-
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useTransactionStore } from '@/stores/transaction'
 
 const store = useTransactionStore()
+
 const showCategory = ref(false)
+const showMethod = ref(false)
 
 const types = ['수입', '지출', '이체']
-const categories = ['식비', '교통비', '도서비', '정기구독비', '기타']
 
-const showMethod = ref(false)
+const incomeCategories = ['월급', '급여', '용돈', '이자수익', '배당금', '기타']
+const expenseCategories = ['식비', '교통비', '도서비', '정기구독비', '기타']
+
 const paymentMethods = ['카드', '현금', '모바일페이', '토스', '기타']
 
-const toggleMethod = () => {
-  showMethod.value = !showMethod.value
-}
-
-const selectMethod = (method) => {
-  store.method = method
-  showMethod.value = false
-}
+// ✅ 분류에 따라 카테고리 리스트 변경
+const currentCategories = computed(() => {
+  return store.type === '수입' ? incomeCategories : expenseCategories
+})
 
 const toggleCategory = () => {
   showCategory.value = !showCategory.value
@@ -99,5 +85,14 @@ const toggleCategory = () => {
 const selectCategory = (cat) => {
   store.category = cat
   showCategory.value = false
+}
+
+const toggleMethod = () => {
+  showMethod.value = !showMethod.value
+}
+
+const selectMethod = (method) => {
+  store.paymentMethods = method
+  showMethod.value = false
 }
 </script>
