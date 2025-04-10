@@ -1,6 +1,6 @@
 <template>
   <li
-    class="flex justify-between items-center px-4 py-3 rounded-2xl shadow-list cursor-pointer transition-colors bg-kb-ui-11 dark:bg-kb-dark-line hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted"
+    class="flex justify-between items-center px-4 py-3 rounded-2xl cursor-pointer transition-colors bg-kb-ui-11 dark:bg-kb-dark-line hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted"
     @click="$emit('click')"
   >
     <!-- 제목 -->

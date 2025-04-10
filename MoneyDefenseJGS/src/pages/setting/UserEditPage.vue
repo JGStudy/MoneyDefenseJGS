@@ -1,17 +1,18 @@
 <template>
+  <RealHeader title="" popup-message="사용자 이름을 수정합니다." />
   <div
-    class="min-h-screen pt-24 px-6 pb-28 font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text flex flex-col"
+    class="min-h-screen pt-24 px-6 font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text flex flex-col"
   >
     <!-- 토스트 메시지 -->
     <SettingToast ref="toast" />
 
     <!-- 뒤로가기 -->
-    <button class="text-body03 text-status-error mb-6 self-start" @click="router.back()">
+    <!-- <button class="text-body03 text-status-error mb-6 self-start" @click="router.back()">
       뒤로가기
-    </button>
+    </button> -->
 
     <!--  제목 -->
-    <h1 class="text-title02 font-bold mb-8">사용자 정보 수정</h1>
+    <h1 class="text-title02 font-bold mb-8 mt-6">사용자 정보 수정</h1>
 
     <!--  입력 필드 -->
     <div class="flex flex-col gap-6 mb-12">
@@ -45,13 +46,7 @@
         취소
       </button>
     </div>
-
-    <!--  푸터 -->
-    <RealFooter class="mt-16" />
   </div>
-
-  <!--  바텀바 -->
-  <BottomBar />
 </template>
 
 <script setup>
@@ -60,9 +55,8 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 import SettingToast from '@/components/setting/SettingToast.vue'
-import RealFooter from '@/components/setting/RealFooter.vue'
-import BottomBar from '@/components/common/BottomNavBar.vue'
 import { useUserStore } from '@/stores/userStore'
+import RealHeader from '@/components/common/RealHeader.vue'
 
 const router = useRouter()
 const toast = ref(null)

@@ -1,7 +1,7 @@
 <template>
   <!-- Bottom Navigation Bar -->
   <nav
-    class="fixed bottom-0 left-1/2 -translate-x-1/2 max-w-[375px] w-full mx-auto bg-white border-t border-[#D9D9D9] z-50"
+    class="fixed bottom-0 left-1/2 -translate-x-1/2 max-w-[375px] w-full mx-auto bg-white border-t border-kb-ui-08 z-50"
   >
     <ul class="flex justify-between items-center px-6 py-[13px] mb-[30px]">
       <li class="w-8 h-8 rounded flex justify-center" :class="isActive('/')">
@@ -36,7 +36,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const isActive = (path) => {
-  return route.path === path ? 'text-kb-yellow-positive' : 'text-kb-ui-04'
+  return route.path === path ? 'text-kb-yellow-positive' : 'text-kb-gray'
 }
 
 // 클릭 이벤트

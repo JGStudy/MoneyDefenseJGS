@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <AppLayoutPage title="예산" close="취소">
+    <AppLayoutPage title="예산" title-custom-class="font-light text-body01" close="취소">
       <!-- 공통 금액 입력 폼 컴포넌트 사용 -->
       <AmountEditForm label="예산" :initial-amount="budgetStore.budget" @save="handleSave" />
     </AppLayoutPage>
