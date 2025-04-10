@@ -9,9 +9,8 @@
       :close="close"
       :popupMessage="popupMessage"
     />
-    <div class="pt-[98px] pb-[80px] relative">
+    <div class="pt-[98px] pb-[80px] mx-6 relative">
       <slot></slot>
-      <!-- <router-view /> -->
     </div>
     <BottomBar v-if="isTabMenu" />
   </div>
