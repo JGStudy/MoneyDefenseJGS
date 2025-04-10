@@ -1,9 +1,9 @@
 <template>
   <div class="space-y-6 p-4 max-w-xl mx-auto">
-    <div>
+    <!-- <div>
       <label class="font-semibold">금액</label>
       <input v-model="store.amount" type="number" placeholder="숫자 입력" class="w-full border rounded px-3 py-2" />
-    </div>
+    </div> -->
 
     <div>
       <label class="font-semibold">거래처</label>
@@ -11,12 +11,17 @@
     </div>
 
     <TransactionSummary @click="() => alert('요약 클릭됨!')" />
+    <EditableTransactionInformation />
+    <SaveTransactionButton />
+    
   </div>
 </template>
 
 <script setup>
 import { useTransactionStore } from '@/stores/transaction'
 import TransactionSummary from '@/components/TransactionSummary.vue'
+import EditableTransactionInformation from '@/components/EditableTransactionInformation.vue';
+import SaveTransactionButton from '@/components/SaveTransactionButton.vue';
 
 const store = useTransactionStore()
 </script>

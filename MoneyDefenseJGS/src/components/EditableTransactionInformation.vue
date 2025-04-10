@@ -29,12 +29,6 @@
       </div>
     </div>
 
-    <!-- -- 거래처 입력 -->
-    <div>
-      <label class="font-semibold">거래처</label>
-      <input v-model="store.partner" type="text" placeholder="입력하세요" class="w-full border rounded px-3 py-2" />
-    </div>
-
     <!-- 결제수단 -->
     <div class="relative w-full">
       <!-- 라벨과 선택 박스를 한 줄로 -->
