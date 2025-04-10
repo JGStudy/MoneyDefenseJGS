@@ -1,22 +1,26 @@
 <template>
   <div class="bg-white p-6 rounded shadow space-y-4 text-center">
-    <div class="text-lg font-semibold">예산 요약</div>
+    <div class="text-lg font-semibold">한 달 예산</div>
+    <!-- 수정 버튼 클릭 시 수정 페이지로 라우팅 -->
+    <button @click="goToBudgetEditPage">수정</button>
 
-    <!-- 예산 요약 수치 -->
     <div class="space-y-1">
-      <div>예산: ₩{{ formatCurrency(budget) }}</div>
-      <div>지출: ₩{{ formatCurrency(expense) }}</div>
-      <div class="font-bold">잔여 예산: ₩{{ formatCurrency(remainingBudget) }}</div>
-    </div>
+      <div>{{ formatCurrency(budget) }}원</div>
 
-    <!-- 게이지 바 컴포넌트 -->
-    <GaugeBar :percentage="spendingRate" />
+      <!-- 게이지 바 컴포넌트 -->
+      <GaugeBar :percentage="spendingRate" />
+
+      <div class="font-bold">예산이 {{ formatCurrency(remainingBudget) }}원 남았습니다.</div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import GaugeBar from './GaugeBar.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps({
   budget: {
@@ -41,5 +45,10 @@ const spendingRate = computed(() => {
 // 통화 포맷
 function formatCurrency(value) {
   return value?.toLocaleString() ?? '0'
+}
+
+// 예산 수정 페이지로 이동하는 함수
+function goToBudgetEditPage() {
+  router.push('/budget/edit') // 라우트 경로에 맞게 수정
 }
 </script>
