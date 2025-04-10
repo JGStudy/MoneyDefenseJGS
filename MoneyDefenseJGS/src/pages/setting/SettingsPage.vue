@@ -1,52 +1,52 @@
 <template>
-  <div class="min-h-screen bg-kb-ui-10 text-kb-ui-02 flex flex-col p-6 gap-6">
-    <!-- 상단 제목 + 설정 버튼 -->
-    <div class="flex justify-between items-center">
-      <h1 class="text-title02 font-bold">프로필</h1>
-      <button class="bg-kb-ui-08 text-kb-ui-01 text-sm rounded-full px-3 py-1">설정</button>
+  <AppLayout>
+    <div
+      class="min-h-screen px-6 py-8 bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text"
+    >
+      <div class="px-6 py-8">
+        <!-- 프로필 섹션 -->
+        <section class="mb-10">
+          <h2 class="text-title03 font-semibold mb-6">프로필</h2>
+          <p class="text-body02 font-medium">안녕하세요,</p>
+          <p class="text-body02 font-semibold flex items-center gap-1">진기스님 <span>👋</span></p>
+        </section>
+
+        <!-- 설정 메뉴 -->
+        <section class="mb-10">
+          <h2 class="text-title03 font-semibold mb-6 text-kb-ui-02 dark:text-kb-dark-text">설정</h2>
+          <ul class="space-y-3">
+            <ListItem title="사용자 정보" @click="goToUserEdit" />
+            <ListItem title="데이터 내보내기" @click="openModal('export')" />
+            <ListItem title="데이터 초기화" @click="openModal('reset')" />
+          </ul>
+        </section>
+
+        <!-- 다크모드 토글 -->
+        <section class="mb-10">
+          <ToggleSwitchTheme />
+        </section>
+
+        <!-- 슬라이드 모달 -->
+        <transition name="slide">
+          <SideModal v-if="activeModal" :type="activeModal" @close="closeModal" />
+        </transition>
+      </div>
     </div>
-
-    <!-- 사용자 카드 -->
-    <UserInfoCard />
-
-    <!-- 설정 제목 -->
-    <h2 class="text-title03 font-bold border-b border-kb-ui-08 pb-2">설정</h2>
-
-    <!-- 설정 항목 리스트 -->
-    <div class="flex flex-col gap-3">
-      <SettingListItem label="사용자 정보" @click="$router.push('/user-edit')">
-        <template #action>
-          <div class="w-10 h-5 bg-kb-ui-06 rounded-full" />
-        </template>
-      </SettingListItem>
-
-      <SettingListItem label="테마" @click="$emit('open-modal', 'theme')">
-        <template #action>
-          <ThemeToggle :model-value="true" />
-        </template>
-      </SettingListItem>
-
-      <SettingListItem label="데이터 내보내기" @click="$emit('open-modal', 'export')">
-        <template #action>
-          <div class="w-10 h-5 bg-kb-ui-06 rounded-full" />
-        </template>
-      </SettingListItem>
-
-      <SettingListItem label="데이터 초기화" @click="$emit('open-modal', 'reset')">
-        <template #action>
-          <div class="w-10 h-5 bg-kb-ui-06 rounded-full" />
-        </template>
-      </SettingListItem>
-    </div>
-
-    <!-- 푸터 -->
-    <Footer class="mt-auto" />
-  </div>
+  </AppLayout>
 </template>
 
 <script setup>
-import UserInfoCard from '@/components/setting/UserInfoCard.vue'
-import SettingListItem from '@/components/setting/SettingListItem.vue'
-import ThemeToggle from '@/components/button/ThemeToggle.vue'
-// import Footer from '@/components/Footer.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import AppLayout from '@/pages/layout/AppLayoutPage.vue'
+import ListItem from '@/components/setting/ListItem.vue'
+import SideModal from '@/components/setting/SideModal.vue'
+import ToggleSwitchTheme from '@/components/setting/ToggleSwitchTheme.vue'
+
+const router = useRouter()
+const activeModal = ref(null)
+
+const goToUserEdit = () => router.push({ name: 'user-edit' })
+const openModal = (type) => (activeModal.value = type)
+const closeModal = () => (activeModal.value = null)
 </script>
