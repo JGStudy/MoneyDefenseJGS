@@ -19,6 +19,7 @@ export function fetchTransactions() {
   return axios.get('/transactions')
 }
 
+//하연 사용
 // Post
 export const createAsset = async (userId, amount) => {
   const today = new Date().toISOString().split('T')[0]
@@ -36,4 +37,9 @@ export const createAsset = async (userId, amount) => {
 export const getAssetByUserId = async (userId) => {
   const response = await axios.get(`/asset?userId=${userId}`)
   return response.data[0]
+}
+
+export async function getAsset() {
+  const res = await axios.get('/asset')
+  return res.data
 }
