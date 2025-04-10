@@ -1,66 +1,100 @@
 {
-    "monthlyData": [
-      {
-        "month": "2025-02",
-        "totalIncome": 1200000,
-        "totalExpense": 500000,
-        "netIncome": 700000,
-        "netAssets": 5000000
-      },
-      {
-        "month": "2025-04",
-        "totalIncome": 1300000,
-        "totalExpense": 600000,
-        "netIncome": 700000,
-        "netAssets": 5700000
-      }
-    ],
-    "transactions": [
-      {
-        "id": 1,
-        "month": "2025-04",
-        "date": "2025-04-10",
-        "type": "income",
-        "category": "급여",
-        "amount": 300000,
-        "description": "회사 월급",
-        "source": "은행 이체"
-      },
-      {
-        "id": 2,
-        "month": "2024-03",
-        "date": "2024-03-01",
-        "type": "expense",
-        "category": "식비",
-        "amount": 50000,
-        "description": "점심식사",
-        "payment_method": "카드"
-      }
-    ],
-    "savings": [
-      {
-        "month": "2024-02",
-        "amount": 200000
-      },
-      {
-        "month": "2024-03",
-        "amount": 300000
-      }
-    ],
-  "expense":[{
-  "month":"2024-02",
-  "money":"200000"
-  }], 
-    "categoryExpenses": [
-      {
-        "month": "2024-03",
-        "category": "식비",
-        "amount": 200000
-      },
-      {
-        "month": "2024-03",
-        "category": "교통비",
-        "amount": 80000
-      }
-    ]
+  "monthlyData": [
+    {
+      "id": "1",
+      "month": "2025-02",
+      "totalIncome": 1200000,
+      "totalExpense": 500000,
+      "netAssets": ""
+    },
+    {
+      "id": "2",
+      "month": "2025-03",
+      "totalIncome": 1600000,
+      "totalExpense": 700000
+    },
+    {
+      "id": "3",
+      "month": "2025-04",
+      "totalIncome": 1300000,
+      "totalExpense": 600000,
+      "netAssets": 2300000
+    }
+  ],
+  "totalmoney": [
+    {
+      "month": "2025-02",
+      "type": "수입",
+      "amount": 1200000,
+      "id": "3e45"
+    },
+    {
+      "month": "2025-03",
+      "amount": 1600000,
+      "type": "수입",
+      "id": "19b7"
+    },
+    {
+      "month": "2025-04",
+      "amount": 1300000,
+      "type": "수입",
+      "id": "f160"
+    },
+    {
+      "month": "2025-02",
+      "money": "500000",
+      "type": "지출",
+      "id": "be04"
+    },
+    {
+      "month": "2025-03",
+      "money": "700000",
+      "type": "지출",
+      "id": "be04"
+    },
+    {
+      "month": "2025-04",
+      "money": "600000",
+      "type": "지출",
+      "id": "be04"
+    }
+  ],
+  "categoryExpenses": [
+    {
+      "month": "2025-02",
+      "category": "식비",
+      "amount": 200000,
+      "id": "e32e"
+    },
+    {
+      "month": "2025-03",
+      "category": "교통비",
+      "amount": 80000,
+      "id": "8ea6"
+    },
+    {
+      "month": "2025-02",
+      "category": "의료비",
+      "amount": 150000,
+      "id": "a7b9"
+    },
+    {
+      "month": "2025-03",
+      "category": "문화생활",
+      "amount": 120000,
+      "id": "4f3d"
+    },
+    {
+      "month": "2025-04",
+      "category": "교육비",
+      "amount": 300000,
+      "id": "b0c7"
+    },
+    {
+      "month": "2025-04",
+      "category": "주거비",
+      "amount": 500000,
+      "id": "d1f9"
+    }
+  ]
 }

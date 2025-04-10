@@ -1,7 +1,30 @@
 <script setup>
-import {onMounted, ref} from 'vue'
-const currentMonth = ref(new Date().getMonth()+1)
-  
+import { getMoney } from '@/api/report'
+import { onMounted, ref, watch } from 'vue'
+import { updateNetAssets } from '@/api/report.js'
+
+const currentMonth = ref(new Date().getMonth() + 1)
+const allData = ref([])
+const totalIncome = ref(0)
+const totalExpense = ref(0)
+
+const loadCurrentMonthData = () => {
+  const currentData = allData.value.find(
+    (item) => item.month === `2025-${String(currentMonth.value).padStart(2, '0')}`
+  )
+  if (currentData) {
+    totalIncome.value = currentData.totalIncome
+    totalExpense.value = currentData.totalExpense
+  } else {
+    totalIncome.value = 0
+    totalExpense.value = 0
+  }
+}
+
+// 월 바뀔 때마다 자동 갱신
+watch(currentMonth, () => {
+  loadCurrentMonthData()
+})
 
 const prevMonth = () => {
   if (currentMonth.value > 1) {
@@ -15,13 +38,32 @@ const nextMonth = () => {
   }
 }
 
-const totalIncome = ref(0)
-const totalExpense =ref(0)
+// 순자산 계산 함수
+const calculateNetAssets = () => {
+  let netAssets = 0
+  const sorted = [...allData.value].sort((a, b) => a.month.localeCompare(b.month))
+  for (const data of sorted) {
+    const month = Number(data.month.split('-')[1])
+    if (month > currentMonth.value) break
+    netAssets += (data.totalIncome || 0) - (data.totalExpense || 0)
+  }
+  return netAssets
+}
 
-onMounted(async()=>{
-  const res=await fetch('/db/Dashboard.json')
-  const data= await res.json()
+// 월별 데이터 불러오기 및 순자산 업데이트
+onMounted(async () => {
+  try {
+    const response = await getMoney()
+    allData.value = response.data
+    loadCurrentMonthData()
 
+    const netAssets = calculateNetAssets()
+    const currentMonthStr = `2025-${String(currentMonth.value).padStart(2, '0')}`
+    await updateNetAssets(currentMonthStr, netAssets)
+    console.log('✅ 순자산 업데이트 완료:', netAssets)
+  } catch (error) {
+    console.error('월별 데이터 불러오기 실패:', error)
+  }
 })
 
 </script>
@@ -47,8 +89,8 @@ onMounted(async()=>{
   </div>
   <div class="bg-[#fefcbf] rounded-2xl p-4 shadow">
     <div class="flex justify-between items-center">
-      <p class="text-sm font-semibold mb-1">순 수익</p>
-      <p class="text-xl font-bold">{{ (totalIncome-totalExpense) }} 원</p>
+      <p class="text-sm font-semibold mb-1">순 자산</p>
+      <p class="text-xl font-bold">{{ calculateNetAssets().toLocaleString() }} 원</p>
     </div>
   </div>
 </div>
