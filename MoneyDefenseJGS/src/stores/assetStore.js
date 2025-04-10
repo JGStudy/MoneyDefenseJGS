@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
-import { fetchAsset, updateAsset, fetchTransactions } from '@/api/asset'
+import { fetchAsset, updateAssetById, fetchTransactions } from '@/api/asset'
 
 export const useAssetStore = defineStore('asset', {
   state: () => ({
+    userID: null,
+    assetId: null,
     totalAsset: 0, // 현재 자산 금액
     lastModified: '',
     transactions: [],
@@ -39,8 +41,9 @@ export const useAssetStore = defineStore('asset', {
     // 자산 조회
     async fetchAsset() {
       try {
-        const res = await fetchAsset()
+        const res = await fetchAsset(this.userId)
         const data = res.data[0]
+        this.assetId = data?.id ?? null
         this.totalAsset = data?.totalAsset ?? 0
         this.lastModified = data?.lastModified ?? ''
       } catch (error) {
@@ -51,10 +54,16 @@ export const useAssetStore = defineStore('asset', {
     // 자산 수정
     async updateAsset(newAmount) {
       try {
-        const res = await updateAsset(newAmount)
+        const asset = {
+          totalAsset: newAmount,
+          lastModified: new Date().toISOString(),
+          userId: this.userId,
+        }
+
+        const res = await updateAssetById(this.assetId, newAmount)
         this.totalAsset = res.data.totalAsset
         this.lastModified = res.data.lastModified
-        this.saveAssetToStorage() // 자산 업데이트 후 로컬 스토리지에 저장
+        this.saveAssetToStorage()
       } catch (error) {
         console.error('자산 수정 실패:', error)
       }
@@ -70,5 +79,13 @@ export const useAssetStore = defineStore('asset', {
         console.error('거래내역 불러오기 실패:', error)
       }
     },
+  },
+  async fetchAssetTrend() {
+    try {
+      const res = await fetchAssetTrend(this.userId)
+      this.assetTrend = res.data
+    } catch (error) {
+      console.error('자산 추이 불러오기 실패:', error)
+    }
   },
 })

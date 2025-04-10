@@ -1,18 +1,23 @@
 <template>
   <!-- 총 자산 표시 컴포넌트 -->
-  <div class="asset-display-container">
+  <div class="px-4 mt-6">
     <!-- 총 자산, 수정 버튼 -->
-    <div class="asset-header">
-      <span class="title">오늘의 총 자산</span>
+    <div class="flex justify-between items-center mb-2">
+      <span class="text-gray-600 text-sm">오늘의 총 자산</span>
       <!-- 수정 버튼 클릭 시 수정 페이지로 라우팅 -->
-      <button @click="goToAssetEditPage" class="edit-button">수정</button>
+      <button @click="goToAssetEditPage" class="text-sm text-gray-400 hover:text-gray-600">
+        수정
+      </button>
     </div>
 
     <!-- 중앙: 총 자산 금액 -->
-    <div class="total-asset">{{ formatCurrency(totalAsset) }}원</div>
+    <div class="text-3xl font-bold text-gray-900">{{ formatCurrency(totalAsset) }}원</div>
 
     <!-- 하단: 오늘 날짜 표시 -->
-    <div class="current-date">{{ currentDate }}</div>
+    <div class="mt-4 text-sm text-gray-600 text-left flex items-center gap-1">
+      <span class="text-blue-500">📅</span>
+      <span>{{ currentDate }}</span>
+    </div>
   </div>
 </template>
 

@@ -1,8 +1,12 @@
-<!-- components/common/MonthSelector.vue -->
 <template>
-  <div class="flex justify-between items-center px-4 py-2 bg-gray-100 rounded-xl">
+  <div class="flex items-center space-x-1 px-4 py-2">
+    <!-- 이전 월 버튼 -->
     <button @click="prevMonth" class="text-sm text-gray-600">&lt;</button>
-    <span class="font-semibold text-lg">{{ currentMonth }}월</span>
+
+    <!-- 현재 월 -->
+    <span class="text-lg font-semibold text-gray-900"> {{ currentMonth }}월 </span>
+
+    <!-- 다음 월 버튼 -->
     <button @click="nextMonth" class="text-sm text-gray-600">&gt;</button>
   </div>
 </template>
@@ -20,13 +24,11 @@ const emit = defineEmits(['update:modelValue'])
 
 const currentMonth = ref(new Date().getMonth() + 1)
 
-// modelValue로부터 currentMonth 세팅
 onMounted(() => {
   const month = parseInt(props.modelValue.split('-')[1])
   if (!isNaN(month)) currentMonth.value = month
 })
 
-// currentMonth 바뀌면 modelValue도 같이 emit
 watch(currentMonth, () => {
   const year = new Date().getFullYear()
   emit('update:modelValue', `${year}-${String(currentMonth.value).padStart(2, '0')}`)

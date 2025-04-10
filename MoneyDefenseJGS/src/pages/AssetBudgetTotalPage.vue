@@ -11,12 +11,15 @@
           :total-asset="calculatedTotalAsset"
           :last-modified="assetStore.lastModified"
         />
+
+        <!-- 자산 추이 차트 -->
+        <AssetTrendChart :trend-data="assetStore.assetTrend" />
       </div>
 
       <!-- 예산 탭 내용 -->
       <div v-if="currentTab === 'budget'">
         <!-- 월 선택 컴포넌트 -->
-        <MonthSelector v-model="selectedMonth" />
+        <MonthSelector v-model="selectedMonth" class="mb-2" />
 
         <!-- 예산 정보 표시 -->
         <BudgetDisplay :budget="budget" :expense="monthlyExpense" />
@@ -39,6 +42,7 @@ import TabSwitch from '@/components/common/TabSwitch.vue'
 import AssetDisplay from '@/components/assetTotal/AssetDisplay.vue'
 import BudgetDisplay from '@/components/budgetTotal/BudgetDisplay.vue'
 import MonthSelector from '@/components/common/MonthSelector.vue'
+import AssetTrendChart from '@/components/assetTotal/AssetTrendChart.vue'
 
 // Pinia 스토어 인스턴스
 const assetStore = useAssetStore()

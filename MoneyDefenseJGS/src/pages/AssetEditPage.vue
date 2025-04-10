@@ -8,14 +8,19 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAssetStore } from '@/stores/assetStore'
 import AmountEditForm from '@/components/common/AmountEditForm.vue'
 import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
+const emit = defineEmits(['save'])
 
 const assetStore = useAssetStore()
 const router = useRouter()
-
+onMounted(() => {
+  assetStore.userId = '304b' // 실제 사용자 ID 넣기 (테스트용)
+  assetStore.fetchAsset()
+})
 const handleSave = async (newAmount) => {
   try {
     // 자산 업데이트 시도
