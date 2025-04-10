@@ -1,14 +1,12 @@
 import axios from './apiClient'
 
 // 자산 가져오기 (GET)
-export function fetchAsset() {
-  return axios.get('/asset')
-}
+export const fetchAsset = (userId) => axios.get(`/asset?userId=${userId}`)
 
-// 자산 수정 (PATCH) — id가 1번이라고 가정
-export function updateAsset(newAmount) {
+// 자산 수정 (PATCH)
+export function updateAssetById(assetId, newAmount) {
   const today = new Date().toISOString().split('T')[0]
-  return axios.patch('/asset/1', {
+  return axios.patch(`/asset/${assetId}`, {
     totalAsset: newAmount,
     lastModified: today,
   })
@@ -37,6 +35,11 @@ export const createAsset = async (userId, amount) => {
 export const getAssetByUserId = async (userId) => {
   const response = await axios.get(`/asset?userId=${userId}`)
   return response.data[0]
+}
+
+// 자산 추이 가져오기
+export const fetchAssetTrend = (userId) => {
+  return axios.get(`/assetHistory?userId=${userId}`)
 }
 
 export async function getAsset() {

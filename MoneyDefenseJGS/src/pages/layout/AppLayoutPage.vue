@@ -12,6 +12,8 @@
     <div class="pt-[98px] pb-[80px] mx-6 relative">
       <slot></slot>
     </div>
+    <!--AddButton : BottomBar보다 20px 상단에 위치-->
+    <AddButton />
     <BottomBar v-if="isTabMenu" />
   </div>
 </template>
@@ -21,6 +23,7 @@ import { computed } from 'vue'
 
 import Header from '@/components/common/RealHeader.vue'
 import BottomBar from '@/components/common/BottomNavBar.vue'
+import AddButton from '@/components/common/AddButton.vue'
 
 const route = useRoute()
 const tabMenuRoutes = ['/', '/transaction', '/transaction/calendar', '/asset', '/report']

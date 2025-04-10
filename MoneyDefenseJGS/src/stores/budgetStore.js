@@ -1,9 +1,11 @@
+// stores/budgetStore.js
 import { defineStore } from 'pinia'
 import { fetchBudgetByMonth, updateBudget } from '@/api/budget'
+import { useAssetStore } from '@/stores/assetStore' // 자산 스토어 가져오기
 
 export const useBudgetStore = defineStore('budget', {
   state: () => ({
-    budgetMap: {},
+    budgetMap: {}, // 예산 저장
   }),
   actions: {
     // 예산 특정 월에 맞게 가져오기
@@ -31,5 +33,5 @@ export const useBudgetStore = defineStore('budget', {
       await updateBudget(month, newAmount)
       this.budgetMap[month] = newAmount
     },
-  }, // <-- 여기가 빠졌던 닫는 괄호!
+  },
 })

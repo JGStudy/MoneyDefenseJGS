@@ -14,6 +14,10 @@ export const updateTransaction = (id, payload) => {
   return axios.put(`/Title/${id}`, payload)
 }
 
+export const getTransactions = async () => {
+  return axios.get('/items')
+}
+
 // 거래 등록
 export const createTransaction = async (transactionData) => {
   try {
