@@ -15,7 +15,6 @@
       <button @click="save" :disabled="amount < 0" class="bg-gray-300 px-4 py-2 rounded">
         저장
       </button>
-      <button @click="$emit('cancel')" class="bg-gray-300 px-4 py-2 rounded">취소</button>
     </div>
   </div>
 </template>

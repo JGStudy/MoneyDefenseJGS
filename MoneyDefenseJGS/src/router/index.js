@@ -12,9 +12,10 @@ import NotFound from '@/pages/NotFound.vue'
 import Calendar from '@/pages/Calendar.vue'
 
 // 상은 파트 - 자산
-import AssetTotalPage from '@/pages/AssetTotalPage.vue'
+import AssetBudgetTotalPage from '@/pages/AssetBudgetTotalPage.vue'
+// import AssetTotalPage from '@/pages/AssetTotalPage.vue'
 import AssetEditPage from '@/pages/AssetEditPage.vue'
-import BudgetTotalPage from '@/pages/BudgetTotalPage.vue'
+// import BudgetTotalPage from '@/pages/BudgetTotalPage.vue'
 import BudgetEditPage from '@/pages/BudgetEditPage.vue'
 
 const router = createRouter({
@@ -42,7 +43,7 @@ const router = createRouter({
       // 자산 탭
       path: '/asset',
       name: 'AssetTotal',
-      component: AssetTotalPage,
+      component: AssetBudgetTotalPage,
     },
     {
       // 자산 수정 탭
@@ -51,12 +52,12 @@ const router = createRouter({
       component: AssetEditPage,
     },
 
-    {
-      // 예산 탭
-      path: '/budget',
-      name: 'BudgetTotal',
-      component: BudgetTotalPage,
-    },
+    // {
+    //   // 예산 탭
+    //   path: '/budget',
+    //   name: 'BudgetTotal',
+    //   component: BudgetTotalPage,
+    // },
     {
       // 예산 수정 탭
       path: '/budget/edit',
