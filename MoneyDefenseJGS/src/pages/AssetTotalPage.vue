@@ -1,6 +1,6 @@
 <!-- 자산 조회 페이지 -->
 <template>
-  <AppLayoutPage title="자산">
+  <AppLayoutPage title="자산" close="취소">
     <div class="p-4 space-y-6">
       <!-- 자산/예산 탭 전환: 현재 자산 탭 활성화-->
       <TabSwitch active-tab="asset" />
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed } from 'vue'
 
 // 레이아웃 가져오기
 import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
@@ -22,7 +22,7 @@ import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
 import { useAssetStore } from '@/stores/assetStore'
 
 // 거래 내역 상태 가져오기
-import { useTransactionStore } from '@/stores/transactionStore'
+// import { useTransactionStore } from '@/stores/transactionStore'
 
 // 컴포넌트 임포트
 import TabSwitch from '@/components/common/TabSwitch.vue'
@@ -31,16 +31,11 @@ import AssetDisplay from '@/components/assetTotal/AssetDisplay.vue'
 // Pinia 스토어 인스턴스
 const assetStore = useAssetStore()
 
-// 거래 내역을 로컬 상태로 저장
-const transactions = ref([])
-
-// 마운트 시 데이터 불러오기
 onMounted(async () => {
   await assetStore.fetchAsset()
 
   try {
-    const res = await axios.get('http://localhost:3000/Title') // JSON Server 경로
-    transactions.value = res.data
+    await assetStore.fetchTransactions()
   } catch (error) {
     console.error('거래 내역 가져오기 실패:', error)
   }
@@ -50,7 +45,7 @@ onMounted(async () => {
 // 거래 내역 중에서 수입 타입이면서,
 // 자산이 마지막으로 수정된 날짜 이후의 거래만 포함
 const totalIncome = computed(() =>
-  transactions.value
+  assetStore.transactions
     .filter((t) => t.type === '수입' && new Date(t.date) >= new Date(assetStore.lastModified))
     .reduce((sum, t) => sum + t.amount, 0),
 )
@@ -59,7 +54,7 @@ const totalIncome = computed(() =>
 // 거래 내역 중에서 지출 타입이면서,
 // 자산이 마지막으로 수정된 날짜 이후의 거래만 포함
 const totalExpense = computed(() =>
-  transactions.value
+  assetStore.transactions
     .filter((t) => t.type === '지출' && new Date(t.date) >= new Date(assetStore.lastModified))
     .reduce((sum, t) => sum + t.amount, 0),
 )

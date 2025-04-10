@@ -13,3 +13,8 @@ export function updateAsset(newAmount) {
     lastModified: today,
   })
 }
+
+// 거래 내역 가져오기
+export function fetchTransactions() {
+  return axios.get('/transactions')
+}

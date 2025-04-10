@@ -9,15 +9,11 @@ export const useBudgetStore = defineStore('budget', {
     // 예산 특정 월에 맞게 가져오기
     async fetchBudgetByMonth(month) {
       try {
-        const res = await fetch('/db/Asset.json')
-        const data = await res.json()
-
-        const budgetItem = data?.budgetmap?.find((item) => item.monthly === month)
-
-        if (budgetItem) {
-          this.budgetMap[month] = budgetItem.budget
+        const data = await fetchBudgetByMonth(month)
+        if (data.length > 0) {
+          const latest = data[data.length - 1] // 또는 정렬된 최신 값
+          this.budgetMap[month] = latest.amount
         } else {
-          console.warn(`"${month}"에 해당하는 예산 없음`)
           this.budgetMap[month] = 0
         }
       } catch (error) {
@@ -26,8 +22,8 @@ export const useBudgetStore = defineStore('budget', {
     },
     // 예산 업데이트
     async updateBudget(month, newAmount) {
-      await updateBudget(this.month, newAmount)
-      this.budget = newAmount
+      await updateBudget(month, newAmount)
+      this.budgetMap[month] = newAmount
     },
   },
 })

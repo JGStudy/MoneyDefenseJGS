@@ -12,6 +12,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import { useBudgetStore } from '@/stores/budgetStore'
 import AmountEditForm from '@/components/common/AmountEditForm.vue'
 
@@ -20,7 +21,8 @@ const router = useRouter()
 
 // 저장 누르면 예산 저장 + 페이지 이동
 const handleSave = async (newAmount) => {
-  await budgetStore.updateBudget(newAmount)
+  const currentMonth = new Date().toISOString().slice(0, 7)
+  await budgetStore.updateBudget(currentMonth, newAmount)
   router.push('/budget') // 예산 조회 페이지로 이동
 }
 
