@@ -9,6 +9,9 @@ import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
 import TransactionDetailPage from '@/pages/TransactionDetailPage.vue'
 
+// 404 페이지
+import NotFound from '@/pages/NotFound.vue'
+
 // 상은 파트 - 자산
 import AssetTotalPage from '@/pages/AssetTotalPage.vue'
 import AssetEditPage from '@/pages/AssetEditPage.vue'
@@ -66,6 +69,10 @@ const router = createRouter({
       name: 'BudgetEdit',
       component: BudgetEditPage,
     },
-  ],
+    {
+      // 404페이지
+      path:'/:paths(.*)*', name:'NotFound',component:NotFound
+    },
+  ]
 })
 export default router
