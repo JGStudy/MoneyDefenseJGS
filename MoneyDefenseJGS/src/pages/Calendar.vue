@@ -75,7 +75,7 @@ const page = ref({
 
 const fetchTransactions = async () => {
   try {
-    const res = await axios.get('http://localhost:5000/Title')
+    const res = await axios.get('http://localhost:3000/Title')
     transactions.value = res.data.map((tx, idx) => ({
       id: idx,
       date: tx.date,
