@@ -12,7 +12,6 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
 import { useBudgetStore } from '@/stores/budgetStore'
 import AmountEditForm from '@/components/common/AmountEditForm.vue'
 

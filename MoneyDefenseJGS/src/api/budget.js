@@ -16,15 +16,32 @@ export const fetchBudgetByMonth = async (month) => {
   return res.data
 }
 
+// export async function updateBudget(month, newAmount) {
+//   return axios.post(`/budgetmap`, {
+//     month,
+//     amount: newAmount,
+//     createdAt: new Date().toISOString(),
+//   })
+// }
+
 export async function updateBudget(month, newAmount) {
-  // const res = await axios.get(`/budgetmap?month=${month}`)
-  // const matchingData = res.data
-  // 항상 새 데이터 추가 (중복 허용) → 최신값만 보여주기
-  return axios.post(`/budgetmap`, {
-    month,
-    amount: newAmount,
-    createdAt: new Date().toISOString(),
-  })
+  const res = await axios.get(`/budgetmap?month=${month}`)
+  const matchingData = res.data
+
+  if (matchingData.length > 0) {
+    // 이미 데이터가 있으면 → id 기준으로 수정
+    const latest = matchingData[matchingData.length - 1] // 가장 마지막 걸 사용
+    return axios.patch(`/budgetmap/${latest.id}`, {
+      month,
+      amount: newAmount,
+    })
+  } else {
+    // 없으면 새로 생성
+    return axios.post(`/budgetmap`, {
+      month,
+      amount: newAmount,
+    })
+  }
 }
 
 // 예산 수정 (PUT 또는 PATCH)
