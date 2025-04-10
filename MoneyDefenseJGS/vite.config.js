@@ -14,4 +14,13 @@ export default defineConfig({
       '@stores': fileURLToPath(new URL('./src/stores', import.meta.url)), // :흰색_확인_표시: 이 줄 추가!
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
 })
