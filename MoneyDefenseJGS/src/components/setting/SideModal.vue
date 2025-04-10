@@ -6,12 +6,12 @@
 
     <!-- ✅ 컨테이너 박스: 크기 자동 + 중앙 정렬 -->
     <div
-      class="relative w-full max-w-sm bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text rounded-xl shadow-xl p-6 transition-all"
+      class="relative w-10/12 bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text rounded-xl shadow-xl p-6 transition-all"
       role="dialog"
       aria-modal="true"
     >
       <!-- ✅ 콘텐츠 -->
-      <div>
+      <div class="p-5">
         <h2 class="text-title02 font-bold mb-4 text-center">
           {{ modalTitle[type] || '설정' }}
         </h2>
