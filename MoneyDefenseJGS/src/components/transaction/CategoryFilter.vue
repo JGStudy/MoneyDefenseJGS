@@ -1,48 +1,42 @@
 <template>
-  <div class="flex justify-between items-center bg-kb-bg-01 px-4 py-3">
-    <!-- 수입/지출 -->
-    <div>
-      <p class="text-body03 text-kb-text-01">
+  <div
+    class="flex justify-between items-center bg-kb-ui-11 px-4 py-[18px] border-y border-kb-ui-09"
+  >
+    <!-- 수입 / 지출 -->
+    <div class="space-y-[2px]">
+      <p class="body03 text-kb-ui-03">
         수입
-        <span class="text-kb-semantic-red font-semibold">{{ income.toLocaleString() }} 원</span>
+        <span class="number-md text-kb-semantic-blue font-semibold">
+          {{ income.toLocaleString() }} 원
+        </span>
       </p>
-      <p class="text-body03 text-kb-text-01">
+      <p class="body03 text-kb-ui-03">
         지출
-        <span class="text-kb-semantic-blue font-semibold">{{ expense.toLocaleString() }} 원</span>
+        <span class="number-md text-kb-semantic-red font-semibold">
+          {{ expense.toLocaleString() }} 원
+        </span>
       </p>
     </div>
 
     <!-- 카테고리 선택 -->
-    <div>
-      <select
-        v-model="selectedCategory"
-        class="text-body03 border border-kb-ui-04 rounded px-2 py-1 text-kb-text-02"
+    <div class="flex items-center gap-[6px] body03 text-kb-ui-01 font-semibold">
+      <span>카테고리 선택</span>
+      <svg
+        class="w-[16px] h-[16px] text-kb-ui-05"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
       >
-        <option disabled value="">카테고리 선택</option>
-        <option v-for="category in categories" :key="category" :value="category">
-          {{ category }}
-        </option>
-      </select>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+      </svg>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 const props = defineProps({
   income: { type: Number, required: true },
   expense: { type: Number, required: true },
-  categories: { type: Array, default: () => [] },
 })
-
-const selectedCategory = ref('')
 </script>
-
-<style scoped>
-select {
-  appearance: none;
-  background: url('@/assets/icon-arrow-down.svg') no-repeat right 0.5rem center;
-  background-size: 1rem;
-}
-</style>
