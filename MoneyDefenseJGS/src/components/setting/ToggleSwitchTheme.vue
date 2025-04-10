@@ -7,7 +7,7 @@
         @click="themeStore.toggleTheme"
       >
         <span class="text-body02 font-medium">테마</span>
-        <span class="text-xl">{{ themeStore.theme === 'dark' ? '🌙' : '🌞' }}</span>
+        <span class="text-xl">{{ themeStore.theme === 'dark' ? '🌞' : '🌙' }}</span>
       </li>
     </ul>
   </section>

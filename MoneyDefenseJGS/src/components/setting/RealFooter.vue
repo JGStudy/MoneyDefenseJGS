@@ -10,8 +10,16 @@
       <p>김윤지 김려린 김하연 사윤민 유상은 조혜련 황선주</p>
       <p>Copyright©️JGS.</p>
     </div>
-    <div class="w-8 h-8 bg-[#D9D9D9] rounded-full">
-      <a href="https://github.com/JGStudy/MoneyDefenseJGS"></a>
+    <!-- GitHub 아이콘 -->
+    <div class="mt-4">
+      <a
+        href="https://github.com/JGStudy/MoneyDefenseJGS"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#D9D9D9] hover:bg-[#B0B0B0] transition"
+      >
+        <i class="xi-github text-[20px] text-kb-ui-02"></i>
+      </a>
     </div>
   </div>
 </template>

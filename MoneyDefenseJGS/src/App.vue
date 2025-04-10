@@ -17,3 +17,15 @@ onMounted(() => {
   themeStore.initTheme()
 })
 </script>
+<style>
+body {
+  font-family: 'Pretendard', sans-serif;
+  background-color: #f7f7f8; /* kb-ui-10 */
+  color: #26282c; /* kb-ui-02 */
+}
+
+html.dark body {
+  background-color: #1c1f24; /* kb-dark-bg */
+  color: #f2f4f8; /* kb-dark-text */
+}
+</style>

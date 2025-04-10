@@ -1,59 +1,70 @@
 <template>
   <div
-    class="min-h-screen bg-kbUi10 dark:bg-kb-dark-line text-kbUi02 dark:text-kb-dark-text p-6 flex flex-col"
+    class="min-h-screen pt-24 px-6 pb-28 font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text flex flex-col"
   >
+    <!-- 토스트 메시지 -->
     <SettingToast ref="toast" />
-    <button class="text-sm text-red-500 mb-4 self-start" @click="router.back()">뒤로가기</button>
-    <h1 class="text-page-title font-bold mb-6">사용자 정보 수정</h1>
 
-    <div class="flex flex-col gap-4 flex-1">
+    <!-- 뒤로가기 -->
+    <button class="text-body03 text-status-error mb-6 self-start" @click="router.back()">
+      뒤로가기
+    </button>
+
+    <!-- 제목 -->
+    <h1 class="text-title02 font-bold mb-8">사용자 정보 수정</h1>
+
+    <!-- 입력 필드 -->
+    <div class="flex flex-col gap-6 mb-12">
       <div>
-        <label class="text-sm font-medium text-kb-ui-02 dark:text-kb-dark-text mb-1 block"
-          >닉네임</label
-        >
+        <label class="text-body03 font-medium block mb-2">닉네임</label>
         <input
           type="text"
           v-model="name"
           maxlength="12"
           placeholder="한글 닉네임 입력"
-          class="w-full px-4 py-2 rounded-xl placeholder:text-kb-ui-05 bg-kb-ui-09 dark:bg-kb-dark-muted text-kb-ui-02 dark:text-kb-dark-text border border-kb-ui-07 focus:outline-none focus:border-status-positive"
+          class="w-full px-4 py-3 rounded-xl text-body02 placeholder:text-kb-ui-05 bg-kb-ui-11 dark:bg-kb-dark-muted text-kb-ui-02 dark:text-kb-dark-text border border-kb-ui-07 focus:outline-none focus:border-kb-yellow-positive transition"
         />
       </div>
     </div>
 
-    <div class="flex gap-4 justify-center mt-6 z-10 mb-24">
-      <SettingButton variant="primary" @click="handleSave">저장</SettingButton>
-      <SettingButton variant="secondary" @click="router.back()">취소</SettingButton>
+    <!-- 버튼 -->
+    <div class="flex justify-center gap-4">
+      <!-- ✅ KB 옐로우 버튼 -->
+      <button
+        class="px-6 py-3 rounded-xl bg-kb-yellow-positive text-black font-semibold text-body02 hover:brightness-105 transition"
+        @click="handleSave"
+      >
+        저장
+      </button>
+
+      <!-- 회색 테두리 버튼 -->
+      <button
+        class="px-6 py-3 rounded-xl border border-kb-ui-07 text-kb-ui-02 font-semibold text-body02 hover:bg-kb-ui-10 transition"
+        @click="router.back()"
+      >
+        취소
+      </button>
     </div>
   </div>
 
+  <RealFooter class="mt-16" />
   <BottomBar class="fixed bottom-0 left-0 right-0 z-0" />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import SettingButton from '@/components/setting/SettingButton.vue'
 import SettingToast from '@/components/setting/SettingToast.vue'
 import BottomBar from '@/components/common/BottomNavBar.vue'
+import RealFooter from '@/components/setting/RealFooter.vue'
 import axios from 'axios'
 
 const router = useRouter()
 const toast = ref(null)
 const name = ref('')
-const userId = 1
 
-onMounted(async () => {
-  try {
-    const { data } = await axios.get(`/api/Profile/${userId}`)
-    if (!data?.id) {
-      throw new Error('사용자 정보가 존재하지 않습니다.')
-    }
-    name.value = data.name
-  } catch (err) {
-    toast.value?.show('사용자 정보를 불러오지 못했습니다.', 'error')
-  }
-})
+// const userId = 1 // 실제 적용 시 활성화
 
 const handleSave = async () => {
   const hangulRegex = /^[가-힣]{1,12}$/
@@ -70,7 +81,7 @@ const handleSave = async () => {
     }
 
     await axios.put(`/api/Profile/${userId}`, {
-      id: userId, // ✅ 숫자형 유지
+      id: userId,
       name: name.value,
     })
 
