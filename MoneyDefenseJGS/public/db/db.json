@@ -15,6 +15,10 @@
     {
       "id": "304b",
       "name": "상은"
+    },
+    {
+      "id": "8fc0",
+      "name": "화이팅"
     }
   ],
   "asset": [
@@ -35,6 +39,12 @@
       "userId": "304b",
       "totalAsset": 3333,
       "lastModified": "2025-04-10"
+    },
+    {
+      "id": "9e79",
+      "userId": "8fc0",
+      "totalAsset": 500000,
+      "lastModified": "2025-04-11"
     }
   ],
   "assetTrend": [
@@ -93,44 +103,6 @@
       "spent": 500000,
       "budget": 2000000,
       "id": "5efc"
-    }
-  ],
-  "asset": [
-    {
-      "id": "1",
-      "userId": "1",
-      "totalAsset": 100000,
-      "lastModified": "2025-04-10"
-    },
-    {
-      "id": "2998",
-      "userId": "d750",
-      "totalAsset": 5000000,
-      "lastModified": "2025-04-10"
-    },
-    {
-      "id": "608c",
-      "userId": "3447",
-      "totalAsset": 100000,
-      "lastModified": "2025-04-10"
-    }
-  ],
-  "budgetmap": [
-    {
-      "id": "1",
-      "month": "2025-04",
-      "amount": 900000
-    },
-    {
-      "id": "2",
-      "month": "2025-04",
-      "amount": 1000000
-    },
-    {
-      "id": "43f5",
-      "month": "2025-04",
-      "amount": 120000,
-      "createdAt": "2025-04-10T06:38:12.341Z"
     }
   ],
   "monthlyData": [
@@ -246,6 +218,18 @@
       "category": "교통비",
       "amount": 80000,
       "id": "7e82"
+    },
+    {
+      "month": "2025-02",
+      "category": "의료비",
+      "amount": 150000,
+      "id": "a7b9"
+    },
+    {
+      "month": "2025-03",
+      "category": "문화생활",
+      "amount": 120000,
+      "id": "4f3d"
     }
   ],
   "items": [

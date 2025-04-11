@@ -5,6 +5,7 @@ import HomePage from '@/pages/start/HomePage.vue'
 import ReportPage from '@/pages/report/ReportPage.vue'
 import SettingsPage from '@/pages/setting/SettingsPage.vue'
 import UserEditPage from '@/pages/setting/UserEditPage.vue'
+import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
 
 // 404 페이지
@@ -12,9 +13,8 @@ import NotFound from '@/pages/NotFound.vue'
 
 // 상은 파트 - 자산
 import AssetBudgetTotalPage from '@/pages/AssetBudgetTotalPage.vue'
-// import AssetTotalPage from '@/pages/AssetTotalPage.vue'
 import AssetEditPage from '@/pages/AssetEditPage.vue'
-// import BudgetTotalPage from '@/pages/BudgetTotalPage.vue'
+import BudgetTotalPage from '@/pages/BudgetTotalPage.vue'
 import BudgetEditPage from '@/pages/BudgetEditPage.vue'
 
 const router = createRouter({
@@ -27,9 +27,9 @@ const router = createRouter({
     { path: '/setting/user-edit', name: 'user-edit', component: UserEditPage },
 
     {
-      path: '/transaction/create/:id?',
-      name: 'transaction-page',
-      component: () => import('@/pages/TransactionCreatePage.vue'),
+      path: '/transaction/create',
+      name: 'TransactionCreate',
+      component: TransactionCreatePage,
     },
 
     {
@@ -51,12 +51,12 @@ const router = createRouter({
       component: AssetEditPage,
     },
 
-    // {
-    //   // 예산 탭
-    //   path: '/budget',
-    //   name: 'BudgetTotal',
-    //   component: BudgetTotalPage,
-    // },
+    {
+      // 예산 탭
+      path: '/budget',
+      name: 'BudgetTotal',
+      component: BudgetTotalPage,
+    },
     {
       // 예산 수정 탭
       path: '/budget/edit',

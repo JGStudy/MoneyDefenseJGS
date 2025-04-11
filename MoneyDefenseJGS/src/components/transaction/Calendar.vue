@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { format, isToday } from 'date-fns'
 import CalendarModal from '@/components/transaction/CalendarModal.vue'
 
