@@ -310,4 +310,6 @@ feature/2-popup-cookie
 
 ```npm run dev```
 
+```npx json-server public/db/db.json  --watch --port 3005```
+
 ```npm run build```
