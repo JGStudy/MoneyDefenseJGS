@@ -241,7 +241,6 @@ feature/1-dashboard-ui
 feature/2-popup-cookie
 ```
 
----
 
 ### 📌 Pull Request Template 
 
