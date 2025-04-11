@@ -11,16 +11,24 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAssetStore } from '@/stores/assetStore'
+import { useUserStore } from '@/stores/userStore'
 import AmountEditForm from '@/components/common/AmountEditForm.vue'
 import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
 const emit = defineEmits(['save'])
 
 const assetStore = useAssetStore()
+const userStore = useUserStore()
 const router = useRouter()
+
 onMounted(() => {
-  assetStore.userId = '304b' // 실제 사용자 ID 넣기 (테스트용)
-  assetStore.fetchAsset()
+  if (userStore.user?.id) {
+    assetStore.userId = userStore.user.id
+    assetStore.fetchAsset()
+  } else {
+    console.warn('userId가 존재하지 않습니다. 로그인 상태 확인 필요!')
+  }
 })
+
 const handleSave = async (newAmount) => {
   try {
     // 자산 업데이트 시도

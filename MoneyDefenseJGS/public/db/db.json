@@ -15,6 +15,10 @@
     {
       "id": "304b",
       "name": "상은"
+    },
+    {
+      "id": "bcea",
+      "name": "안녕"
     }
   ],
   "asset": [
@@ -33,31 +37,37 @@
     {
       "id": "74df",
       "userId": "304b",
-      "totalAsset": 3333,
-      "lastModified": "2025-04-10"
+      "totalAsset": 100000,
+      "lastModified": "2025-04-11"
+    },
+    {
+      "id": "5039",
+      "userId": "bcea",
+      "totalAsset": 200008,
+      "lastModified": "2025-04-11"
     }
   ],
   "assetTrend": [
     {
-      "id": 1,
+      "id": "1",
       "userId": "304b",
       "date": "2025-01-01",
       "totalAsset": 1000000
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": "304b",
       "date": "2025-02-01",
       "totalAsset": 1200000
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": "304b",
       "date": "2025-03-01",
       "totalAsset": 1100000
     },
     {
-      "id": 4,
+      "id": "4",
       "userId": "304b",
       "date": "2025-04-01",
       "totalAsset": 1300000
@@ -77,7 +87,7 @@
     {
       "id": "43f5",
       "month": "2025-04",
-      "amount": 120000,
+      "amount": 200000,
       "createdAt": "2025-04-10T06:38:12.341Z"
     }
   ],

@@ -78,7 +78,7 @@ const budget = computed(() => budgetStore.budgetMap[selectedMonth.value] ?? 0)
 // 거래 내역을 로컬 파일에서 가져오는 함수 (asset.json에서 가져오기)
 const fetchTransactions = async () => {
   try {
-    const res = await fetch('db/Asset.json') // JSON 파일에서 거래 내역 가져오기
+    const res = await fetch('db/db.json') // JSON 파일에서 거래 내역 가져오기
     const data = await res.json()
     assetStore.transactions = data.transactions // Pinia store에 거래 내역 저장
   } catch (err) {
