@@ -103,11 +103,11 @@ Vue와 json-server를 활용하여 **SPA 기반의 실제 서비스처럼 작동
 - Calendar, TransactionList 등 각 컴포넌트 정리 및 재배치
 - 가계부 페이지 탭 전환 기능 구현
 - 내역 / 달력 탭 버튼 클릭 시 화면 전환
-- 
+  
 **2. 가계부 페이지 달력 화면 구현**
 - v-calendar 라이브러리 활용
 - 날짜 클릭 시 상세화면 표시하는 모달(CalendarModal) 호출
-- 
+  
 **3. 거래내역 필터링 및 금액 표시**
 - CalendarFilter 컴포넌트 구현_지출 / 수입 / 이체 토글 필터
 - MonthNavigation 컴포넌트 구현_월 이동 기능 (이전 / 다음 달)
@@ -119,12 +119,12 @@ Vue와 json-server를 활용하여 **SPA 기반의 실제 서비스처럼 작동
 - `총 자산`, `오늘 날짜`, `수정 버튼` 포함한 상단 정보 표시
 - Chart.js를 활용해 자산 추이(line chart) 시각화
 - 자산 수정 버튼 클릭 시 자산 편집 페이지로 라우팅 처리
-- 
+  
 **2. 예산 페이지**
 - 한 달 예산, 남은 예산, 하루 예산 정보 계산 및 표시
 - 게이지 바(`GaugeBar.vue`)를 통해 지출 비율 시각화
 - 예산 수정 버튼 클릭 시 예산 편집 페이지로 라우팅 처리
-- 
+  
 **3. 탭 UI 구현**
 - `TabSwitch.vue` 컴포넌트를 사용하여 `총 자산` / `예산` 탭 전환 UI 구현
 
@@ -148,11 +148,14 @@ Vue와 json-server를 활용하여 **SPA 기반의 실제 서비스처럼 작동
 - 카테고리/결제수단 드롭다운 토글 및 선택 처리 (ref + v-if)
 - 거래 정보 상태관리는 Pinia 스토어 (useTransactionStore)를 통해 전역 관리
 - 날짜, 메모 등 입력 필드는 v-model로 바인딩
+  
 **2. 금액 입력 기능**
 - input 필드에서 숫자만 허용, 입력 시: 자동 3자리 콤마 삽입, 자동 원 단위 표시
 - 금액 미입력 시: “1원 이상 입력하세요” 경고 메시지 출력
+
 **3. 저장 전 이탈 방지**
 - beforeRouteLeave 훅을 사용하여 입력 값이 있는 상태에서 페이지를 벗어나려 할 경우 확인 모달 표시:
+
 **4. 필수값 검증**
 - 금액, 거래처, 분류, 카테고리, 결제수단 미입력 시 저장 불가
 - 저장 버튼 동작 전 validateForm() 등의 함수로 필드 검증 로직 실행
@@ -239,6 +242,58 @@ feature/2-popup-cookie
 ```
 
 ---
+
+### 📌 Pull Request Template 
+
+```
+### [#이슈번호] 기능 구현 제목
+
+## 개요
+- 무엇을, 왜 수정했는지 설명해주세요.
+
+## PR 유형
+- [ ] 새로운 기능 추가
+- [ ] 버그 수정
+- [ ] 문서 수정
+- [ ] 문서 수정
+- [ ] 테스트 추가/리팩토링
+- [ ] 빌드/패키지 관련
+- [ ] 파일/폴더명 수정
+- [ ] 파일 삭제
+
+## PR Checklist
+- [ ] 커밋 메시지 컨벤션을 지켰나요?
+- [ ] 기능 테스트를 완료했나요?
+- [ ] develop 브랜치로 머지 요청했나요?
+```
+
+### 📌 Label 
+```
+- name: ':벌레: bugfix'
+  color: 'd73a4a'
+  description: '버그 픽스'
+- name: ':반짝임: feature'
+  color: '0E8A16'
+  description: '새로운 기능 추가'
+- name: ':반복: refactor'
+  color: 'c2e0c6'
+  description: '리팩토링 작업'
+- name: ':글씨가_쓰여진_페이지: documentation'
+  color: '0075ca'
+  description: '문서 관련 작업'
+- name: ':말풍선: question'
+  color: 'd876e3'
+  description: '논의/질문'
+- name: ':예술: design'
+  color: 'ffb3c6'
+  description: 'UI/UX 관련 작업'
+- name: ':시험관: test'
+  color: 'f9d0c4'
+  description: '테스트 코드 또는 테스트 관련 작업'
+```
+
+---
+
 
 ## ❗실행 방법
 
