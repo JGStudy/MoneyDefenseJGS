@@ -1,0 +1,510 @@
+{
+  "Profile": [
+    {
+      "id": "1",
+      "name": "진기스"
+    },
+    {
+      "id": "2",
+      "name": "김려린"
+    },
+    {
+      "id": "52ab",
+      "name": "김유위나러ㅏㅣㅁ젇ㄹ"
+    },
+    {
+      "id": "304b",
+      "name": "상은"
+    }
+  ],
+  "asset": [
+    {
+      "id": "dd2c",
+      "userId": "1",
+      "totalAsset": 5000000,
+      "lastModified": "2025-04-01"
+    },
+    {
+      "id": "cd0a",
+      "userId": "52ab",
+      "totalAsset": 34789237849728390,
+      "lastModified": "2025-04-10"
+    },
+    {
+      "id": "74df",
+      "userId": "304b",
+      "totalAsset": 3333,
+      "lastModified": "2025-04-10"
+    }
+  ],
+  "assetTrend": [
+    {
+      "id": 1,
+      "userId": "304b",
+      "date": "2025-01-01",
+      "totalAsset": 1000000
+    },
+    {
+      "id": 2,
+      "userId": "304b",
+      "date": "2025-02-01",
+      "totalAsset": 1200000
+    },
+    {
+      "id": 3,
+      "userId": "304b",
+      "date": "2025-03-01",
+      "totalAsset": 1100000
+    },
+    {
+      "id": 4,
+      "userId": "304b",
+      "date": "2025-04-01",
+      "totalAsset": 1300000
+    }
+  ],
+  "budgetmap": [
+    {
+      "id": "1",
+      "month": "2025-04",
+      "amount": 900000
+    },
+    {
+      "id": "2",
+      "month": "2025-04",
+      "amount": 1000000
+    },
+    {
+      "id": "43f5",
+      "month": "2025-04",
+      "amount": 120000,
+      "createdAt": "2025-04-10T06:38:12.341Z"
+    }
+  ],
+  "month": [
+    {
+      "monthly": "April",
+      "spent": 100000,
+      "budget": 1900000,
+      "id": "e97c"
+    },
+    {
+      "monthly": "March",
+      "spent": 500000,
+      "budget": 2000000,
+      "id": "5efc"
+    }
+  ],
+  "asset": [
+    {
+      "id": "1",
+      "userId": "1",
+      "totalAsset": 100000,
+      "lastModified": "2025-04-10"
+    },
+    {
+      "id": "2998",
+      "userId": "d750",
+      "totalAsset": 5000000,
+      "lastModified": "2025-04-10"
+    },
+    {
+      "id": "608c",
+      "userId": "3447",
+      "totalAsset": 100000,
+      "lastModified": "2025-04-10"
+    }
+  ],
+  "budgetmap": [
+    {
+      "id": "1",
+      "month": "2025-04",
+      "amount": 900000
+    },
+    {
+      "id": "2",
+      "month": "2025-04",
+      "amount": 1000000
+    },
+    {
+      "id": "43f5",
+      "month": "2025-04",
+      "amount": 120000,
+      "createdAt": "2025-04-10T06:38:12.341Z"
+    }
+  ],
+  "monthlyData": [
+    {
+      "id": "1",
+      "month": "2025-02",
+      "totalIncome": 1200000,
+      "totalExpense": 500000,
+      "netAssets": ""
+    },
+    {
+      "id": "2",
+      "month": "2025-03",
+      "totalIncome": 1600000,
+      "totalExpense": 700000
+    },
+    {
+      "id": "3",
+      "month": "2025-04",
+      "totalIncome": 1300000,
+      "totalExpense": 600000,
+      "netAssets": 2300000
+    }
+  ],
+  "totalmoney": [
+    {
+      "month": "2025-02",
+      "type": "수입",
+      "amount": 1200000,
+      "id": "3e45"
+    },
+    {
+      "month": "2025-03",
+      "amount": 1600000,
+      "type": "수입",
+      "id": "19b7"
+    },
+    {
+      "month": "2025-04",
+      "amount": 1300000,
+      "type": "수입",
+      "id": "f160"
+    },
+    {
+      "month": "2025-02",
+      "money": "500000",
+      "type": "지출",
+      "id": "be04"
+    },
+    {
+      "month": "2025-03",
+      "money": "700000",
+      "type": "지출",
+      "id": "be04"
+    },
+    {
+      "month": "2025-04",
+      "money": "600000",
+      "type": "지출",
+      "id": "be04"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "1",
+      "month": "2025-04",
+      "date": "2025-04-10",
+      "type": "income",
+      "category": "급여",
+      "amount": 300000,
+      "description": "회사 월급",
+      "source": "은행 이체"
+    },
+    {
+      "id": "2",
+      "month": "2024-03",
+      "date": "2024-03-01",
+      "type": "expense",
+      "category": "식비",
+      "amount": 50000,
+      "description": "점심식사",
+      "payment_method": "카드"
+    }
+  ],
+  "savings": [
+    {
+      "month": "2024-02",
+      "amount": 200000,
+      "id": "1e34"
+    },
+    {
+      "month": "2024-03",
+      "amount": 300000,
+      "id": "1b7b"
+    }
+  ],
+  "expense": [
+    {
+      "month": "2024-02",
+      "money": "200000",
+      "id": "89aa"
+    }
+  ],
+  "categoryExpenses": [
+    {
+      "month": "2024-03",
+      "category": "식비",
+      "amount": 200000,
+      "id": "af33"
+    },
+    {
+      "month": "2024-03",
+      "category": "교통비",
+      "amount": 80000,
+      "id": "7e82"
+    }
+  ],
+  "items": [
+    {
+      "id": "txn_003",
+      "date": "2025-04-04",
+      "type": "expense",
+      "category": "식비",
+      "name": "김윤지",
+      "amount": 70000,
+      "payment_method": "card",
+      "details": "tossbank"
+    },
+    {
+      "id": "txn_004",
+      "date": "2025-04-05",
+      "type": "expense",
+      "category": "식비",
+      "name": "맥도날드",
+      "amount": 8700,
+      "payment_method": "card",
+      "details": "국민카드"
+    },
+    {
+      "id": "txn_005",
+      "date": "2025-04-06",
+      "type": "expense",
+      "category": "식비",
+      "name": "스타벅스",
+      "amount": 15000,
+      "payment_method": "card",
+      "details": "삼성카드"
+    },
+    {
+      "id": "txn_006",
+      "date": "2025-04-07",
+      "type": "expense",
+      "category": "식비",
+      "name": "BBQ",
+      "amount": 25000,
+      "payment_method": "cash",
+      "details": "현금 결제"
+    },
+    {
+      "id": "txn_007",
+      "date": "2025-04-08",
+      "type": "expense",
+      "category": "식비",
+      "name": "김밥천국",
+      "amount": 5000,
+      "payment_method": "card",
+      "details": "신한카드"
+    },
+    {
+      "id": "txn_008",
+      "date": "2025-04-09",
+      "type": "expense",
+      "category": "식비",
+      "name": "설빙",
+      "amount": 12000,
+      "payment_method": "card",
+      "details": "하나카드"
+    },
+    {
+      "id": "txn_009",
+      "date": "2025-04-10",
+      "type": "expense",
+      "category": "식비",
+      "name": "교촌치킨",
+      "amount": 32000,
+      "payment_method": "card",
+      "details": "우리카드"
+    },
+    {
+      "id": "txn_010",
+      "date": "2025-04-11",
+      "type": "expense",
+      "category": "식비",
+      "name": "올반",
+      "amount": 18000,
+      "payment_method": "card",
+      "details": "현대카드"
+    },
+    {
+      "id": "txn_011",
+      "date": "2025-04-12",
+      "type": "expense",
+      "category": "식비",
+      "name": "홍콩반점",
+      "amount": 22000,
+      "payment_method": "cash",
+      "details": "현금 결제"
+    },
+    {
+      "id": "txn_012",
+      "date": "2025-04-14",
+      "type": "expense",
+      "category": "식비",
+      "name": "이디야",
+      "amount": 13000,
+      "payment_method": "card",
+      "details": "비씨카드"
+    },
+    {
+      "id": "txn_013",
+      "date": "2025-04-14",
+      "type": "expense",
+      "category": "식비",
+      "name": "투썸플레이스",
+      "amount": 9500,
+      "payment_method": "card",
+      "details": "KB국민카드"
+    },
+    {
+      "id": "txn_014",
+      "date": "2025-04-15",
+      "type": "expense",
+      "category": "식비",
+      "name": "설렁탕집",
+      "amount": 11000,
+      "payment_method": "card",
+      "details": "NH농협카드"
+    },
+    {
+      "id": "txn_015",
+      "date": "2025-04-18",
+      "type": "expense",
+      "category": "식비",
+      "name": "배스킨라빈스",
+      "amount": 8800,
+      "payment_method": "card",
+      "details": "삼성카드"
+    },
+    {
+      "id": "txn_016",
+      "date": "2025-04-18",
+      "type": "expense",
+      "category": "식비",
+      "name": "뚜레쥬르",
+      "amount": 10000,
+      "payment_method": "cash",
+      "details": "현금 결제"
+    },
+    {
+      "id": "txn_017",
+      "date": "2025-04-18",
+      "type": "expense",
+      "category": "식비",
+      "name": "코카콜라",
+      "amount": 5000,
+      "payment_method": "card",
+      "details": "삼성카드"
+    }
+  ],
+  "fileter": [
+    {
+      "category": "식비",
+      "id": "7e0e"
+    }
+  ],
+  "select": [
+    {
+      "type": "expense",
+      "id": "63f0"
+    }
+  ],
+  "year": 2025,
+  "Title": [
+    {
+      "amount": 5000,
+      "type": "수입",
+      "category": "식비",
+      "name": "sang",
+      "date": "2025-04-05",
+      "create_date": "2025-04-05T12:04",
+      "update_date": "2025-04-06T13:32",
+      "memo": "12324",
+      "id": "d62d"
+    },
+    {
+      "amount": 300000,
+      "type": "수입",
+      "category": "월급",
+      "name": "회사",
+      "date": "2025-04-01",
+      "create_date": "2025-04-01T12:00",
+      "update_date": "2025-04-01T12:00",
+      "memo": "4월 급여",
+      "id": "d4b1"
+    },
+    {
+      "id": "f244",
+      "amount": "50000",
+      "partner": "글쎼유",
+      "method": "",
+      "category": "교통비",
+      "date": "2025-04-11",
+      "type": "지출",
+      "memo": "ㄴㅇ"
+    },
+    {
+      "id": "c45d",
+      "amount": "300000000",
+      "partner": "df",
+      "method": "",
+      "category": "기타",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": "df"
+    },
+    {
+      "id": "4f08",
+      "amount": "878978978",
+      "partner": "진짜진짜",
+      "method": "",
+      "category": "정기구독비",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": "dfsfdsf"
+    },
+    {
+      "id": "59a8",
+      "amount": "2342",
+      "partner": "ewr",
+      "method": "",
+      "category": "교통비",
+      "date": "2025-04-10",
+      "type": "이체",
+      "memo": ""
+    },
+    {
+      "id": "2b36",
+      "amount": "3535",
+      "partner": "gfdg",
+      "method": "",
+      "category": "도서비",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": ""
+    },
+    {
+      "id": "356c",
+      "amount": "5235234",
+      "partner": "Sfdsf",
+      "method": "",
+      "category": "용돈",
+      "date": "2025-04-10",
+      "type": "수입",
+      "memo": ""
+    },
+    {
+      "id": "cb96",
+      "amount": "999999999",
+      "partner": "거래거거ㅏ머ㅓㄷ",
+      "method": "",
+      "category": "교통비",
+      "date": "2025-05-01",
+      "type": "지출",
+      "memo": "shfjshjf"
+    }
+  ]
+}
