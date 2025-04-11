@@ -7,6 +7,7 @@ import SettingsPage from '@/pages/setting/SettingsPage.vue'
 import UserEditPage from '@/pages/setting/UserEditPage.vue'
 import TransactionCreatePage from '@/pages/TransactionCreatePage.vue'
 import TransactionPage from '@/pages/TransactionPage.vue'
+import Calendar from '@/pages/Calendar.vue'
 
 // 404 페이지
 import NotFound from '@/pages/NotFound.vue'
@@ -50,13 +51,18 @@ const router = createRouter({
       name: 'AssetEdit',
       component: AssetEditPage,
     },
-
     {
-      // 예산 탭
-      path: '/budget',
-      name: 'BudgetTotal',
-      component: BudgetTotalPage,
+      path: '/transaction/calendar',
+      name: 'calendar',
+      component: Calendar,
     },
+
+    // {
+    //   // 예산 탭
+    //   path: '/budget',
+    //   name: 'BudgetTotal',
+    //   component: BudgetTotalPage,
+    // },
     {
       // 예산 수정 탭
       path: '/budget/edit',

@@ -1,7 +1,6 @@
 <template>
   <div class="w-full mt-20 bg-[#F5F5F5]">
     <div class="flex items-center gap-1 mt-5">
-      <img src="@/assets/img/Logo.png" alt="진짜기깔난스터디" />
       <span class="font-sans font-bold text-title03 text-kb-ui-02">지갑지켜진기스</span>
     </div>
 
