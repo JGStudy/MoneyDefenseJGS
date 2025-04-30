@@ -3,7 +3,7 @@ import { fetchAsset, updateAssetById, fetchTransactions } from '@/api/assetApi'
 
 export const useAssetStore = defineStore('asset', {
   state: () => ({
-    userID: null,
+    userId: null,
     assetId: null,
     totalAsset: 0, // 현재 자산 금액
     lastModified: '',
