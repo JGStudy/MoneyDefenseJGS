@@ -41,8 +41,9 @@ Vue와 json-server를 활용하여 **SPA 기반의 실제 서비스처럼 작동
 | 🔧김하연 | 홈 메인 대시보드 페이지 | [@rlaxhfn](https://github.com/rlaxhfn) |
 | 🥕사윤민 | 거래 내역 페이지 달력 | [@saym010116](https://github.com/saym010116) |
 | 🐶유상은 | 자산/예산 관리 페이지 | [@sangeune](https://github.com/sangeune) |
+| 🕊️황선주 | 거래등록 페이지 | [@seonju21](https://github.com/seonju21) |
 | 🦕조혜련 | 프로필 설정 | [@HyeEmpathyDev](https://github.com/HyeEmpathyDev) |
-| 🕊️황선주 | 프로필 설정 | [@seonju21](https://github.com/seonju21) |
+
 ---
 
 
