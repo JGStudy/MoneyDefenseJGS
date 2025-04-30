@@ -56,7 +56,7 @@ import axios from 'axios'
 
 import SettingToast from '@/components/setting/SettingToast.vue'
 import { useUserStore } from '@/stores/userStore'
-import RealHeader from '@/components/common/RealHeader.vue'
+import RealHeader from '@/components/layout/RealHeader.vue'
 
 const router = useRouter()
 const toast = ref(null)

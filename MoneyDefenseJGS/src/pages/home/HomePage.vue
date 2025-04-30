@@ -32,9 +32,9 @@
 
 <script setup>
 import AppLayout from '@/pages/layout/AppLayoutPage.vue'
-import AssetTotalCard from '@/components/cardBoard/AssetTotalCard.vue'
-import TransactionCard from '@/components/cardBoard/TransactionCard.vue'
-import Button from '@/components/button/EditCardBoardButton.vue'
+import AssetTotalCard from '@/components/home/AssetTotalCard.vue'
+import TransactionCard from '@/components/home/TransactionCard.vue'
+import Button from '@/components/home/EditCardBoardButton.vue'
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUserById } from '@/api/user'

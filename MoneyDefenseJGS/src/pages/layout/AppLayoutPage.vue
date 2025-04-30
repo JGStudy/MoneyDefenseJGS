@@ -2,7 +2,6 @@
   <div
     class="bg-white pb-[88px] dark:bg-kb-dark-bg text-kb-ui-02 dark:text-kb-dark-text min-h-screen flex flex-col"
   >
-    <!-- 토글 스위치시 다크모드로 변경 할 수 있게 클래스 삽입 -->
     <Header
       :title="title"
       :titleCustomClass="titleCustomClass"
@@ -21,8 +20,8 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
-import Header from '@/components/common/RealHeader.vue'
-import BottomBar from '@/components/common/BottomNavBar.vue'
+import Header from '@/components/layout/RealHeader.vue'
+import BottomBar from '@/components/layout/BottomNavBar.vue'
 import AddButton from '@/components/common/AddButton.vue'
 
 const route = useRoute()

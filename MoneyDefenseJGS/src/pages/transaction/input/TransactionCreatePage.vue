@@ -57,9 +57,9 @@ import axios from 'axios'
 
 // ✅ 컴포넌트 & 스토어
 import AppLayout from '@/pages/layout/AppLayoutPage.vue'
-import TransactionSummary from '@/components/TransactionSummary.vue'
-import AmountInput from '@/components/AmountInput.vue'
-import EditableTransactionInformation from '@/components/EditableTransactionInformation.vue'
+import TransactionSummary from '@/components/transaction/input/TransactionSummary.vue'
+import AmountInput from '@/components/transaction/input/AmountInput.vue'
+import EditableTransactionInformation from '@/components/transaction/input/EditableTransactionInformation.vue'
 import { useTransactionStore } from '@/stores/transactionStore'
 
 const store = useTransactionStore()

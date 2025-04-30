@@ -25,7 +25,7 @@
 
 <script setup>
 import StartButton from '@/components/common/BaseButton.vue'
-import OnboardingForm from '@/components/form/OnboardingForm.vue'
+import OnboardingForm from '@/components/onboarding/OnboardingForm.vue'
 import { useRouter } from 'vue-router'
 import { ref, computed, watch } from 'vue'
 import { createAsset } from '@/api/asset'

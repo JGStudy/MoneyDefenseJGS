@@ -61,7 +61,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
-import ConfirmPopup from '@/components/popup/ConfirmPopup.vue'
+import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 
 const route = useRoute()
 const router = useRouter()

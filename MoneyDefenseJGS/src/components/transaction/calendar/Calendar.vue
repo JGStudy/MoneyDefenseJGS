@@ -54,7 +54,7 @@
 <script setup>
 import { ref, computed, defineProps, defineEmits, watch } from 'vue'
 import { format, isToday } from 'date-fns'
-import CalendarModal from '@/components/transaction/CalendarModal.vue'
+import CalendarModal from '@/components/transaction/calendar/CalendarModal.vue'
 
 const props = defineProps({
   page: Object,

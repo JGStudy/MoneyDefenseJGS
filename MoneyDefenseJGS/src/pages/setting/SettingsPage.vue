@@ -17,12 +17,6 @@
       </ul>
     </section>
 
-    <!-- 다크모드 토글 -->
-    <!-- <section class="mt-12">
-      <h2 class="text-title03 font-semibold mb-4">테마</h2>
-      <ToggleSwitchTheme />
-    </section> -->
-
     <!-- 슬라이드 모달 -->
     <transition name="slide">
       <SideModal v-if="activeModal" :type="activeModal" @close="closeModal" />
@@ -36,11 +30,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import RealHeader from '@/components/common/RealHeader.vue'
+import RealHeader from '@/components/layout/RealHeader.vue'
 import RealFooter from '@/components/setting/RealFooter.vue'
 import ListItem from '@/components/setting/ListItem.vue'
 import SideModal from '@/components/setting/SideModal.vue'
-// import ToggleSwitchTheme from '@/components/setting/ToggleSwitchTheme.vue'
 import { useUserStore } from '@/stores/userStore'
 
 const router = useRouter()

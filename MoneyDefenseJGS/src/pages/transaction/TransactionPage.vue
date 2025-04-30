@@ -45,13 +45,13 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-import RealHeader from '@/components/common/RealHeader.vue'
-import BottomNavBar from '@/components/common/BottomNavBar.vue'
+import RealHeader from '@/components/layout/RealHeader.vue'
+import BottomNavBar from '@/components/layout/BottomNavBar.vue'
 import MonthNavigation from '@/components/transaction/MonthNavigation.vue'
-import CategoryFilter from '@/components/transaction/CategoryFilter.vue'
-import CalendarFilter from '@/components/transaction/CalendarFilter.vue'
-import TransactionList from '@/components/transaction/TransactionList.vue'
-import Calendar from '@/components/transaction/Calendar.vue'
+import CategoryFilter from '@/components/transaction/calendar/CategoryFilter.vue'
+import CalendarFilter from '@/components/transaction/calendar/CalendarFilter.vue'
+import TransactionList from '@/components/transaction/list/TransactionList.vue'
+import Calendar from '@/components/transaction/calendar/Calendar.vue'
 
 import { getTransactions } from '@/api/transactionApi'
 

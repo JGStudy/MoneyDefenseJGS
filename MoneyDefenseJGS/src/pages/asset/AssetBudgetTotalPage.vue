@@ -39,10 +39,10 @@ import { useBudgetStore } from '@/stores/budgetStore'
 
 // 컴포넌트 임포트
 import TabSwitch from '@/components/common/TabSwitch.vue'
-import AssetDisplay from '@/components/assetTotal/AssetDisplay.vue'
-import BudgetDisplay from '@/components/budgetTotal/BudgetDisplay.vue'
+import AssetDisplay from '@/components/asset/asset/AssetDisplay.vue'
+import BudgetDisplay from '@/components/asset/budget/BudgetDisplay.vue'
 import MonthSelector from '@/components/common/MonthSelector.vue'
-import AssetTrendChart from '@/components/assetTotal/AssetTrendChart.vue'
+import AssetTrendChart from '@/components/asset/asset/AssetTrendChart.vue'
 
 // Pinia 스토어 인스턴스
 const assetStore = useAssetStore()

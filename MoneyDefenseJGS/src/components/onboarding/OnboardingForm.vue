@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import TextInputField from './TextInputField.vue'
+import TextInputField from '@/components/common/TextInputField.vue'
 
 const props = defineProps({
   userName: String,
