@@ -28,8 +28,8 @@ import StartButton from '@/components/common/BaseButton.vue'
 import OnboardingForm from '@/components/onboarding/OnboardingForm.vue'
 import { useRouter } from 'vue-router'
 import { ref, computed, watch } from 'vue'
-import { createAsset } from '@/api/asset'
-import { createUser } from '@/api/user'
+import { createAsset } from '@/api/assetApi'
+import { createUser } from '@/api/userApi'
 import { useUserStore } from '@/stores/userStore'
 
 const router = useRouter()

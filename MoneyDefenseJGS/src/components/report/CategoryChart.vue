@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { categories } from '/src/api/report.js'
+import { categories } from '/src/api/reportApi.js'
 import { Pie } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, PieController } from 'chart.js'
 import BaseBox from '@/components/common/BaseBox.vue'

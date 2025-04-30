@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { Bar } from 'vue-chartjs'
-import { totalMoney } from '/src/api/report.js'
+import { totalMoney } from '/src/api/reportApi.js'
 
 // Chart.js 등록
 import {

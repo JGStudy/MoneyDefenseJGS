@@ -1,7 +1,7 @@
 <script setup>
-import { getMoney } from '@/api/report'
+import { getMoney } from '@/api/reportApi'
 import { onMounted, ref, watch } from 'vue'
-import { updateNetAssets } from '@/api/report.js'
+import { updateNetAssets } from '@/api/reportApi.js'
 
 // Basebox
 import BaseBox from '../common/BaseBox.vue'

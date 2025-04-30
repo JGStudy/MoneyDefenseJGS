@@ -19,45 +19,45 @@
   ],
   "asset": [
     {
-      "id": "dd2c",
+      "id": "1",
       "userId": "1",
-      "totalAsset": 5000000,
-      "lastModified": "2025-04-01"
-    },
-    {
-      "id": "cd0a",
-      "userId": "52ab",
-      "totalAsset": 34789237849728390,
+      "totalAsset": 100000,
       "lastModified": "2025-04-10"
     },
     {
-      "id": "74df",
-      "userId": "304b",
-      "totalAsset": 3333,
+      "id": "2998",
+      "userId": "d750",
+      "totalAsset": 5000000,
+      "lastModified": "2025-04-10"
+    },
+    {
+      "id": "608c",
+      "userId": "3447",
+      "totalAsset": 100000,
       "lastModified": "2025-04-10"
     }
   ],
   "assetTrend": [
     {
-      "id": 1,
+      "id": "1",
       "userId": "304b",
       "date": "2025-01-01",
       "totalAsset": 1000000
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": "304b",
       "date": "2025-02-01",
       "totalAsset": 1200000
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": "304b",
       "date": "2025-03-01",
       "totalAsset": 1100000
     },
     {
-      "id": 4,
+      "id": "4",
       "userId": "304b",
       "date": "2025-04-01",
       "totalAsset": 1300000
@@ -93,44 +93,6 @@
       "spent": 500000,
       "budget": 2000000,
       "id": "5efc"
-    }
-  ],
-  "asset": [
-    {
-      "id": "1",
-      "userId": "1",
-      "totalAsset": 100000,
-      "lastModified": "2025-04-10"
-    },
-    {
-      "id": "2998",
-      "userId": "d750",
-      "totalAsset": 5000000,
-      "lastModified": "2025-04-10"
-    },
-    {
-      "id": "608c",
-      "userId": "3447",
-      "totalAsset": 100000,
-      "lastModified": "2025-04-10"
-    }
-  ],
-  "budgetmap": [
-    {
-      "id": "1",
-      "month": "2025-04",
-      "amount": 900000
-    },
-    {
-      "id": "2",
-      "month": "2025-04",
-      "amount": 1000000
-    },
-    {
-      "id": "43f5",
-      "month": "2025-04",
-      "amount": 120000,
-      "createdAt": "2025-04-10T06:38:12.341Z"
     }
   ],
   "monthlyData": [

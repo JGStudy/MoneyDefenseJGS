@@ -32,7 +32,7 @@
 <script setup>
 import Card from '@/components/common/BaseBox.vue'
 import { ref, onMounted } from 'vue'
-import { getAsset } from '@/api/asset'
+import { getAsset } from '@/api/assetApi'
 import { format, subMonths } from 'date-fns'
 
 const props = defineProps({

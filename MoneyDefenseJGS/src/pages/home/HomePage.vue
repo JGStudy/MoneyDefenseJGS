@@ -37,8 +37,8 @@ import TransactionCard from '@/components/home/TransactionCard.vue'
 import Button from '@/components/home/EditCardBoardButton.vue'
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUserById } from '@/api/user'
-import { getAssetByUserId } from '@/api/asset'
+import { getUserById } from '@/api/userApi'
+import { getAssetByUserId } from '@/api/assetApi'
 import { useUserStore } from '@/stores/userStore'
 
 const getCookie = (name) => {

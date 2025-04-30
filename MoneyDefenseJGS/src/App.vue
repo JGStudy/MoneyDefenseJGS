@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-[375px] mx-auto relative" :class="{ dark: isDark }">
+  <div class="w-full max-w-[375px] mx-auto relative">
     <router-view />
   </div>
 </template>
