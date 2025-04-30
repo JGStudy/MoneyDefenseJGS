@@ -1,79 +1,60 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import OnboardingPage from '@/pages/start/OnboardingPage.vue'
-import HomePage from '@/pages/start/HomePage.vue'
+// onboarding
+import OnboardingPage from '@/pages/onboarding/OnboardingPage.vue'
+
+// home
+import HomePage from '@/pages/home/HomePage.vue'
+
+// transaction
+import TransactionPage from '@/pages/transaction/TransactionPage.vue'
+import TransactionCreatePage from '@/pages/transaction/input/TransactionCreatePage.vue'
+
+// asset
+import AssetBudgetTotalPage from '@/pages/asset/AssetBudgetTotalPage.vue'
+import AssetEditPage from '@/pages/asset/asset/AssetEditPage.vue'
+import BudgetEditPage from '@/pages/asset/budget/BudgetEditPage.vue'
+
+// report
 import ReportPage from '@/pages/report/ReportPage.vue'
+
+// setting
 import SettingsPage from '@/pages/setting/SettingsPage.vue'
 import UserEditPage from '@/pages/setting/UserEditPage.vue'
-import TransactionPage from '@/pages/TransactionPage.vue'
 
-// 404 페이지
-import NotFound from '@/pages/NotFound.vue'
-
-// 상은 파트 - 자산
-import AssetBudgetTotalPage from '@/pages/AssetBudgetTotalPage.vue'
-// import AssetTotalPage from '@/pages/AssetTotalPage.vue'
-import AssetEditPage from '@/pages/AssetEditPage.vue'
-// import BudgetTotalPage from '@/pages/BudgetTotalPage.vue'
-import BudgetEditPage from '@/pages/BudgetEditPage.vue'
+// common
+import NotFound from '@/pages/common/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // onboarding
     { path: '/onboarding', name: 'onboarding', component: OnboardingPage },
+    //home
     { path: '/', name: 'home', component: HomePage },
-    { path: '/report', name: 'report', component: ReportPage },
-    { path: '/setting', name: 'setting', component: SettingsPage },
-    { path: '/setting/user-edit', name: 'user-edit', component: UserEditPage },
 
+    // transaction
+    { path: '/transaction', name: 'transaction', component: TransactionPage },
     {
       path: '/transaction/create/:id?',
       name: 'transaction-page',
-      component: () => import('@/pages/TransactionCreatePage.vue'),
+      component: TransactionCreatePage,
     },
 
-    {
-      // 가계부 탭
-      path: '/transaction',
-      name: 'transaction',
-      component: TransactionPage,
-    },
-    {
-      // 자산 탭
-      path: '/asset',
-      name: 'AssetTotal',
-      component: AssetBudgetTotalPage,
-    },
-    {
-      // 자산 수정 탭
-      path: '/asset/edit',
-      name: 'AssetEdit',
-      component: AssetEditPage,
-    },
+    // asset
+    { path: '/asset', name: 'AssetTotal', component: AssetBudgetTotalPage },
+    { path: '/asset/edit', name: 'AssetEdit', component: AssetEditPage },
+    { path: '/budget/edit', name: 'BudgetEdit', component: BudgetEditPage },
 
-    // {
-    //   // 예산 탭
-    //   path: '/budget',
-    //   name: 'BudgetTotal',
-    //   component: BudgetTotalPage,
-    // },
-    {
-      // 예산 수정 탭
-      path: '/budget/edit',
-      name: 'BudgetEdit',
-      component: BudgetEditPage,
-    },
-    {
-      path: '/report',
-      name: 'report',
-      component: ReportPage,
-    },
-    {
-      // 404페이지
-      path: '/:paths(.*)*',
-      name: 'NotFound',
-      component: NotFound,
-    },
+    // report
+    { path: '/report', name: 'report', component: ReportPage },
+
+    // setting
+    { path: '/setting', name: 'setting', component: SettingsPage },
+    { path: '/setting/user-edit', name: 'user-edit', component: UserEditPage },
+
+    // common
+    { path: '/:paths(.*)*', name: 'NotFound', component: NotFound },
   ],
 })
 export default router

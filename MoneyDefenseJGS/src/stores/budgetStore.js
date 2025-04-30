@@ -1,6 +1,6 @@
 // stores/budgetStore.js
 import { defineStore } from 'pinia'
-import { fetchBudgetByMonth, updateBudget } from '@/api/budget'
+import { fetchBudgetByMonth, updateBudget } from '@/api/budgetApi'
 import { useAssetStore } from '@/stores/assetStore' // 자산 스토어 가져오기
 
 export const useBudgetStore = defineStore('budget', {

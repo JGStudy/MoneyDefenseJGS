@@ -7,9 +7,9 @@
 </template>
 
 <script setup>
-import TotalMoney from '@/components/DashBoard/TotalMoney.vue'
-import MonthlyChart from '@/components/DashBoard/MonthlyChart.vue'
-import CategoryChart from '@/components/DashBoard/CategoryChart.vue'
+import TotalMoney from '@/components/report/TotalMoney.vue'
+import MonthlyChart from '@/components/report/MonthlyChart.vue'
+import CategoryChart from '@/components/report/CategoryChart.vue'
 import AppLayoutPage from '../layout/AppLayoutPage.vue'
 </script>
 

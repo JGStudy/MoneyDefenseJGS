@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchAsset, updateAssetById, fetchTransactions } from '@/api/asset'
+import { fetchAsset, updateAssetById, fetchTransactions } from '@/api/assetApi'
 
 export const useAssetStore = defineStore('asset', {
   state: () => ({
