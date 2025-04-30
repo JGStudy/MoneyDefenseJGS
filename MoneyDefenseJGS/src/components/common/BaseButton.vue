@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   customClass: {
     type: String,
     default: '',
