@@ -60,7 +60,7 @@ import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 import TransactionSummary from '@/components/TransactionSummary.vue'
 import AmountInput from '@/components/AmountInput.vue'
 import EditableTransactionInformation from '@/components/EditableTransactionInformation.vue'
-import { useTransactionStore } from '@/stores/transaction'
+import { useTransactionStore } from '@/stores/transactionStore'
 
 const store = useTransactionStore()
 const route = useRoute()

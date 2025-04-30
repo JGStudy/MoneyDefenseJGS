@@ -103,7 +103,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { useTransactionStore } from '@/stores/transaction'
+import { useTransactionStore } from '@/stores/transactionStore'
 
 const store = useTransactionStore()
 

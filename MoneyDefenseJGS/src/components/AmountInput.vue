@@ -45,7 +45,7 @@
 
 <script setup>
 import { ref, computed, nextTick } from 'vue'
-import { useTransactionStore } from '@/stores/transaction'
+import { useTransactionStore } from '@/stores/transactionStore'
 
 const store = useTransactionStore()
 

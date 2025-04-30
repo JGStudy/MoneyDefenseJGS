@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { useTransactionStore } from '@/stores/transaction'
+import { useTransactionStore } from '@/stores/transactionStore'
 import axios from 'axios'
 
 const store = useTransactionStore()
