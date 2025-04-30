@@ -51,13 +51,6 @@ const router = createRouter({
       name: 'AssetEdit',
       component: AssetEditPage,
     },
-
-    // {
-    //   // 예산 탭
-    //   path: '/budget',
-    //   name: 'BudgetTotal',
-    //   component: BudgetTotalPage,
-    // },
     {
       // 예산 수정 탭
       path: '/budget/edit',
