@@ -3,7 +3,7 @@
     <RealHeader title="가계부" />
 
     <div class="pt-[98px] px-4 flex flex-col gap-4">
-      <MonthNavigation :month="page.month" @change-month="changeMonth" />
+      <MonthSelector v-model="yearMonth" />
 
       <div class="flex justify-center gap-4">
         <button :class="tab === 'list' ? 'font-bold' : 'text-gray-400'" @click="tab = 'list'">
@@ -43,11 +43,11 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 
 import RealHeader from '@/components/layout/RealHeader.vue'
 import BottomNavBar from '@/components/layout/BottomNavBar.vue'
-import MonthNavigation from '@/components/transaction/MonthNavigation.vue'
+import MonthSelector from '@/components/common/MonthSelector.vue'
 import CategoryFilter from '@/components/transaction/calendar/CategoryFilter.vue'
 import CalendarFilter from '@/components/transaction/calendar/CalendarFilter.vue'
 import TransactionList from '@/components/transaction/list/TransactionList.vue'
@@ -80,11 +80,14 @@ onMounted(async () => {
   }))
 })
 
-const changeMonth = (delta) => {
-  const newDate = new Date(page.value.year, page.value.month - 1 + delta)
-  page.value.year = newDate.getFullYear()
-  page.value.month = newDate.getMonth() + 1
-}
+// 현재 날짜 추출 -> "YYYY-MM" 형식으로 변환
+const yearMonth = ref(`${page.value.year}-${String(page.value.month).padStart(2, '0')}`)
+
+watch(yearMonth, (val) => {
+  const [year, month] = val.split('-').map(Number)
+  page.value.year = year
+  page.value.month = month
+})
 
 const toggleType = (type) => {
   selectedTypes.value.includes(type)
