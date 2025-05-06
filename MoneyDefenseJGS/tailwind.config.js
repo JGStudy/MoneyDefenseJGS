@@ -15,6 +15,8 @@ export default {
         'kb-yellow': '#FFD338',
         'kb-gray': '#60584C',
         'kb-gray-alt': '#918274',
+        'kb-semantic-blue': '#287EFF',
+        'kb-semantic-red': '#F23F3F',
 
         // UI Grayscale
         'kb-ui-01': '#000000',
