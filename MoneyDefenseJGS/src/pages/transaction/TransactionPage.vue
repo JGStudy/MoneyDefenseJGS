@@ -26,7 +26,7 @@
     </div>
 
     <div class="flex-grow overflow-y-auto px-4">
-      <TransactionList v-if="tab === 'list'" :transactions="transactions" />
+      <TransactionList v-if="tab === 'list'" :transactions="filteredTransactions" />
 
       <div v-else class="flex justify-center items-start">
         <Calendar
@@ -72,12 +72,8 @@ const expense = computed(() =>
 
 onMounted(async () => {
   const res = await getTransactions()
-  console.log('🔥 불러온 데이터', res.data)
-
-  transactions.value = res.data.map((tx) => ({
-    ...tx,
-    type: tx.type === 'expense' ? '지출' : tx.type === 'income' ? '수입' : '이체',
-  }))
+  console.log('불러온 데이터', res.data)
+  transactions.value = res.data
 })
 
 // 현재 날짜 추출 -> "YYYY-MM" 형식으로 변환
@@ -87,6 +83,14 @@ watch(yearMonth, (val) => {
   const [year, month] = val.split('-').map(Number)
   page.value.year = year
   page.value.month = month
+})
+
+// 월 필터링
+const filteredTransactions = computed(() => {
+  return transactions.value.filter((tx) => {
+    const txDate = new Date(tx.date)
+    return txDate.getFullYear() === page.value.year && txDate.getMonth() + 1 === page.value.month
+  })
 })
 
 const toggleType = (type) => {

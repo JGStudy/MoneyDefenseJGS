@@ -7,25 +7,31 @@
     </div>
 
     <div class="flex-1 min-w-0">
-      <p class="text-kb-ui-01 text-body02 font-medium truncate">{{ transaction.name }}</p>
+      <p class="text-kb-ui-01 text-body02 font-medium truncate">{{ transaction.memo }}</p>
       <p class="text-kb-ui-05 text-body03 mt-0.5">
-        {{ transaction.payment_method }} | {{ transaction.details }}
+        {{ transaction.category }} | {{ transaction.source }}
       </p>
     </div>
 
     <div class="text-right whitespace-nowrap">
-      <p class="text-kb-ui-01 text-body01 font-semibold">{{ transaction.amount }} 원</p>
+      <p class="text-kb-ui-01 text-body01 font-semibold">
+        {{ isPositive ? '+' : '-' }}{{ formattedAmount }} 원
+      </p>
     </div>
   </li>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   transaction: {
     type: Object,
     required: true,
   },
 })
-</script>
 
-<style scoped></style>
+const isPositive = computed(() => props.transaction.type === '수입')
+
+const formattedAmount = computed(() => Number(props.transaction.amount).toLocaleString())
+</script>
