@@ -18,7 +18,14 @@
       </div>
 
       <div class="flex flex-col gap-2 mb-2">
-        <CategoryFilter :income="income" :expense="expense" />
+        <CategoryFilter
+          :income="filteredIncome"
+          :expense="filteredExpense"
+          :categories="categoryList"
+          :selectedCategory="selectedCategory"
+          @select-category="(val) => (selectedCategory.value = val)"
+        />
+
         <div class="flex justify-center">
           <CalendarFilter :selected-types="selectedTypes" @toggle-type="toggleType" />
         </div>
@@ -53,7 +60,7 @@ import CalendarFilter from '@/components/transaction/calendar/CalendarFilter.vue
 import TransactionList from '@/components/transaction/list/TransactionList.vue'
 import Calendar from '@/components/transaction/calendar/Calendar.vue'
 
-import { getTransactions } from '@/api/transactionApi'
+import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
 
 const transactions = ref([])
 const page = ref({
@@ -89,9 +96,49 @@ watch(yearMonth, (val) => {
 const filteredTransactions = computed(() => {
   return transactions.value.filter((tx) => {
     const txDate = new Date(tx.date)
-    return txDate.getFullYear() === page.value.year && txDate.getMonth() + 1 === page.value.month
+    const isSameMonth =
+      txDate.getFullYear() === page.value.year && txDate.getMonth() + 1 === page.value.month
+
+    const isSelectedType = selectedTypes.value.includes(tx.type)
+
+    return isSameMonth && isSelectedType
   })
 })
+
+const categoryList = ref([])
+const selectedCategory = ref(null)
+
+watch([selectedTypes, yearMonth], async () => {
+  const types = selectedTypes.value
+  const [year, month] = yearMonth.value.split('-')
+  const monthStr = `${year}-${month}`
+
+  const result = []
+
+  if (types.includes('수입')) {
+    const res = await getCategoryIncome()
+    result.push(...res.data.filter((item) => item.month === monthStr))
+  }
+
+  if (types.includes('지출')) {
+    const res = await getCategoryExpenses()
+    result.push(...res.data.filter((item) => item.month === monthStr))
+  }
+
+  categoryList.value = result
+})
+
+const filteredIncome = computed(() =>
+  filteredTransactions.value
+    .filter((tx) => tx.type === '수입')
+    .reduce((sum, tx) => sum + tx.amount, 0),
+)
+
+const filteredExpense = computed(() =>
+  filteredTransactions.value
+    .filter((tx) => tx.type === '지출')
+    .reduce((sum, tx) => sum + tx.amount, 0),
+)
 
 const toggleType = (type) => {
   selectedTypes.value.includes(type)
