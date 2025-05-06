@@ -4,6 +4,7 @@
       <div class="text-kb-ui-03 text-label-lg font-semibold mt-6 mb-2 pl-4">
         {{ formatDateLabel(date) }}
       </div>
+      <div class="h-px bg-kb-ui-07 mx-4"></div>
       <ul>
         <TransactionListItem v-for="item in items" :key="item.id" :transaction="item" />
       </ul>
@@ -34,7 +35,7 @@ const groupedTransactions = computed(() => {
     map[date].push(tx)
   }
 
-  // 날짜 최신ㄴ순
+  // 날짜 최신순
   return Object.fromEntries(Object.entries(map).sort((a, b) => new Date(b[0]) - new Date(a[0])))
 })
 

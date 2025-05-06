@@ -1,9 +1,11 @@
 <template>
-  <li class="flex items-center justify-between gap-4 p-4 border-b border-kb-ui-07">
+  <li class="flex items-center justify-between gap-4 p-4">
     <div
       class="relative w-10 h-10 flex-none rounded-[22px] bg-kb-ui-09 flex items-center justify-center"
     >
-      <span class="text-kb-ui-05 text-number-sm font-nums opacity-50">+</span>
+      <span class="text-kb-ui-05 text-number-lg font-nums opacity-50">
+        <i :class="['xi', isPositive ? 'xi-plus' : 'xi-minus', 'text-xl']"></i>
+      </span>
     </div>
 
     <div class="flex-1 min-w-0">
