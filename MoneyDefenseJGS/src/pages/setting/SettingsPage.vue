@@ -28,17 +28,39 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import RealHeader from '@/components/layout/RealHeader.vue'
 import RealFooter from '@/components/setting/RealFooter.vue'
 import ListItem from '@/components/setting/ListItem.vue'
 import SideModal from '@/components/setting/SideModal.vue'
-import { useUserStore } from '@/stores/userStore' // Pinia UserStore 불러오기
+import { useUserStore } from '@/stores/userStore'
+import axios from 'axios'
 
 const router = useRouter()
 const activeModal = ref(null)
-const userStore = useUserStore() // Pinia UserStore 사용
+const userStore = useUserStore()
+
+// 쿠키에서 userId 가져오기
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+const userId = getCookie('userId')
+
+// 컴포넌트 마운트 시 사용자 정보 로드
+onMounted(async () => {
+  if (userId) {
+    try {
+      const { data } = await axios.get(`/api/Profile/${userId}`)
+      userStore.setUser(data)
+    } catch (error) {
+      console.error('사용자 정보 조회 실패:', error)
+    }
+  }
+})
 
 // Pinia에서 사용자 이름을 반응형으로 가져오기
 const userName = computed(() => userStore.user?.name || '사용자')

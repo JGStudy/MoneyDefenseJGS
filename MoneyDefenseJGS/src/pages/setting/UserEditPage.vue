@@ -63,11 +63,17 @@ import SettingToast from '@/components/setting/SettingToast.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
-const userId = computed(() => userStore.user?.id)
-const userName = computed(() => userStore.user?.name)
-
-const name = ref('')
 const toast = ref(null)
+const name = ref('')
+
+// 쿠키에서 userId 가져오기
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+const userId = getCookie('userId')
 
 // 뒤로가기 (설정 페이지로 이동)
 const goToSetting = () => {
@@ -77,8 +83,19 @@ const goToSetting = () => {
 }
 
 // 컴포넌트 마운트 시 닉네임 로드
-onMounted(() => {
-  name.value = userName.value ?? ''
+onMounted(async () => {
+  if (userId) {
+    try {
+      const { data } = await axios.get(`/api/Profile/${userId}`)
+      userStore.setUser(data)
+      name.value = data.name ?? ''
+    } catch (error) {
+      console.error('사용자 정보 조회 실패:', error)
+      toast.value?.show('사용자 정보를 불러오는데 실패했습니다.', 'error')
+    }
+  } else {
+    toast.value?.show('로그인된 사용자 정보가 없습니다.', 'error')
+  }
 })
 
 // 사용자 정보 저장 처리
@@ -88,22 +105,22 @@ const handleSave = async () => {
     toast.value.show('닉네임은 한글 1~12자여야 합니다.', 'warning')
     return
   }
-  if (!userId.value) {
+  if (!userId) {
     toast.value.show('로그인된 사용자 정보가 없습니다.', 'error')
     return
   }
 
   try {
     // 1) 사용자 정보 가져오기
-    const { data } = await axios.get(`/api/Profile/${userId.value}`)
+    const { data } = await axios.get(`/api/Profile/${userId}`)
     if (!data.id) {
       toast.value.show('존재하지 않는 사용자입니다.', 'error')
       return
     }
 
     // 2) 업데이트 요청
-    await axios.put(`/api/Profile/${userId.value}`, {
-      id: userId.value,
+    await axios.put(`/api/Profile/${userId}`, {
+      id: userId,
       name: name.value,
     })
 
