@@ -52,7 +52,7 @@ export const deleteTransaction = async (transactionId) => {
 export const getFilteredDailyTransactions = async (date, selectedTypes = []) => {
   const target = format(date, 'yyyy-MM-dd')
   try {
-    const { data } = await axios.get('/Title')
+    const { data } = await axios.get('/Transaction')
     return data.filter((tx) => tx.date === target && selectedTypes.includes(tx.type))
   } catch (err) {
     console.error('필터링 실패:', err)
@@ -61,6 +61,6 @@ export const getFilteredDailyTransactions = async (date, selectedTypes = []) => 
 }
 
 export const getAllTransactions = async () => {
-  const { data } = await axios.get('/items')
+  const { data } = await axios.get('/Transaction')
   return data
 }
