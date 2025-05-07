@@ -2,33 +2,40 @@ import { defineStore } from 'pinia'
 
 export const useTransactionStore = defineStore('transaction', {
   state: () => ({
-    amount: '',
-    partner: '',
-    category: '',
-    paymentMethods: '', // 변수 이름 수정"s"추가
-    type: '',
+    id: '',
+    userid: '1', // 로그인 사용자 또는 기본값으로 설정
     date: '',
+    type: '',
+    category: '',
+    amount: 0,
     memo: '',
+    source: '',
+    create_date: '',
+    update_date: '',
   }),
   actions: {
-    reset() {
-      this.amount = ''
-      this.partner = ''
-      this.category = ''
-      this.paymentMethods = ''
-      this.type = ''
+    resetTransaction() {
+      this.id = ''
       this.date = ''
+      this.type = ''
+      this.category = ''
+      this.amount = 0
       this.memo = ''
+      this.source = ''
+      this.create_date = ''
+      this.update_date = ''
     },
     setTransaction(data) {
-      // 수정 모드에 대응
-      this.amount = data.amount
-      this.partner = data.partner
-      this.category = data.category
-      this.paymentMethods = data.paymentMethods
-      this.type = data.type
+      this.id = data.id
+      this.userid = data.userid
       this.date = data.date
+      this.type = data.type
+      this.category = data.category
+      this.amount = data.amount
       this.memo = data.memo
+      this.source = data.source
+      this.create_date = data.create_dat
+      this.update_date = data.update_date
     },
   },
 })
