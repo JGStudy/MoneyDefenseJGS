@@ -11,7 +11,9 @@
           <i :class="customClass"></i>
         </div>
         <!-- Edit -->
-        <span class="text-body02 font-light font-sans"> {{ editContent }} </span>
+        <span class="overflow-auto whitespace-nowrap text-body02 font-light font-sans">
+          {{ editContent }}
+        </span>
       </div>
     </button>
   </div>
