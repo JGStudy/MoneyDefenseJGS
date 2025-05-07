@@ -3,7 +3,7 @@
   <div class="min-h-screen pt-24 font-sans bg-white">
     <section class="my-10 mx-6">
       <p class="font-bold text-title02 mb-5">
-        <span class="text-kb-yellow-positive">{{ userStore.user?.name || '사용자' }}</span
+        <span class="text-kb-yellow-positive">{{ userName }}</span
         >님, 안녕하세요!
       </p>
     </section>
@@ -28,19 +28,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import RealHeader from '@/components/layout/RealHeader.vue'
 import RealFooter from '@/components/setting/RealFooter.vue'
 import ListItem from '@/components/setting/ListItem.vue'
 import SideModal from '@/components/setting/SideModal.vue'
-import { useUserStore } from '@/stores/userStore'
+import { useUserStore } from '@/stores/userStore' // Pinia UserStore 불러오기
 
 const router = useRouter()
 const activeModal = ref(null)
-const userStore = useUserStore()
+const userStore = useUserStore() // Pinia UserStore 사용
 
+// Pinia에서 사용자 이름을 반응형으로 가져오기
+const userName = computed(() => userStore.user?.name || '사용자')
+
+// 사용자 정보 수정 페이지로 이동
 const goToUserEdit = () => router.push({ name: 'user-edit' })
+
+// 모달 열기/닫기
 const openModal = (type) => (activeModal.value = type)
 const closeModal = () => (activeModal.value = null)
 </script>
