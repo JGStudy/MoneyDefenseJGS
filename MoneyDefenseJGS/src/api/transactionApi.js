@@ -15,7 +15,15 @@ export const updateTransaction = (id, payload) => {
 }
 
 export const getTransactions = async () => {
-  return axios.get('/items')
+  return axios.get('/Transaction')
+}
+
+export const getCategoryIncome = () => {
+  return axios.get('/categoryIncome')
+}
+
+export const getCategoryExpenses = () => {
+  return axios.get('/categoryExpenses')
 }
 
 // 거래 등록

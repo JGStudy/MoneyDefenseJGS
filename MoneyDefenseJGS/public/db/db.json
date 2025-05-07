@@ -330,6 +330,18 @@
       "source": "이체",
       "create_date": "2025-04-01T11:00",
       "update_date": "2025-04-01T11:30"
+    },
+    {
+      "id": "21",
+      "userid": "1",
+      "date": "2025-05-15",
+      "type": "수입",
+      "category": "용돈",
+      "amount": 50000,
+      "memo": "용돈",
+      "source": "현금",
+      "create_date": "2025-05-01T10:00",
+      "update_date": "2025-05-01T12:00"
     }
   ],
   "asset": [
