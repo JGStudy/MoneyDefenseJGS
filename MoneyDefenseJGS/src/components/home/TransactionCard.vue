@@ -110,13 +110,11 @@ onMounted(async () => {
   }))
 
   const thisMonthTx = parsed
-    .filter((tx) => tx.type === 'expense' && isThisMonth(tx.date))
+    .filter((tx) => tx.type === '지출' && isThisMonth(tx.date))
     .sort((a, b) => b.date - a.date)
 
   const lastMonth = subMonths(new Date(), 1)
-  const lastMonthTx = parsed.filter(
-    (tx) => tx.type === 'expense' && isSameMonth(tx.date, lastMonth),
-  )
+  const lastMonthTx = parsed.filter((tx) => tx.type === '지출' && isSameMonth(tx.date, lastMonth))
 
   transactions.value = thisMonthTx
   lastMonthTotal.value = lastMonthTx.reduce((sum, tx) => sum + Number(tx.amount), 0)
