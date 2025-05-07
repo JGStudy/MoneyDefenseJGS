@@ -11,7 +11,7 @@
     </div>
 
     <!-- 중앙: 총 자산 금액 -->
-    <div class="text-3xl font-bold text-gray-900">{{ formatCurrency(totalAsset) }}원</div>
+    <div class="text-3xl font-bold text-gray-900">{{ totalAsset.toLocaleString() }}원</div>
 
     <!-- 하단: 오늘 날짜 표시 -->
     <div class="mt-4 text-sm text-gray-600 text-left flex items-center gap-1">
@@ -22,15 +22,44 @@
 </template>
 
 <script setup>
+import { onMounted, watch } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { useAssetStore } from '@/stores/assetStore'
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const userStore = useUserStore()
+const assetStore = useAssetStore()
+const { totalAsset, lastModified } = storeToRefs(assetStore)
 
-// Props로 전달받는 값 정의
 defineProps({
-  totalAsset: Number, // 총 자산 금액
-  lastModified: String, // 마지막 수정일 (예: "2025.04.08")
+  totalAsset: Number,
+  lastModified: String,
 })
+
+// 쿠키에서 userId를 가져오는 함수
+const getUserIdFromCookie = () => {
+  const cookieUserId = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('userId='))
+    ?.split('=')[1]
+  return cookieUserId
+}
+
+// 유저 ID가 변경되거나, 이미 쿠키에 userId가 있을 때 자산을 불러오기
+watch(
+  () => userStore.user?.id,
+  async (userId) => {
+    if (userId || getUserIdFromCookie()) {
+      const userIdToUse = userId || getUserIdFromCookie()
+      userStore.setUser({ id: userIdToUse }) // 쿠키에서 가져온 경우 userStore 업데이트
+      assetStore.setUserId(userIdToUse)
+      await assetStore.fetchAsset()
+    }
+  },
+  { immediate: true },
+)
 
 // 금액을 1000단위 콤마로 포맷팅하는 함수
 function formatCurrency(amount) {
