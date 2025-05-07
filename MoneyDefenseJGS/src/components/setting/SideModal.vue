@@ -92,9 +92,10 @@ function handleSave() {
 // CSV 내보내기
 async function exportToCSV() {
   try {
-    const { data } = await apiClient.get('/Title') // 사용자가 직접 입력한 내용
+    const { data } = await apiClient.get('/Transaction') // 변경된 DB에서 Transaction 불러오기
     const csv = convertToCSV(data)
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const bom = '\uFEFF' // UTF-8 BOM 추가
+    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
 
     const link = document.createElement('a')
@@ -104,62 +105,57 @@ async function exportToCSV() {
     link.click()
     document.body.removeChild(link)
 
-    console.log('✅ CSV 저장 완료')
+    console.log('✅ CSV 저장 완료 (UTF-8 BOM 추가됨)')
   } catch (error) {
     console.error('❌ CSV 내보내기 실패:', error)
   }
 }
 
-// 전체 데이터 초기화
-async function resetDatabase() {
-  try {
-    const endpoints = [
-      'Profile',
-      'Title',
-      'transactions',
-      'asset',
-      'month',
-      'savings',
-      'expense',
-      'categoryExpenses',
-      'items',
-      'fileter',
-      'select',
-      'budgetmap',
-      'monthlyData',
-      'totalmoney',
-    ]
-
-    for (const endpoint of endpoints) {
-      const { data } = await apiClient.get(`/${endpoint}`)
-      await Promise.all(data.map((item) => apiClient.delete(`/${endpoint}/${item.id}`)))
-    }
-
-    console.log('✅ 모든 데이터 초기화 완료')
-  } catch (error) {
-    console.error('❌ 전체 초기화 실패:', error)
-  }
-}
-
-// CSV 변환 함수
+// ✅ CSV 변환 함수 (변경된 DB 구조에 맞춤)
 function convertToCSV(data) {
   if (!data || !data.length) return ''
 
-  //  추출할 필드 순서 정의
-  const headers = ['날짜', '분류', '카테고리', '거래처', '금액', '메모']
+  // 변경된 DB 필드에 맞춰 CSV 생성
+  const headers = ['날짜', '유형', '카테고리', '금액', '메모', '출처']
 
-  //  각 행을 순서대로 구성
-  const rows = data.map((item) => [
-    item.date,
-    item.type,
-    item.category,
-    item.name,
-    item.amount,
-    item.memo ?? '',
+  const rows = data.map((transaction) => [
+    transaction.date || '',
+    transaction.type || '',
+    transaction.category || '',
+    transaction.amount || 0,
+    transaction.memo || '',
+    transaction.source || '',
   ])
 
-  //  문자열로 합치기
-  const csvRows = rows.map((row) => row.join(','))
-  return `${headers.join(',')}\n${csvRows.join('\n')}`
+  return `${headers.join(',')}\n${rows.map((row) => row.join(',')).join('\n')}`
+}
+
+// 데이터 초기화
+async function resetDatabase() {
+  try {
+    console.log('🚀 Transaction 데이터 초기화 시작')
+
+    // Transaction 데이터 로드
+    const { data } = await apiClient.get('/Transaction')
+
+    if (data.length === 0) {
+      console.log('✅ Transaction에 삭제할 데이터가 없습니다.')
+      return
+    }
+
+    // ✅ 각 Transaction 데이터 순차적으로 삭제
+    for (const entry of data) {
+      try {
+        await apiClient.delete(`/Transaction/${entry.id}`)
+        console.log(`🗑️ Transaction - ${entry.id} 삭제 완료`)
+      } catch (deleteError) {
+        console.error(`❌ Transaction - ${entry.id} 삭제 실패:`, deleteError.message)
+      }
+    }
+
+    console.log(`✅ Transaction 초기화 완료 (총 ${data.length}개 삭제됨)`)
+  } catch (error) {
+    console.error('❌ Transaction 초기화 실패:', error.message)
+  }
 }
 </script>
