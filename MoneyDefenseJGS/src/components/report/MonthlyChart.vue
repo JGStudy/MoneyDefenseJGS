@@ -1,9 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { Bar } from 'vue-chartjs'
-import { totalMoney } from '/src/api/reportApi.js'
-
-// Chart.js 등록
 import {
   Chart as ChartJS,
   Title,
@@ -13,112 +10,160 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js'
+
+import BaseBox from '../common/BaseBox.vue'
+
+// Chart.js 등록
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-// 서버에서 데이터를 받아올 상태
-const savings = ref([])
-const expense = ref([])
+// 데이터 상태 변수
+const savings = ref([])  // 수입 데이터
+const expense = ref([])  // 지출 데이터
+const months = ref([])   // 월별 데이터
+const monthlyIncome = ref([])  // 월별 수입 합계
+const monthlyExpense = ref([])  // 월별 지출 합계
 
+// 그래프 상태 변수
+const showIncome = ref(true)  // 수입 그래프 표시 여부 (초기값: false)
+const showExpense = ref(false)  // 지출 그래프 표시 여부 (초기값: false)
+
+// 데이터 불러오기
 onMounted(async () => {
   try {
-    const res = await totalMoney()
-    console.log('서버에서 받은 데이터:', res)
+    const response = await fetch('/db/db.json')
+    const data = await response.json()
 
-    if (res && res.data) {
-      // '수입' 항목 필터링
-      savings.value = res.data.filter((item) => item.type === '수입')
-      // '지출' 항목 필터링
-      expense.value = res.data.filter((item) => item.type === '지출')
+    if (data && Array.isArray(data.Transaction)) {
+      savings.value = data.Transaction.filter(item => item.type === '수입')
+      expense.value = data.Transaction.filter(item => item.type === '지출')
+      
+      // 월별 수입, 지출 계산
+      const incomeByMonth = calculateMonthlyTotal(savings.value)
+      const expenseByMonth = calculateMonthlyTotal(expense.value)
 
-      console.log('수입 데이터:', savings.value)
-      console.log('지출 데이터:', expense.value)
-      console.log('데이터 받아옴:', res)
+      months.value = Array.from(new Set([...incomeByMonth.map(item => item.month), ...expenseByMonth.map(item => item.month)]))
+
+      monthlyIncome.value = months.value.map(month => {
+        const income = incomeByMonth.find(item => item.month === month)
+        return income ? income.total : 0
+      })
+
+      monthlyExpense.value = months.value.map(month => {
+        const exp = expenseByMonth.find(item => item.month === month)
+        return exp ? exp.total : 0
+      })
+    } else {
+      console.error('Transaction 데이터가 없습니다.')
     }
   } catch (err) {
     console.error('데이터 요청 실패:', err)
   }
 })
 
-// 탭 상태
-const selectedTab = ref('수입')
+// 월별 총액 계산 함수
+function calculateMonthlyTotal(data) {
+  return data.reduce((acc, item) => {
+    const month = item.date.substring(0, 7)  // 월 계산 (예: '2025-02')
+    const existing = acc.find(i => i.month === month)
+    if (existing) {
+      existing.total += item.amount
+    } else {
+      acc.push({ month, total: item.amount })
+    }
+    return acc
+  }, [])
+}
 
-const months = computed(() => {
-  const source = selectedTab.value === '수입' ? savings.value : expense.value
-  const uniqueMonths = [...new Set(source.map((item) => item.month))]
-  return uniqueMonths.sort()
-})
-
-// 차트 데이터 계산
+// Chart.js 데이터 및 옵션 설정
 const chartData = computed(() => {
-  const source = selectedTab.value === '수입' ? savings.value : expense.value
-  console.log('차트 데이터  출처:', source)
+  const datasets = []
 
-  const data = months.value.map((month) => {
-    const found = source.find((entry) => entry.month === month)
-    const amount = found?.amount || found?.money || 0
-    return typeof amount === 'string' ? parseInt(amount) : amount
-  })
+  // 수입 데이터가 표시될 경우
+  if (showIncome.value) {
+    datasets.push({
+      label: '월별 총 수입',
+      data: monthlyIncome.value,  // 월별 수입
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    })
+  }
+
+  // 지출 데이터가 표시될 경우
+  if (showExpense.value) {
+    datasets.push({
+      label: '월별 총 지출',
+      data: monthlyExpense.value,  // 월별 지출
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1
+    })
+  }
 
   return {
-    labels: months.value,
-    datasets: [
-      {
-        label: selectedTab.value,
-        data,
-        backgroundColor:
-          selectedTab.value === '수입' ? 'rgba(54, 162, 235, 0.7)' : 'rgba(255, 99, 132, 0.7)',
-      },
-    ],
+    labels: months.value,  // 월별 데이터
+    datasets: datasets
   }
 })
 
-// chartoptions
 const chartOptions = {
   responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    y: {
-      beginAtZero: true,
+  plugins: {
+    title: {
+      display: true,
+      text: '월별 수입과 지출'
+    },
+    legend: {
+      position: 'top',
+    },
+    tooltip: {
+      mode: 'index',
+      intersect: false,
     },
   },
+  scales: {
+    x: {
+      stacked: true
+    },
+    y: {
+      stacked: true,
+      beginAtZero: true
+    }
+  }
+}
+
+// 버튼 클릭 시 수입, 지출 보이기/숨기기 함수
+function toggleIncome() {
+  showIncome.value = true  // 수입만 보이도록 설정
+  showExpense.value = false // 지출은 숨김
+}
+
+function toggleExpense() {
+  showIncome.value = false // 수입은 숨김
+  showExpense.value = true  // 지출만 보이도록 설정
 }
 </script>
 
 <template>
-  <div class="MonthlyChart space-y-2 font-sans">
-    <div class="rounded-2xl shadow-inner p-5 mt-5">
-      <p class="text-body01 font-bold mb-5">수입 지출 변화</p>
-      <div class="h-64">
-        <Bar :data="chartData" :options="chartOptions" />
+  <BaseBox>
+      <div style="width: 90%; height: 200px; margin: 0 auto;">
+      <Bar :data="chartData" :options="chartOptions"/>
       </div>
-      <div class="flex justify-center space-x-2 mt-5">
-        <button
-          :class="
-            selectedTab === '수입' ? 'bg-status-positive text-white' : 'bg-kb-ui-08 text-kb-ui-06'
-          "
-          class="px-4 py-2 rounded-full font-bold font-body03"
-          @click="selectedTab = '수입'"
-        >
+
+       <!-- 버튼을 가로로 배치하고 가운데 정렬 -->
+       <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+        <!-- 수입 버튼: 핑크 배경 -->
+        <button 
+          @click="toggleIncome" 
+          style="background-color: #1E90FF; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
           수입
         </button>
-        <button
-          :class="
-            selectedTab === '지출'
-              ? 'bg-status-error-input text-white'
-              : 'bg-kb-ui-08 text-kb-ui-06'
-          "
-          class="px-4 py-2 rounded-full font-bold font-body03"
-          @click="selectedTab = '지출'"
-        >
+        <!-- 지출 버튼: 파랑 배경 -->
+        <button 
+          @click="toggleExpense" 
+          style="background-color: #FF69B4 ; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
           지출
         </button>
       </div>
-    </div>
-  </div>
+  </BaseBox>
 </template>
-
-<style scoped>
-.MonthlyChart {
-  font-weight: bold;
-}
-</style>
