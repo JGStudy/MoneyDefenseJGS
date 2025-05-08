@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useTransactionStore = defineStore('transaction', {
   state: () => ({
-    id: '',
+    // id: '',
     userid: '1', // 로그인 사용자 또는 기본값으로 설정
     date: '',
     type: '',
@@ -34,7 +34,7 @@ export const useTransactionStore = defineStore('transaction', {
       this.amount = data.amount
       this.memo = data.memo
       this.source = data.source
-      this.create_date = data.create_dat
+      this.create_date = data.create_date
       this.update_date = data.update_date
     },
   },
