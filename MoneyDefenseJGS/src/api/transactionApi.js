@@ -3,15 +3,11 @@ import axios from './apiClient'
 import { format } from 'date-fns'
 
 export const getTransactionById = (id) => {
-  return axios.get(`/Title/${id}`)
+  return axios.get(`/Transaction/${id}`)
 }
 
-// export const createTransaction = (payload) => {
-//   return axios.post('/Title', payload)
-// }
-
 export const updateTransaction = (id, payload) => {
-  return axios.put(`/Title/${id}`, payload)
+  return axios.put(`/Transaction/${id}`, payload)
 }
 
 export const getTransactions = async () => {
@@ -29,7 +25,7 @@ export const getCategoryExpenses = () => {
 // 거래 등록
 export const createTransaction = async (transactionData) => {
   try {
-    const response = await axios.post('/transactions', transactionData)
+    const response = await axios.post('/Transaction', transactionData)
     return response.data
   } catch (error) {
     console.error('💥 거래 등록 실패:', error)
@@ -40,7 +36,7 @@ export const createTransaction = async (transactionData) => {
 // 거래 삭제
 export const deleteTransaction = async (transactionId) => {
   try {
-    const response = await axios.delete(`/transactions/${transactionId}`)
+    const response = await axios.delete(`/Transaction/${transactionId}`)
     return response.data
   } catch (error) {
     console.error('💥 거래 삭제 실패:', error)
