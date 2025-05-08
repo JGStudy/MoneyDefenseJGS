@@ -1,37 +1,78 @@
-// stores/budgetStore.js
 import { defineStore } from 'pinia'
-import { fetchBudgetByMonth, updateBudget } from '@/api/budget'
-import { useAssetStore } from '@/stores/assetStore' // 자산 스토어 가져오기
+import { fetchBudgetByMonth, updateBudget } from '@/api/budgetApi'
 
 export const useBudgetStore = defineStore('budget', {
   state: () => ({
-    budgetMap: {}, // 예산 저장
+    userId: null,
+    budget: { amount: 0 }, // { '2025-05': 300000 } 형식
   }),
   actions: {
-    // 예산 특정 월에 맞게 가져오기
+    setUserId(id) {
+      this.userId = id
+    },
+
+    loadBudgetFromStorage() {
+      const stored = localStorage.getItem('budget')
+      if (stored) {
+        try {
+          this.budget = JSON.parse(stored)
+        } catch (error) {
+          console.error('예산 데이터를 로드하는 데 실패했습니다:', error)
+          this.budget = {}
+        }
+      } else {
+        this.budget = {}
+      }
+    },
+
+    saveBudgetToStorage() {
+      localStorage.setItem('budget', JSON.stringify(this.budget))
+    },
+
     async fetchBudgetByMonth(month) {
       try {
-        const data = await fetchBudgetByMonth(month)
-
-        if (data.length > 0) {
-          // createdAt 기준 최신값으로 정렬
-          const latest = data
-            .filter((item) => item.createdAt)
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0]
-
-          this.budgetMap[month] = latest.amount
-        } else {
-          this.budgetMap[month] = 0
+        if (!this.userId) {
+          console.error('User ID가 설정되지 않았습니다.')
+          return
         }
+
+        console.log('API 호출 파라미터 userId:', this.userId) // userId 확인
+        console.log('API 호출 파라미터 month:', month) // month 확인
+
+        const res = await fetchBudgetByMonth(this.userId, month)
+
+        // 응답 데이터 확인
+        console.log('API 응답 데이터:', res.data)
+
+        const data = res.data
+        if (Array.isArray(data) && data.length > 0) {
+          const latest = data
+            .filter((item) => item.lastModified)
+            .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))[0]
+          this.budget[month] = latest.amount
+        } else {
+          console.log('예산 데이터 없음, 0으로 설정')
+          this.budget[month] = 0
+        }
+
+        this.saveBudgetToStorage()
       } catch (error) {
         console.error('예산 데이터를 가져오는 데 실패했습니다:', error)
       }
     },
-
-    // 예산 업데이트
     async updateBudget(month, newAmount) {
-      await updateBudget(month, newAmount)
-      this.budgetMap[month] = newAmount
+      try {
+        if (!this.userId) {
+          console.error('User ID가 설정되지 않았습니다.')
+          return
+        }
+
+        await updateBudget(this.userId, month, newAmount)
+        this.budget[month] = newAmount
+        this.saveBudgetToStorage()
+      } catch (error) {
+        console.error('예산 수정 실패:', error)
+      }
     },
   },
 })
