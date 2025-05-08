@@ -32,11 +32,36 @@
       </div>
 
       <!-- ✅ 알림 모달 -->
-      <AlertModal :visible="showAlert" :title="modalTitle" :message="modalMessage" @close="showAlert = false" />
+      <!-- <ConfirmModal
+        :visible="showAlert"
+        :title="modalTitle"
+        :message="modalMessage"
+        @close="showAlert = false"
+      /> -->
+      <ConfirmPopup
+        :visible="showAlert"
+        :message="modalMessage"
+        confirmText="확인"
+        @cancel="showAlert = false"
+        @confirm="showAlert = false"
+      />
 
       <!-- ✅ 확인 모달 (삭제용) -->
-      <ConfirmModal :visible="showConfirm" title="삭제 확인" message="정말 삭제하시겠습니까?" @confirm="handleDelete"
-        @cancel="showConfirm = false" />
+      <!-- <ConfirmModal
+        :visible="showConfirm"
+        title="삭제 확인"
+        message="정말 삭제하시겠습니까?"
+        @confirm="handleDelete"
+        @cancel="showConfirm = false"
+      /> -->
+      <ConfirmPopup
+        :visible="showConfirm"
+        message="정말 삭제하시겠습니까?"
+        cancelText="취소"
+        confirmText="삭제"
+        @cancel="showConfirm = false"
+        @confirm="handleDelete"
+      />
     </div>
   </AppLayout>
 </template>
@@ -50,8 +75,9 @@ import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 import TransactionSummary from '@/components/transaction/input/TransactionSummary.vue'
 import AmountInput from '@/components/transaction/input/AmountInput.vue'
 import EditableTransactionInformation from '@/components/transaction/input/EditableTransactionInformation.vue'
-import AlertModal from '@/components/common/AlertModal.vue'
-import ConfirmModal from '@/components/common/ConfirmModal.vue'
+// import AlertModal from '@/components/common/AlertModal.vue'
+// import ConfirmModal from '@/components/transaction/input/ConfirmModal.vue'
+import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 import { useTransactionStore } from '@/stores/transactionStore'
 
 const store = useTransactionStore()
@@ -63,11 +89,16 @@ const isEditMode = computed(() => !!route.params.id)
 // 모달 관련 상태
 const showAlert = ref(false)
 const showConfirm = ref(false)
-const modalTitle = ref('')
+// const modalTitle = ref('')
 const modalMessage = ref('')
 
-const openAlert = (title, message) => {
-  modalTitle.value = title
+// const openAlert = (title, message) => {
+//   modalTitle.value = title
+//   modalMessage.value = message
+//   showAlert.value = true
+// }
+
+const openAlert = (message) => {
   modalMessage.value = message
   showAlert.value = true
 }
@@ -82,7 +113,7 @@ onMounted(async () => {
       const { data } = await axios.get(`/Transaction/${route.params.id}`)
       Object.assign(store, data)
     } catch (err) {
-      openAlert('오류', '❌ 거래 정보를 불러오지 못했습니다.')
+      openAlert('❌ 거래 정보를 불러오지 못했습니다.')
     }
   } else {
     store.resetTransaction()
@@ -92,7 +123,14 @@ onMounted(async () => {
 async function handleSubmit() {
   const now = new Date().toISOString().slice(0, 16)
   const payload = {
-    ...store,
+    // id: store.id,
+    userid: store.userid,
+    date: store.date,
+    type: store.type,
+    category: store.category,
+    amount: store.amount,
+    memo: store.memo,
+    source: store.source,
     create_date: store.create_date || now,
     update_date: now,
   }
@@ -100,13 +138,13 @@ async function handleSubmit() {
   try {
     if (isEditMode.value) {
       await axios.put(`/Transaction/${route.params.id}`, payload)
-      openAlert('완료', '거래가 수정되었습니다.')
+      openAlert('거래가 수정되었습니다.')
     } else {
       await axios.post('/Transaction', payload)
-      openAlert('완료', '거래가 등록되었습니다.')
+      openAlert('거래가 등록되었습니다.')
     }
   } catch (err) {
-    openAlert('오류', '❌ 저장 실패')
+    openAlert('❌ 저장 실패')
   }
 }
 
@@ -114,10 +152,10 @@ async function handleDelete() {
   showConfirm.value = false
   try {
     await axios.delete(`/Transaction/${route.params.id}`)
-    openAlert('완료', '🗑️ 거래가 삭제되었습니다.')
+    openAlert('🗑️ 거래가 삭제되었습니다.')
     router.back()
   } catch (err) {
-    openAlert('오류', '❌ 삭제 실패')
+    openAlert('❌ 삭제 실패')
   }
 }
 </script>
