@@ -55,21 +55,21 @@
       >
       <div
         class="w-full px-4 py-3 rounded-xl bg-kb-ui-11 dark:bg-kb-dark-muted border border-kb-ui-07 cursor-pointer"
-        @click="toggleMethod"
+        @click="toggleSource"
       >
-        {{ store.paymentMethods || '선택하세요' }}
+        {{ store.source || '선택하세요' }}
       </div>
       <div
-        v-if="showMethod"
+        v-if="showSource"
         class="absolute left-0 right-0 mt-2 bg-white dark:bg-kb-dark-line border border-kb-ui-07 rounded-xl shadow z-20 max-h-60 overflow-y-auto"
       >
         <button
-          v-for="method in paymentMethodss"
-          :key="method"
-          @click="selectMethod(method)"
+          v-for="source in paymentSources"
+          :key="source"
+          @click="selectSource(source)"
           class="w-full text-left px-4 py-3 hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted text-body02"
         >
-          {{ method }}
+          {{ source }}
         </button>
       </div>
     </div>
@@ -87,7 +87,7 @@
     </div>
 
     <!-- 📝 메모 -->
-    <div>
+    <!-- <div>
       <label class="block text-body03 font-medium mb-2 text-kb-ui-02 dark:text-kb-dark-text"
         >메모</label
       >
@@ -97,7 +97,7 @@
         placeholder="메모를 작성하세요"
         class="w-full px-4 py-3 rounded-xl bg-kb-ui-11 dark:bg-kb-dark-muted border border-kb-ui-07 text-body02 text-kb-ui-02 dark:text-kb-dark-text placeholder:text-kb-ui-05 focus:outline-none focus:border-kb-yellow-positive transition"
       ></textarea>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -120,19 +120,19 @@ const currentCategories = computed(() => {
 })
 
 const showCategory = ref(false)
-const showMethod = ref(false)
+const showSource = ref(false)
 
 const toggleCategory = () => (showCategory.value = !showCategory.value)
-const toggleMethod = () => (showMethod.value = !showMethod.value)
+const toggleSource = () => (showSource.value = !showSource.value)
 
 const selectCategory = (cat) => {
   store.category = cat
   showCategory.value = false
 }
 
-const paymentMethodss = ['카드', '현금', '모바일페이', '토스', '기타']
-const selectMethod = (method) => {
-  store.paymentMethods = method
-  showMethod.value = false
+const paymentSources = ['카드', '현금', '모바일페이', '토스', '기타']
+const selectSource = (source) => {
+  store.source = source
+  showSource.value = false
 }
 </script>
