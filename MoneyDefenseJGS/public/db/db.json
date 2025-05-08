@@ -110,7 +110,7 @@
       "type": "수입",
       "category": "기타",
       "amount": 56600,
-      "memo": "기타 관련 내역",
+      "memo": "기타",
       "source": "이체",
       "create_date": "2025-04-03T00:00",
       "update_date": "2025-04-03T00:15"
@@ -122,7 +122,7 @@
       "type": "지출",
       "category": "주거비",
       "amount": 465400,
-      "memo": "주거비 관련 내역",
+      "memo": "주거비",
       "source": "카드",
       "create_date": "2025-04-05T00:00",
       "update_date": "2025-04-05T00:15"
@@ -134,7 +134,7 @@
       "type": "지출",
       "category": "의료비",
       "amount": 496700,
-      "memo": "의료비 관련 내역",
+      "memo": "의료비",
       "source": "카드",
       "create_date": "2025-04-06T00:00",
       "update_date": "2025-04-06T00:15"
@@ -146,7 +146,7 @@
       "type": "지출",
       "category": "교통비",
       "amount": 355000,
-      "memo": "교통비 관련 내역",
+      "memo": "교통비",
       "source": "카드",
       "create_date": "2025-04-07T00:00",
       "update_date": "2025-04-07T00:15"
@@ -158,7 +158,7 @@
       "type": "지출",
       "category": "교통비",
       "amount": 60800,
-      "memo": "교통비 관련 내역",
+      "memo": "교통비",
       "source": "카드",
       "create_date": "2025-04-09T00:00",
       "update_date": "2025-04-09T00:15"
@@ -170,7 +170,7 @@
       "type": "지출",
       "category": "식비",
       "amount": 169600,
-      "memo": "식비 관련 내역",
+      "memo": "식비",
       "source": "카드",
       "create_date": "2025-04-12T00:00",
       "update_date": "2025-04-12T00:15"
@@ -182,7 +182,7 @@
       "type": "수입",
       "category": "금융소득",
       "amount": 412000,
-      "memo": "금융소득 관련 내역",
+      "memo": "금융소득",
       "source": "이체",
       "create_date": "2025-04-14T00:00",
       "update_date": "2025-04-14T00:15"
@@ -194,7 +194,7 @@
       "type": "지출",
       "category": "교통비",
       "amount": 345800,
-      "memo": "교통비 관련 내역",
+      "memo": "교통비",
       "source": "카드",
       "create_date": "2025-04-15T00:00",
       "update_date": "2025-04-15T00:15"
@@ -206,7 +206,7 @@
       "type": "수입",
       "category": "기타",
       "amount": 31400,
-      "memo": "기타 관련 내역",
+      "memo": "기타",
       "source": "카드",
       "create_date": "2025-04-18T00:00",
       "update_date": "2025-04-18T00:15"
@@ -218,7 +218,7 @@
       "type": "지출",
       "category": "문화생활",
       "amount": 400600,
-      "memo": "문화생활 관련 내역",
+      "memo": "문화생활",
       "source": "현금",
       "create_date": "2025-04-19T00:00",
       "update_date": "2025-04-19T00:15"
@@ -230,7 +230,7 @@
       "type": "수입",
       "category": "용돈",
       "amount": 88900,
-      "memo": "용돈 관련 내역",
+      "memo": "용돈",
       "source": "현금",
       "create_date": "2025-04-22T00:00",
       "update_date": "2025-04-22T00:15"
@@ -242,7 +242,7 @@
       "type": "수입",
       "category": "기타",
       "amount": 206900,
-      "memo": "기타 관련 내역",
+      "memo": "기타",
       "source": "이체",
       "create_date": "2025-04-25T00:00",
       "update_date": "2025-04-25T00:15"
@@ -254,7 +254,7 @@
       "type": "수입",
       "category": "금융소득",
       "amount": 393000,
-      "memo": "금융소득 관련 내역",
+      "memo": "금융소득",
       "source": "이체",
       "create_date": "2025-04-26T00:00",
       "update_date": "2025-04-26T00:15"
@@ -266,7 +266,7 @@
       "type": "수입",
       "category": "급여",
       "amount": 135100,
-      "memo": "급여 관련 내역",
+      "memo": "급여",
       "source": "카드",
       "create_date": "2025-04-27T00:00",
       "update_date": "2025-04-27T00:15"
@@ -278,7 +278,7 @@
       "type": "지출",
       "category": "의료비",
       "amount": 335300,
-      "memo": "의료비 관련 내역",
+      "memo": "의료비",
       "source": "카드",
       "create_date": "2025-04-28T00:00",
       "update_date": "2025-04-28T00:15"
@@ -290,7 +290,7 @@
       "type": "지출",
       "category": "식비",
       "amount": 173500,
-      "memo": "식비 관련 내역",
+      "memo": "식비",
       "source": "현금",
       "create_date": "2025-04-30T00:00",
       "update_date": "2025-04-30T00:15"
@@ -302,7 +302,7 @@
       "type": "지출",
       "category": "주거비",
       "amount": 397300,
-      "memo": "주거비 관련 내역",
+      "memo": "주거비",
       "source": "카드",
       "create_date": "2025-05-02T00:00",
       "update_date": "2025-05-02T00:15"
@@ -314,7 +314,7 @@
       "type": "수입",
       "category": "용돈",
       "amount": 128400,
-      "memo": "용돈 관련 내역",
+      "memo": "용돈",
       "source": "이체",
       "create_date": "2025-05-04T00:00",
       "update_date": "2025-05-04T00:15"
@@ -326,7 +326,7 @@
       "type": "수입",
       "category": "금융소득",
       "amount": 171800,
-      "memo": "금융소득 관련 내역",
+      "memo": "금융소득",
       "source": "이체",
       "create_date": "2025-05-05T00:00",
       "update_date": "2025-05-05T00:15"
@@ -338,7 +338,7 @@
       "type": "지출",
       "category": "교통비",
       "amount": 63500,
-      "memo": "교통비 관련 내역",
+      "memo": "교통비",
       "source": "카드",
       "create_date": "2025-05-06T00:00",
       "update_date": "2025-05-06T00:15"
@@ -350,7 +350,7 @@
       "type": "수입",
       "category": "용돈",
       "amount": 106800,
-      "memo": "용돈 관련 내역",
+      "memo": "용돈",
       "source": "이체",
       "create_date": "2025-05-07T00:00",
       "update_date": "2025-05-07T00:15"
@@ -362,7 +362,7 @@
       "type": "수입",
       "category": "용돈",
       "amount": 169900,
-      "memo": "용돈 관련 내역",
+      "memo": "용돈",
       "source": "이체",
       "create_date": "2025-05-10T00:00",
       "update_date": "2025-05-10T00:15"
@@ -374,7 +374,7 @@
       "type": "지출",
       "category": "교육비",
       "amount": 386400,
-      "memo": "교육비 관련 내역",
+      "memo": "교육비",
       "source": "현금",
       "create_date": "2025-05-11T00:00",
       "update_date": "2025-05-11T00:15"
@@ -386,7 +386,7 @@
       "type": "지출",
       "category": "교육비",
       "amount": 384200,
-      "memo": "교육비 관련 내역",
+      "memo": "교육비",
       "source": "카드",
       "create_date": "2025-05-12T00:00",
       "update_date": "2025-05-12T00:15"
@@ -398,7 +398,7 @@
       "type": "수입",
       "category": "금융소득",
       "amount": 327100,
-      "memo": "금융소득 관련 내역",
+      "memo": "금융소득",
       "source": "현금",
       "create_date": "2025-05-13T00:00",
       "update_date": "2025-05-13T00:15"
@@ -410,7 +410,7 @@
       "type": "수입",
       "category": "금융소득",
       "amount": 206800,
-      "memo": "금융소득 관련 내역",
+      "memo": "금융소득",
       "source": "이체",
       "create_date": "2025-05-16T00:00",
       "update_date": "2025-05-16T00:15"
@@ -422,7 +422,7 @@
       "type": "수입",
       "category": "금융소득",
       "amount": 49500,
-      "memo": "금융소득 관련 내역",
+      "memo": "금융소득",
       "source": "이체",
       "create_date": "2025-05-19T00:00",
       "update_date": "2025-05-19T00:15"
@@ -434,7 +434,7 @@
       "type": "수입",
       "category": "용돈",
       "amount": 51100,
-      "memo": "용돈 관련 내역",
+      "memo": "용돈",
       "source": "이체",
       "create_date": "2025-05-22T00:00",
       "update_date": "2025-05-22T00:15"
@@ -446,7 +446,7 @@
       "type": "수입",
       "category": "기타",
       "amount": 255900,
-      "memo": "기타 관련 내역",
+      "memo": "기타",
       "source": "카드",
       "create_date": "2025-05-25T00:00",
       "update_date": "2025-05-25T00:15"
@@ -458,7 +458,7 @@
       "type": "지출",
       "category": "문화생활",
       "amount": 367900,
-      "memo": "문화생활 관련 내역",
+      "memo": "문화생활",
       "source": "카드",
       "create_date": "2025-05-28T00:00",
       "update_date": "2025-05-28T00:15"
