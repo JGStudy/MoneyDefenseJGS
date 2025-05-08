@@ -81,7 +81,11 @@ const noNeedBack = computed(() => noNeedBackRoutes.includes(route.path))
 const noNeedCancel = computed(() => noNeedCancelRoutes.includes(route.path))
 // 뒤로가기 이벤트
 const backspace = () => {
-  router.back()
+  if (route.path === '/setting') {
+    router.push('/')
+  } else {
+    router.back()
+  }
 }
 
 // 설정 이동 이벤트

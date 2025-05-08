@@ -102,6 +102,6 @@ function clearAmount() {
 function confirmAmount() {
   showValidationError.value = true
   if (!isValidAmount.value) return
-  alert(`✅ 저장된 금액: ${formattedAmount.value}`)
+  console.log(`✅ 저장된 금액: ${formattedAmount.value}`)
 }
 </script>
