@@ -19,10 +19,10 @@
 
     <!-- 유효성 메시지 -->
     <div v-show="showValidationError && !isValidAmount" class="text-body03 text-status-error">
-      ⚠️ 1원 이상 입력하세요
+      1원 이상 입력하세요
     </div>
     <div v-if="nonNumericError" class="text-body03 text-status-error">
-      ⚠️ 숫자만 입력할 수 있습니다
+      숫자만 입력할 수 있습니다
     </div>
 
     <!-- 초기화 / 확인 버튼 -->
