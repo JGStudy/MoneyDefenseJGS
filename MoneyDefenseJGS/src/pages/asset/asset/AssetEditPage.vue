@@ -11,30 +11,36 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAssetStore } from '@/stores/assetStore'
-import { useUserStore } from '@/stores/userStore'
 import AmountEditForm from '@/components/common/AmountEditForm.vue'
 import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
-const emit = defineEmits(['save'])
 
 const assetStore = useAssetStore()
-const userStore = useUserStore()
 const router = useRouter()
 
+// 쿠키에서 userId 추출하는 함수
+function getUserIdFromCookie() {
+  const match = document.cookie.match(/(?:^|; )userId=([^;]*)/)
+  return match ? decodeURIComponent(match[1]) : null
+}
+
+// 자산 정보 가져오기
 onMounted(() => {
-  if (userStore.user?.id) {
-    assetStore.userId = userStore.user.id
+  const userId = getUserIdFromCookie()
+  if (userId) {
+    assetStore.userId = userId
     assetStore.fetchAsset()
   } else {
-    console.warn('userId가 존재하지 않습니다. 로그인 상태 확인 필요!')
+    console.warn('쿠키에서 userId를 찾을 수 없습니다.')
   }
 })
 
+// 자산 업데이트 처리
 const handleSave = async (newAmount) => {
   try {
-    // 자산 업데이트 시도
     await assetStore.updateAsset(newAmount)
-    console.log('자산 업데이트 완료:', assetStore.totalAsset) // 자산이 제대로 업데이트 되었는지 확인
-    router.push('/asset') // 저장 후 자산 페이지로 이동
+
+    console.log('자산 업데이트 완료:', assetStore.totalAsset)
+    router.push('/asset')
   } catch (error) {
     console.error('자산 업데이트 실패:', error)
   }

@@ -18,7 +18,7 @@
 
       <!-- 예산 탭 내용 -->
       <div v-if="currentTab === 'budget'">
-        <!-- 월 선택 컴포넌트 -->
+        <!-- 월 선택 -->
         <MonthSelector v-model="selectedMonth" class="mb-2" />
 
         <!-- 예산 정보 표시 -->
@@ -30,78 +30,104 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
-// 레이아웃 가져오기
 import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
 
-// 자산 상태 가져오기
+// 스토어
 import { useAssetStore } from '@/stores/assetStore'
 import { useBudgetStore } from '@/stores/budgetStore'
 
-// 컴포넌트 임포트
+// 컴포넌트
 import TabSwitch from '@/components/common/TabSwitch.vue'
 import AssetDisplay from '@/components/asset/asset/AssetDisplay.vue'
 import BudgetDisplay from '@/components/asset/budget/BudgetDisplay.vue'
 import MonthSelector from '@/components/common/MonthSelector.vue'
 import AssetTrendChart from '@/components/asset/asset/AssetTrendChart.vue'
 
-// Pinia 스토어 인스턴스
+// Pinia 인스턴스
 const assetStore = useAssetStore()
 const budgetStore = useBudgetStore()
 
-// 현재 활성화된 탭
-const currentTab = ref('asset') // 기본적으로 자산 탭 활성화
+// 사용자 ID (localStorage에서 가져오기)
+const userId = localStorage.getItem('userId') || 'defaultUser'
+
+// 현재 탭
+const currentTab = ref('asset')
 
 // 자산 계산
 const totalIncome = computed(() =>
   assetStore.transactions
-    .filter((t) => t.type === '수입' && new Date(t.date) > new Date(assetStore.lastModified))
+    .filter(
+      (t) =>
+        t.type === '수입' &&
+        new Date(t.date).getTime() > new Date(assetStore.lastModified || '2000-01-01').getTime(),
+    )
     .reduce((sum, t) => sum + t.amount, 0),
 )
 
 const totalExpense = computed(() =>
   assetStore.transactions
-    .filter((t) => t.type === '지출' && new Date(t.date) > new Date(assetStore.lastModified))
+    .filter(
+      (t) =>
+        t.type === '지출' &&
+        new Date(t.date).getTime() > new Date(assetStore.lastModified || '2000-01-01').getTime(),
+    )
     .reduce((sum, t) => sum + t.amount, 0),
 )
 
 const calculatedTotalAsset = computed(() => {
-  const total = assetStore.transactions
-    .filter((t) => new Date(t.date) > new Date(assetStore.lastModified))
-    .reduce((acc, t) => acc + (t.type === '수입' ? t.amount : -t.amount), assetStore.totalAsset)
-  return total
+  const base = assetStore.totalAsset || 0
+  const lastModified = new Date(assetStore.lastModified || '2000-01-01').getTime()
+
+  const netChange = assetStore.transactions
+    .filter((t) => new Date(t.date).getTime() > lastModified)
+    .reduce((sum, t) => sum + (t.type === '수입' ? t.amount : -t.amount), 0)
+
+  return base + netChange
 })
 
 // 예산 관련
 const selectedMonth = ref(new Date().toISOString().slice(0, 7))
-const budget = computed(() => budgetStore.budgetMap[selectedMonth.value] ?? 0)
 
-// 거래 내역을 로컬 파일에서 가져오는 함수 (asset.json에서 가져오기)
-const fetchTransactions = async () => {
-  try {
-    const res = await fetch('db/db.json') // JSON 파일에서 거래 내역 가져오기
-    const data = await res.json()
-    assetStore.transactions = data.transactions // Pinia store에 거래 내역 저장
-  } catch (err) {
-    console.error('거래내역 가져오기 실패:', err)
-  }
-}
+// 월별 예산
+const budget = computed(() => budgetStore.budget[selectedMonth.value] ?? 0)
 
-// 페이지가 마운트될 때 거래 내역과 예산 정보를 불러옴
-onMounted(async () => {
-  assetStore.loadFromStorage() // 로컬스토리지에서 자산 불러오기
-  await fetchTransactions()
-  await budgetStore.fetchBudgetByMonth(selectedMonth.value)
-})
-
-// 월별 지출 계산
+// 월별 지출
 const monthlyExpense = computed(() => {
+  if (!assetStore.transactions || assetStore.transactions.length === 0) return 0
+
   return assetStore.transactions
     .filter((t) => t.type === '지출' && t.date.startsWith(selectedMonth.value))
     .reduce((sum, t) => sum + t.amount, 0)
 })
 
-// 월 변경 시 예산 데이터 새로 가져오기
-watch(selectedMonth, async (newMonth) => {
-  await budgetStore.fetchBudgetByMonth(newMonth)
+// 거래내역 JSON 파일에서 불러오기
+const fetchTransactions = async () => {
+  try {
+    const res = await fetch('db/db.json')
+    const data = await res.json()
+    assetStore.transactions = data.transactions || []
+  } catch (err) {
+    console.error('거래내역 가져오기 실패:', err)
+  }
+}
+
+// onMounted 시 초기 설정
+onMounted(async () => {
+  assetStore.userId = userId
+  budgetStore.userId = userId
+
+  assetStore.loadFromStorage()
+  await fetchTransactions()
+
+  // assetStore와 budgetStore 모두 데이터를 로드한 후 화면을 갱신하도록 합니다.
+  await assetStore.fetchAsset()
+  await assetStore.fetchTransactions()
+
+  // 예산을 불러옵니다
+  await budgetStore.fetchBudgetByMonth(selectedMonth.value, userId)
+
+  // 데이터를 로드한 후 확인
+  console.log('자산:', assetStore.totalAsset)
+  console.log('예산:', budget.value)
 })
 </script>
