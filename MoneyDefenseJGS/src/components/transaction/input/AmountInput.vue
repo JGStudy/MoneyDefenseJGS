@@ -69,7 +69,7 @@ function formatWithComma(num) {
 
 function onAmountInput(e) {
   const raw = unformatAmount(e.target.value)
-  store.amount = String(raw)
+  store.amount = raw
   formattedAmount.value = raw ? formatWithComma(raw) : ''
   nextTick(() => moveCursorToEnd())
 }
