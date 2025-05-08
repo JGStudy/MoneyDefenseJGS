@@ -4,7 +4,7 @@
       class="flex flex-col min-h-screen font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text"
     >
       <!-- 스크롤 콘텐츠 -->
-      <div class="flex-1 overflow-y-auto px-6 pt-6 pb-24 space-y-6 max-w-xl mx-auto">
+      <div class="flex-1 overflow-y-auto pt-6 pb-24 space-y-6 ml-[5%] mr-[5%]">
         <TransactionSummary />
         <AmountInput />
 
