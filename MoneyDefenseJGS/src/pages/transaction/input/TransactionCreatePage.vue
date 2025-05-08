@@ -48,8 +48,8 @@
         :visible="showAlert"
         :message="modalMessage"
         confirmText="확인"
-        @cancel="showAlert = false"
-        @confirm="showAlert = false"
+        @cancel="router.back()"
+        @confirm="router.back()"
       />
 
       <!-- ✅ 확인 모달 (삭제용) -->
@@ -111,7 +111,8 @@ onMounted(async () => {
       const { data } = await getTransactionById(route.params.id)
       Object.assign(store, data)
     } catch (err) {
-      openAlert('❌ 거래 정보를 불러오지 못했습니다.')
+      console.error('거래 정보 불러오기 실패:', err)
+      router.back()
     }
   } else {
     store.resetTransaction()
@@ -141,7 +142,8 @@ async function handleSubmit() {
       openAlert('거래가 등록되었습니다.')
     }
   } catch (err) {
-    openAlert('❌ 저장 실패')
+    console.error('저장 실패:', err)
+    router.back()
   }
 }
 
@@ -149,10 +151,11 @@ async function handleDelete() {
   showConfirm.value = false
   try {
     await deleteTransaction(route.params.id)
-    openAlert('🗑️ 거래가 삭제되었습니다.')
+    openAlert('거래가 삭제되었습니다.')
     router.back()
   } catch (err) {
-    openAlert('❌ 삭제 실패')
+    console.error('삭제 실패:', err)
+    router.back()
   }
 }
 </script>
