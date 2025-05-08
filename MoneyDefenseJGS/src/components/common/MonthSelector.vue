@@ -1,13 +1,13 @@
 <template>
   <div class="flex items-center space-x-1 px-4 py-2">
     <!-- 이전 월 버튼 -->
-    <button @click="prevMonth" class="text-sm text-gray-600">&lt;</button>
+    <button @click="prevMonth" class="text-sm text-gray-600"><i class="xi-angle-left"></i></button>
 
     <!-- 현재 월 -->
     <span class="text-lg font-semibold text-gray-900"> {{ currentMonth }}월 </span>
 
     <!-- 다음 월 버튼 -->
-    <button @click="nextMonth" class="text-sm text-gray-600">&gt;</button>
+    <button @click="nextMonth" class="text-sm text-gray-600"><i class="xi-angle-right"></i></button>
   </div>
 </template>
 
