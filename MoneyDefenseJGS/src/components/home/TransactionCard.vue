@@ -43,7 +43,7 @@
             class="w-2.5 h-2.5 rounded-full shrink-0"
             :style="{ backgroundColor: getCategoryColor(tx.category) }"
           ></span>
-          <span class="text-body03 text-kb-ui-02 truncate">{{ tx.name }}</span>
+          <span class="text-body03 text-kb-ui-02 truncate">{{ tx.memo }}</span>
         </div>
         <span class="text-body03 font-nums">{{ Number(tx.amount).toLocaleString() }}원</span>
       </li>
