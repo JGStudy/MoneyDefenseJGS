@@ -3,7 +3,7 @@
     <RealHeader title="가계부" />
 
     <div class="pt-[98px] px-4 flex flex-col gap-4">
-      <MonthSelector v-model="yearMonth" />
+      <MonthSelector v-if="tab !== 'calendar'" v-model="listYearMonth" />
 
       <div class="flex justify-center gap-4">
         <button :class="tab === 'list' ? 'font-bold' : 'text-gray-400'" @click="tab = 'list'">
@@ -19,6 +19,7 @@
 
       <div class="flex flex-col gap-2 mb-2">
         <CategoryFilter
+          v-if="tab !== 'calendar'"
           :income="filteredIncome"
           :expense="filteredExpense"
           :categories="categoryList"
@@ -27,7 +28,16 @@
         />
 
         <div class="flex justify-center">
-          <CalendarFilter :selected-types="selectedTypes" @toggle-type="toggleType" />
+          <CalendarFilter
+            v-if="tab === 'list'"
+            :selected-types="listSelectedTypes"
+            @toggle-type="toggleListType"
+          />
+          <CalendarFilter
+            v-if="tab === 'calendar'"
+            :selected-types="calendarSelectedTypes"
+            @toggle-type="toggleCalendarType"
+          />
         </div>
       </div>
     </div>
@@ -37,10 +47,10 @@
 
       <div v-else class="flex justify-center items-start">
         <Calendar
-          :page="page"
+          :page="calendarPage"
           :transactions="transactions"
-          :selectedTypes="selectedTypes"
-          @update:page="(val) => (page = val)"
+          :selectedTypes="calendarSelectedTypes"
+          @update:page="(val) => (calendarPage.value = val)"
         />
       </div>
     </div>
@@ -63,19 +73,17 @@ import Calendar from '@/components/transaction/calendar/Calendar.vue'
 import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
 
 const transactions = ref([])
-const page = ref({
+const listPage = ref({
   year: new Date().getFullYear(),
   month: new Date().getMonth() + 1,
 })
-const selectedTypes = ref(['지출', '수입', '이체'])
+const calendarPage = ref({
+  year: new Date().getFullYear(),
+  month: new Date().getMonth() + 1,
+})
+const listSelectedTypes = ref(['지출', '수입', '이체'])
+const calendarSelectedTypes = ref(['지출', '수입', '이체'])
 const tab = ref('list')
-
-const income = computed(() =>
-  transactions.value.filter((i) => i.type === 'income').reduce((sum, i) => sum + i.amount, 0),
-)
-const expense = computed(() =>
-  transactions.value.filter((i) => i.type === 'expense').reduce((sum, i) => sum + i.amount, 0),
-)
 
 onMounted(async () => {
   const res = await getTransactions()
@@ -83,24 +91,26 @@ onMounted(async () => {
   transactions.value = res.data
 })
 
-// 현재 날짜 추출 -> "YYYY-MM" 형식으로 변환
-const yearMonth = ref(`${page.value.year}-${String(page.value.month).padStart(2, '0')}`)
-
-watch(yearMonth, (val) => {
-  const [year, month] = val.split('-').map(Number)
-  page.value.year = year
-  page.value.month = month
+// 리스트 탭용 yearMonth
+const listYearMonth = computed({
+  get() {
+    return `${listPage.value.year}-${String(listPage.value.month).padStart(2, '0')}`
+  },
+  set(val) {
+    const [year, month] = val.split('-').map(Number)
+    if (!isNaN(year) && !isNaN(month)) {
+      listPage.value = { year, month }
+    }
+  },
 })
 
-// 월 필터링
+// 리스트 탭용 월 필터링
 const filteredTransactions = computed(() => {
   return transactions.value.filter((tx) => {
     const txDate = new Date(tx.date)
     const isSameMonth =
-      txDate.getFullYear() === page.value.year && txDate.getMonth() + 1 === page.value.month
-
-    const isSelectedType = selectedTypes.value.includes(tx.type)
-
+      txDate.getFullYear() === listPage.value.year && txDate.getMonth() + 1 === listPage.value.month
+    const isSelectedType = listSelectedTypes.value.includes(tx.type)
     return isSameMonth && isSelectedType
   })
 })
@@ -108,21 +118,21 @@ const filteredTransactions = computed(() => {
 const categoryList = ref([])
 const selectedCategory = ref(null)
 
-watch([selectedTypes, yearMonth], async () => {
-  const types = selectedTypes.value
-  const [year, month] = yearMonth.value.split('-')
+watch([listSelectedTypes, listYearMonth], async () => {
+  const types = listSelectedTypes.value
+  const [year, month] = listYearMonth.value.split('-')
   const monthStr = `${year}-${month}`
 
   const result = []
 
   if (types.includes('수입')) {
     const res = await getCategoryIncome()
-    result.push(...res.data.filter((item) => item.month === monthStr))
+    result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 
   if (types.includes('지출')) {
     const res = await getCategoryExpenses()
-    result.push(...res.data.filter((item) => item.month === monthStr))
+    result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 
   categoryList.value = result
@@ -140,9 +150,21 @@ const filteredExpense = computed(() =>
     .reduce((sum, tx) => sum + tx.amount, 0),
 )
 
-const toggleType = (type) => {
-  selectedTypes.value.includes(type)
-    ? (selectedTypes.value = selectedTypes.value.filter((t) => t !== type))
-    : selectedTypes.value.push(type)
+// 리스트 탭용 toggleType
+const toggleListType = (type) => {
+  if (listSelectedTypes.value.includes(type)) {
+    listSelectedTypes.value = listSelectedTypes.value.filter((t) => t !== type)
+  } else {
+    listSelectedTypes.value.push(type)
+  }
+}
+
+// 달력 탭용 toggleType
+const toggleCalendarType = (type) => {
+  if (calendarSelectedTypes.value.includes(type)) {
+    calendarSelectedTypes.value = calendarSelectedTypes.value.filter((t) => t !== type)
+  } else {
+    calendarSelectedTypes.value.push(type)
+  }
 }
 </script>

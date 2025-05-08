@@ -1,111 +1,147 @@
 <template>
-  <div class="flex justify-center items-end mt-6">
-    <v-calendar
-      is-expanded
-      :page="page"
-      @update:page="$emit('update:page', $event)"
-      :locale="'ko'"
-      :show-six-weeks="true"
-      :attributes="calendarAttributes"
-      class="w-full max-w-[360px] min-w-[280px] h-[600px]"
-    >
-      <template #day-content="{ day }">
-        <div
-          class="w-full h-full min-h-[70px] flex flex-col justify-start items-center py-1 relative cursor-pointer"
-          @click="onDayClick(day)"
-        >
-          <div class="flex items-center justify-center w-5 h-5 mb-1">
-            <div
-              v-if="isToday(day.date)"
-              class="w-5 h-5 rounded-full border border-status-positive bg-status-positive flex items-center justify-center"
-            >
-              <span class="text-[10px] text-kb-ui-01">{{ day.day }}</span>
+  <div>
+    <div class="flex justify-center items-end mt-6">
+      <v-calendar
+        is-expanded
+        :page="page"
+        @update:page="$emit('update:page', $event)"
+        :locale="'ko'"
+        :show-six-weeks="true"
+        :attributes="calendarAttributes"
+        class="w-full max-w-[360px] min-w-[280px] h-[600px]"
+        content-class="calendar-grid"
+      >
+        <template #day-content="{ day }">
+          <div
+            class="min-w-[48px] max-w-[48px] h-full flex flex-col justify-between items-center py-1 relative cursor-pointer"
+            @click="onDayClick(day)"
+            style="border: 1px solid #ddd"
+          >
+            <!-- 날짜 -->
+            <div class="flex items-center justify-center w-5 h-5 mb-1">
+              <div
+                v-if="isToday(day.date)"
+                class="w-5 h-5 rounded-full border border-status-positive bg-status-positive flex items-center justify-center"
+              >
+                <span style="font-size: 12px; color: black">{{ day.day }}</span>
+              </div>
+              <div v-else style="font-size: 12px; color: gray">
+                {{ day.day }}
+              </div>
             </div>
-            <div v-else class="text-[10px] text-kb-ui-03">{{ day.day }}</div>
-          </div>
 
-          <div class="flex flex-col gap-0.5 max-h-[40px] overflow-hidden w-full items-center">
+            <!-- 금액 -->
             <div
-              v-for="tx in getFilteredDailyTransactions(day.date)"
-              :key="tx.id"
-              class="text-[10px] font-nums break-words text-center truncate max-w-[40px]"
-              :class="{
-                'text-status-positive': tx.type === '지출',
-                'text-red-500': tx.type === '수입',
-                'text-status-caution': tx.type === '이체',
-              }"
+              class="flex flex-col gap-0.5 w-full items-center px-1 max-h-[40px] overflow-hidden"
+              style="min-height: 40px"
             >
-              {{ formatAmount(tx.amount) }}
+              <div
+                v-for="tx in getFilteredDailyTransactions(day.date)"
+                :key="tx.id"
+                :style="getStyleByType(tx.type)"
+                class="text-[10px] px-2 py-0.5 rounded font-nums text-center truncate w-full whitespace-nowrap"
+              >
+                {{ formatAmount(tx.amount) }}
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-    </v-calendar>
+        </template>
+      </v-calendar>
 
-    <CalendarModal
-      :show="showModal"
-      :transactions="modalTransactions"
-      :formattedDate="modalDateText"
-      @close="showModal = false"
-    />
+      <CalendarModal
+        :show="showModal"
+        :transactions="modalTransactions"
+        :formattedDate="modalDateText"
+        @close="showModal = false"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits, watch } from 'vue'
+import { ref, computed, onMounted, defineProps, watch } from 'vue'
 import { format, isToday } from 'date-fns'
 import CalendarModal from '@/components/transaction/calendar/CalendarModal.vue'
+import { getTransactions } from '@/api/transactionApi'
+import { useUserStore } from '@/stores/userStore'
+
+// ✅ store에서 userId를 가져오고, 없으면 '1'로 기본 설정
+const userStore = useUserStore()
+const userId = computed(() => String(userStore.user?.id || '1'))
 
 const props = defineProps({
-  page: Object,
-  transactions: Array, // << 이거 받기만 해!
-  selectedTypes: Array, // << 이거도 받기만 해!
+  page: {
+    type: Object,
+    required: true,
+  },
+  selectedTypes: {
+    type: Array,
+    default: () => ['지출', '수입', '이체'],
+  },
 })
-watch(
-  () => props.transactions,
-  (val) => {
-    console.log('🔥 transactions', val)
-  },
-  { deep: true },
-)
 
-watch(
-  () => props.selectedTypes,
-  (val) => {
-    console.log('🔥 selectedTypes', val)
-  },
-  { deep: true },
+const transactions = ref([])
+
+const fetchTransactions = async () => {
+  try {
+    const res = await getTransactions()
+    transactions.value = [...res.data] // 강제 반응형
+  } catch (e) {
+    console.error('📛 거래 데이터 불러오기 실패:', e)
+  }
+}
+
+onMounted(fetchTransactions)
+watch(userId, fetchTransactions)
+
+const filteredTransactions = computed(() =>
+  transactions.value.filter(
+    (tx) => String(tx.userid) === userId.value && props.selectedTypes.includes(tx.type),
+  ),
 )
-const emit = defineEmits(['update:page'])
 
 const showModal = ref(false)
 const modalTransactions = ref([])
 const modalDateText = ref('')
 
-const formatAmount = (amt) => {
-  return Math.abs(amt).toLocaleString() + '원'
-}
+const formatAmount = (amt) => Math.abs(amt).toLocaleString() + '원'
 
 const onDayClick = (day) => {
   const targetDate = format(day.date, 'yyyy-MM-dd')
-  modalTransactions.value = props.transactions.filter((tx) => tx.date === targetDate)
+  modalTransactions.value = filteredTransactions.value.filter((tx) => {
+    const txDate = format(new Date(tx.date), 'yyyy-MM-dd')
+    return txDate === targetDate
+  })
   modalDateText.value = format(day.date, 'M월 d일')
   showModal.value = true
 }
 
 const getFilteredDailyTransactions = (date) => {
   const target = format(date, 'yyyy-MM-dd')
-  return props.transactions.filter(
-    (tx) => tx.date === target && props.selectedTypes.includes(tx.type),
-  )
+  return filteredTransactions.value.filter((tx) => {
+    const txDate = format(new Date(tx.date), 'yyyy-MM-dd')
+    return txDate === target
+  })
+}
+
+const getStyleByType = (type) => {
+  switch (type) {
+    case '수입':
+      return { backgroundColor: '#ffe5e5', color: '#000' }
+    case '지출':
+      return { backgroundColor: '#e0f0ff', color: '#000' }
+    case '이체':
+      return { backgroundColor: '#fff6cc', color: '#000' }
+    default:
+      return {}
+  }
 }
 
 const calendarAttributes = computed(() => {
   const typeGroups = { 지출: [], 수입: [], 이체: [] }
-  props.transactions.forEach((tx) => {
-    if (props.selectedTypes.includes(tx.type)) {
-      typeGroups[tx.type].push(new Date(tx.date))
-    }
+
+  filteredTransactions.value.forEach((tx) => {
+    typeGroups[tx.type].push(new Date(tx.date))
   })
 
   return [
@@ -123,3 +159,10 @@ const calendarAttributes = computed(() => {
   ]
 })
 </script>
+
+<style>
+.calendar-grid .vc-day-content {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+</style>
