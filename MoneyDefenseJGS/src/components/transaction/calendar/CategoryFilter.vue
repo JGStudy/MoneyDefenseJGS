@@ -26,7 +26,7 @@
     </div>
 
     <!-- 카테고리 선택 -->
-    <div class="flex items-center gap-2 cursor-pointer" @click="toggleDropdown">
+    <!-- <div class="flex items-center gap-2 cursor-pointer" @click="toggleDropdown">
       <span>{{ selectedCategory || '카테고리 선택' }}</span>
       <svg
         class="w-4 h-4 text-kb-ui-05"
@@ -51,7 +51,7 @@
       >
         {{ cat.category }}
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
