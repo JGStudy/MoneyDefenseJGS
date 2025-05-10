@@ -43,13 +43,14 @@
     </div>
 
     <div class="flex-grow overflow-y-auto px-4">
-      <TransactionList v-if="tab === 'list'" :transactions="filteredTransactions" />
+      <TransactionList v-if="tab === 'list'" :transactions="filteredListTransactions" />
 
       <div v-else class="flex justify-center items-start">
         <Calendar
           :page="calendarPage"
-          :transactions="transactions"
+          :transactions="filteredTransactions"
           :selectedTypes="calendarSelectedTypes"
+          :userId="userId"
           @update:page="(val) => (calendarPage.value = val)"
         />
       </div>
@@ -61,6 +62,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 
 import RealHeader from '@/components/layout/RealHeader.vue'
 import BottomNavBar from '@/components/layout/BottomNavBar.vue'
@@ -72,26 +74,28 @@ import Calendar from '@/components/transaction/calendar/Calendar.vue'
 
 import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
 
+const userStore = useUserStore()
+const userId = computed(() => String(userStore.user?.id || '1'))
+
 const transactions = ref([])
-const listPage = ref({
-  year: new Date().getFullYear(),
-  month: new Date().getMonth() + 1,
+
+onMounted(async () => {
+  const res = await getTransactions()
+  transactions.value = [...res.data]
 })
-const calendarPage = ref({
-  year: new Date().getFullYear(),
-  month: new Date().getMonth() + 1,
-})
+
+const listPage = ref({ year: new Date().getFullYear(), month: new Date().getMonth() + 1 })
+const calendarPage = ref({ year: new Date().getFullYear(), month: new Date().getMonth() + 1 })
 const listSelectedTypes = ref(['지출', '수입', '이체'])
 const calendarSelectedTypes = ref(['지출', '수입', '이체'])
 const tab = ref('list')
 
-onMounted(async () => {
-  const res = await getTransactions()
-  console.log('불러온 데이터', res.data)
-  transactions.value = res.data
-})
+// ✅ 유저 기반 거래 필터
+const filteredTransactions = computed(() =>
+  transactions.value.filter((tx) => String(tx.userid) === userId.value),
+)
 
-// 리스트 탭용 yearMonth
+// ✅ 리스트용 월 필터링
 const listYearMonth = computed({
   get() {
     return `${listPage.value.year}-${String(listPage.value.month).padStart(2, '0')}`
@@ -104,9 +108,8 @@ const listYearMonth = computed({
   },
 })
 
-// 리스트 탭용 월 필터링
-const filteredTransactions = computed(() => {
-  return transactions.value.filter((tx) => {
+const filteredListTransactions = computed(() => {
+  return filteredTransactions.value.filter((tx) => {
     const txDate = new Date(tx.date)
     const isSameMonth =
       txDate.getFullYear() === listPage.value.year && txDate.getMonth() + 1 === listPage.value.month
@@ -115,10 +118,11 @@ const filteredTransactions = computed(() => {
   })
 })
 
+// ✅ 카테고리 필터링
 const categoryList = ref([])
 const selectedCategory = ref(null)
 
-watch([listSelectedTypes, listYearMonth], async () => {
+watch([listSelectedTypes, listYearMonth, userId], async () => {
   const types = listSelectedTypes.value
   const [year, month] = listYearMonth.value.split('-')
   const monthStr = `${year}-${month}`
@@ -126,12 +130,12 @@ watch([listSelectedTypes, listYearMonth], async () => {
   const result = []
 
   if (types.includes('수입')) {
-    const res = await getCategoryIncome()
+    const res = await getCategoryIncome({ userId: userId.value })
     result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 
   if (types.includes('지출')) {
-    const res = await getCategoryExpenses()
+    const res = await getCategoryExpenses({ userId: userId.value })
     result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 
@@ -139,18 +143,17 @@ watch([listSelectedTypes, listYearMonth], async () => {
 })
 
 const filteredIncome = computed(() =>
-  filteredTransactions.value
+  filteredListTransactions.value
     .filter((tx) => tx.type === '수입')
     .reduce((sum, tx) => sum + tx.amount, 0),
 )
 
 const filteredExpense = computed(() =>
-  filteredTransactions.value
+  filteredListTransactions.value
     .filter((tx) => tx.type === '지출')
     .reduce((sum, tx) => sum + tx.amount, 0),
 )
 
-// 리스트 탭용 toggleType
 const toggleListType = (type) => {
   if (listSelectedTypes.value.includes(type)) {
     listSelectedTypes.value = listSelectedTypes.value.filter((t) => t !== type)
@@ -159,7 +162,6 @@ const toggleListType = (type) => {
   }
 }
 
-// 달력 탭용 toggleType
 const toggleCalendarType = (type) => {
   if (calendarSelectedTypes.value.includes(type)) {
     calendarSelectedTypes.value = calendarSelectedTypes.value.filter((t) => t !== type)

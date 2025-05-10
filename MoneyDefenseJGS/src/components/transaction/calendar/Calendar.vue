@@ -59,52 +59,42 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineProps, watch } from 'vue'
+import { ref, computed, defineProps } from 'vue'
 import { format, isToday } from 'date-fns'
 import CalendarModal from '@/components/transaction/calendar/CalendarModal.vue'
-import { getTransactions } from '@/api/transactionApi'
-import { useUserStore } from '@/stores/userStore'
 
-// ✅ store에서 userId를 가져오고, 없으면 '1'로 기본 설정
-const userStore = useUserStore()
-const userId = computed(() => String(userStore.user?.id || '1'))
-
+// ✅ props 정의: 기존에 없던 userId 추가
 const props = defineProps({
   page: {
     type: Object,
+    required: true,
+  },
+  transactions: {
+    type: Array,
     required: true,
   },
   selectedTypes: {
     type: Array,
     default: () => ['지출', '수입', '이체'],
   },
+  userId: {
+    type: String,
+    required: true,
+  },
 })
-
-const transactions = ref([])
-
-const fetchTransactions = async () => {
-  try {
-    const res = await getTransactions()
-    transactions.value = [...res.data] // 강제 반응형
-  } catch (e) {
-    console.error('📛 거래 데이터 불러오기 실패:', e)
-  }
-}
-
-onMounted(fetchTransactions)
-watch(userId, fetchTransactions)
-
-const filteredTransactions = computed(() =>
-  transactions.value.filter(
-    (tx) => String(tx.userid) === userId.value && props.selectedTypes.includes(tx.type),
-  ),
-)
 
 const showModal = ref(false)
 const modalTransactions = ref([])
 const modalDateText = ref('')
 
 const formatAmount = (amt) => Math.abs(amt).toLocaleString() + '원'
+
+// ✅ 필터된 거래 내역 (userId & selectedTypes 기준)
+const filteredTransactions = computed(() =>
+  props.transactions.filter(
+    (tx) => String(tx.userid) === props.userId && props.selectedTypes.includes(tx.type),
+  ),
+)
 
 const onDayClick = (day) => {
   const targetDate = format(day.date, 'yyyy-MM-dd')
