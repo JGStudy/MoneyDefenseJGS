@@ -41,15 +41,9 @@ import { getUserById } from '@/api/userApi'
 import { getAssetByUserId } from '@/api/assetApi'
 import { useUserStore } from '@/stores/userStore'
 
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts.pop().split(';').shift()
-}
-
 const router = useRouter()
 const userStore = useUserStore()
-const userId = getCookie('userId')
+const userId = localStorage.getItem('userId')
 const asset = ref(null)
 
 const isEditMode = ref(false)
@@ -61,14 +55,13 @@ const cards = ref([
 
 onMounted(async () => {
   if (userId) {
-    const res = await getUserById(userId)
-    userStore.setUser(res.data)
+    await userStore.loadUser()
     const userAsset = await getAssetByUserId(userId)
     asset.value = userAsset
   } else {
     window.location.href = '/onboarding'
   }
-})
+}) // 로컬스토리지 사용
 
 const user = computed(() => userStore.user)
 
