@@ -1,26 +1,36 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { getUserById } from '@/api/userApi'
+import { id } from 'date-fns/locale'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref(null)
 
   const setUser = (data) => {
     user.value = data
+    localStorage.setItem('userId', data.id)
   }
 
-  // 저장용 함수는 따로!
-  const saveUserIdToStorage = () => {
-    if (user.value?.id) {
-      localStorage.setItem('userId', user.value.id)
-    }
+  const loadUser = async () => {
+    const id = localStorage.getItem('userId')
+    if (!id) return
+    try {
+      const res = await getUserById(id)
+      setUser(res.data)
+    } catch (error) {}
   }
 
-  const initUser = () => {
-    const savedId = localStorage.getItem('userId')
-    if (savedId) {
-      user.value = { id: savedId }
-    }
+  const switchUser = async (id) => {
+    try {
+      const res = await getUserById(id)
+      setUser(res.data)
+    } catch (error) {}
   }
 
-  return { user, setUser, initUser, saveUserIdToStorage }
+  const logout = () => {
+    user.value = null
+    localStorage.removeItem('userId')
+  }
+
+  return { user, setUser, loadUser, switchUser, logout }
 })
