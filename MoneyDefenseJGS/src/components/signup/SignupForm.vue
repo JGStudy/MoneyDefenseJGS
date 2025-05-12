@@ -1,4 +1,5 @@
 <template>
+  <div class="flex flex-col gap-4">
     <!-- 닉네임 입력 필드 -->
     <TextInputField
       v-model="nickname"
@@ -8,6 +9,9 @@
       :showValidation="touched.nickname"
       @input="touched.nickname = true"
     />
+
+    <!-- 아이디 입력 필드 -->
+    <div class="relative">
       <TextInputField
         v-model="userId"
         label="아이디"
@@ -21,11 +25,24 @@
           }
         "
       />
+      <!-- 아이디 중복 확인 버튼 -->
+      <button
+        class="absolute right-2 bottom-2 text-sm text-blue-500 underline disabled:text-gray-400"
+        :disabled="!isUserIdFormatValid"
+        @click="checkUserIdDuplication"
+      >
+        중복 확인
+      </button>
+    </div>
 </template>
 <script setup>
 import TextInputField from '@/components/common/TextInputField.vue'
 const nickname = ref('')
 const userId = ref('')
+
+// 아이디 중복 검사 상태 관리
+const isIdChecked = ref(false) // 중복 확인 버튼 눌렀는지 여부
+const isUserIdDuplicate = ref(false) // 중복 여부 결과
 // 닉네임
 const validateNickname = (val) => {
   const regex = /^[가-힣a-zA-Z]{2,20}$/ // 길이 2~20자, 한글/영문만 허용
@@ -44,5 +61,22 @@ const validateUserId = (val) => {
   if (!isIdChecked.value) return { isValid: false, message: '중복 확인 필요' } // 중복 확인 안됨
   if (isUserIdDuplicate.value) return { isValid: false, message: '이미 사용 중인 아이디 입니다.' } // 중복됨
   return { isValid: true, message: '사용 가능한 아이디 입니다.' } // 유효
+}
+
+// id 중복 확인 버튼 : 아이디가 형식에 맞는 경우에만 버튼 활성화
+const isUserIdFormatValid = computed(() => /^[a-zA-Z0-9]{5,20}$/.test(userId.value))
+
+// 전체 유저 목록에서 동일한 userId가 있는지 확인
+const checkUserIdDuplication = async () => {
+  try {
+    const { data: users } = await getAllUsers()
+    const duplicate = users.some((u) => u.userId === userId.value)
+    isUserIdDuplicate.value = duplicate
+    isIdChecked.value = true
+  } catch (err) {
+    console.error('중복 확인 에러:', err)
+    isUserIdDuplicate.value = true
+    isIdChecked.value = false
+  }
 }
 </script>
