@@ -3,6 +3,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 // onboarding
 import OnboardingPage from '@/pages/onboarding/OnboardingPage.vue'
 
+// signup
+import SignupPage from '@/pages/signup/SignupPage.vue'
+
 // home
 import HomePage from '@/pages/home/HomePage.vue'
 
@@ -30,6 +33,10 @@ const router = createRouter({
   routes: [
     // onboarding
     { path: '/onboarding', name: 'onboarding', component: OnboardingPage },
+
+    // signup
+    { path: '/signup', name: 'signup', component: SignupPage },
+
     //home
     { path: '/', name: 'home', component: HomePage },
 
