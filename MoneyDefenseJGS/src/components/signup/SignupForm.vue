@@ -34,16 +34,32 @@
         중복 확인
       </button>
     </div>
+
+    <!-- 비밀번호 입력 필드 -->
+    <TextInputField
+      v-model="password"
+      type="password"
+      label="비밀번호"
+      placeholder="비밀번호를 입력하세요"
+      :validator="validatePassword"
+      :showValidation="touched.password"
+      @input="touched.password = true"
+    />
 </template>
+
 <script setup>
 import TextInputField from '@/components/common/TextInputField.vue'
 import { getAllUsers } from '@/api/userApi.js'
 const nickname = ref('')
 const userId = ref('')
+const password = ref('')
 
 // 아이디 중복 검사 상태 관리
 const isIdChecked = ref(false) // 중복 확인 버튼 눌렀는지 여부
 const isUserIdDuplicate = ref(false) // 중복 여부 결과
+
+// 각 항목별 유효성 검사
+// ------------------------
 // 닉네임
 const validateNickname = (val) => {
   const regex = /^[가-힣a-zA-Z]{2,20}$/ // 길이 2~20자, 한글/영문만 허용
@@ -62,6 +78,19 @@ const validateUserId = (val) => {
   if (!isIdChecked.value) return { isValid: false, message: '중복 확인 필요' } // 중복 확인 안됨
   if (isUserIdDuplicate.value) return { isValid: false, message: '이미 사용 중인 아이디 입니다.' } // 중복됨
   return { isValid: true, message: '사용 가능한 아이디 입니다.' } // 유효
+}
+
+// 비밀번호
+const validatePassword = (val) => {
+  const lengthValid = val.length >= 8 && val.length <= 20 // 길이 8~20자
+  const hasLetter = /[a-zA-Z]/.test(val) // 영문 포함 여부
+  const hasNumber = /\d/.test(val) // 숫자 포함 여부
+  const hasSpecial = /[!@#$%^&*]/.test(val) // 특수문자 포함 여부
+  const noSpace = !/\s/.test(val) // 공백 없음
+  if (!lengthValid || !hasLetter || !hasNumber || !hasSpecial || !noSpace) {
+    return { isValid: false, message: '8~20자 영문+숫자+특수문자 필수' } // 하나라도 불충족 시
+  }
+  return { isValid: true, message: '사용 가능한 비밀번호 입니다.' } // 유효
 }
 
 // id 중복 확인 버튼 : 아이디가 형식에 맞는 경우에만 버튼 활성화
