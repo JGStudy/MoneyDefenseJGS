@@ -37,6 +37,7 @@
 </template>
 <script setup>
 import TextInputField from '@/components/common/TextInputField.vue'
+import { getAllUsers } from '@/api/userApi.js'
 const nickname = ref('')
 const userId = ref('')
 
