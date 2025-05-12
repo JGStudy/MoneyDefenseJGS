@@ -60,12 +60,26 @@
 </template>
 
 <script setup>
+import { ref, computed, watch } from 'vue'
 import TextInputField from '@/components/common/TextInputField.vue'
 import { getAllUsers } from '@/api/userApi.js'
+
+// 입력 값과 각 값의 유효 상태 전달
+const emit = defineEmits(['update:formValid', 'update:formValues'])
+
 const nickname = ref('')
 const userId = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
+
+// 입력 필드가 포커스된 적이 있는지 (입력 시도한 적 있는지) 여부
+// -> @input 이벤트 발생 시 true 됨
+const touched = ref({
+  nickname: false,
+  userId: false,
+  password: false,
+  passwordConfirm: false,
+})
 
 // 아이디 중복 검사 상태 관리
 const isIdChecked = ref(false) // 중복 확인 버튼 눌렀는지 여부
@@ -130,4 +144,23 @@ const checkUserIdDuplication = async () => {
     isIdChecked.value = false
   }
 }
+
+// 유효성 전체 확인 & 부모로 전달
+const isFormValid = computed(
+  () =>
+    validateNickname(nickname.value).isValid &&
+    validateUserId(userId.value).isValid &&
+    validatePassword(password.value).isValid &&
+    validatePasswordConfirm(passwordConfirm.value).isValid,
+)
+
+// 모든 입력값 변경 시 유효성 여부 + 입력값 emit
+watch([nickname, userId, password, passwordConfirm, isIdChecked], () => {
+  emit('update:formValid', isFormValid.value)
+  emit('update:formValues', {
+    name: nickname.value,
+    userId: userId.value,
+    password: password.value,
+  })
+})
 </script>
