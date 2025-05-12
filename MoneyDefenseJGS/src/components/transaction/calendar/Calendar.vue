@@ -17,7 +17,6 @@
             @click="onDayClick(day)"
             style="border: 1px solid #ddd"
           >
-            <!-- 날짜 -->
             <div class="flex items-center justify-center w-5 h-5 mb-1">
               <div
                 v-if="isToday(day.date)"
@@ -30,7 +29,6 @@
               </div>
             </div>
 
-            <!-- 금액 -->
             <div
               class="flex flex-col gap-0.5 w-full items-center px-1 max-h-[40px] overflow-hidden"
               style="min-height: 40px"
@@ -63,16 +61,9 @@ import { ref, computed, defineProps } from 'vue'
 import { format, isToday } from 'date-fns'
 import CalendarModal from '@/components/transaction/calendar/CalendarModal.vue'
 
-// ✅ props 정의: 기존에 없던 userId 추가
 const props = defineProps({
-  page: {
-    type: Object,
-    required: true,
-  },
-  transactions: {
-    type: Array,
-    required: true,
-  },
+  page: Object,
+  transactions: Array,
   selectedTypes: {
     type: Array,
     default: () => ['지출', '수입', '이체'],
@@ -89,11 +80,10 @@ const modalDateText = ref('')
 
 const formatAmount = (amt) => Math.abs(amt).toLocaleString() + '원'
 
-// ✅ 필터된 거래 내역 (userId & selectedTypes 기준)
 const filteredTransactions = computed(() =>
   props.transactions.filter(
     (tx) => String(tx.userid) === props.userId && props.selectedTypes.includes(tx.type),
-  ),
+  )
 )
 
 const onDayClick = (day) => {
@@ -129,23 +119,13 @@ const getStyleByType = (type) => {
 
 const calendarAttributes = computed(() => {
   const typeGroups = { 지출: [], 수입: [], 이체: [] }
-
   filteredTransactions.value.forEach((tx) => {
     typeGroups[tx.type].push(new Date(tx.date))
   })
-
   return [
     { key: 'expense', dates: typeGroups['지출'], highlight: { color: 'kb-yellow', fillMode: '' } },
-    {
-      key: 'income',
-      dates: typeGroups['수입'],
-      highlight: { color: 'status-positive', fillMode: '' },
-    },
-    {
-      key: 'transfer',
-      dates: typeGroups['이체'],
-      highlight: { color: 'status-caution', fillMode: '' },
-    },
+    { key: 'income', dates: typeGroups['수입'], highlight: { color: 'status-positive', fillMode: '' } },
+    { key: 'transfer', dates: typeGroups['이체'], highlight: { color: 'status-caution', fillMode: '' } },
   ]
 })
 </script>

@@ -75,10 +75,13 @@ import Calendar from '@/components/transaction/calendar/Calendar.vue'
 import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
 
 const userStore = useUserStore()
-const userId = computed(() => String(userStore.user?.id || '1'))
+onMounted(() => {
+  userStore.loadUser()
+})
+
+const userId = computed(() => String(userStore.user?.userId || '1'))
 
 const transactions = ref([])
-
 onMounted(async () => {
   const res = await getTransactions()
   transactions.value = [...res.data]
@@ -90,12 +93,10 @@ const listSelectedTypes = ref(['지출', '수입', '이체'])
 const calendarSelectedTypes = ref(['지출', '수입', '이체'])
 const tab = ref('list')
 
-// ✅ 유저 기반 거래 필터
 const filteredTransactions = computed(() =>
   transactions.value.filter((tx) => String(tx.userid) === userId.value),
 )
 
-// ✅ 리스트용 월 필터링
 const listYearMonth = computed({
   get() {
     return `${listPage.value.year}-${String(listPage.value.month).padStart(2, '0')}`
@@ -118,15 +119,13 @@ const filteredListTransactions = computed(() => {
   })
 })
 
-// ✅ 카테고리 필터링
 const categoryList = ref([])
 const selectedCategory = ref(null)
 
 watch([listSelectedTypes, listYearMonth, userId], async () => {
   const types = listSelectedTypes.value
   const [year, month] = listYearMonth.value.split('-')
-  const monthStr = `${year}-${month}`
-
+  const monthStr = `${year}-${String(month).padStart(2, '0')}`
   const result = []
 
   if (types.includes('수입')) {
