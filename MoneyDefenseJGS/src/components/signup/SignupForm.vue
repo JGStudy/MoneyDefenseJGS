@@ -45,6 +45,18 @@
       :showValidation="touched.password"
       @input="touched.password = true"
     />
+
+    <!-- 비밀번호 확인 입력 필드 -->
+    <TextInputField
+      v-model="passwordConfirm"
+      type="password"
+      label="비밀번호 확인"
+      placeholder="비밀번호를 다시 입력하세요"
+      :validator="validatePasswordConfirm"
+      :showValidation="touched.passwordConfirm"
+      @input="touched.passwordConfirm = true"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -53,6 +65,7 @@ import { getAllUsers } from '@/api/userApi.js'
 const nickname = ref('')
 const userId = ref('')
 const password = ref('')
+const passwordConfirm = ref('')
 
 // 아이디 중복 검사 상태 관리
 const isIdChecked = ref(false) // 중복 확인 버튼 눌렀는지 여부
@@ -91,6 +104,14 @@ const validatePassword = (val) => {
     return { isValid: false, message: '8~20자 영문+숫자+특수문자 필수' } // 하나라도 불충족 시
   }
   return { isValid: true, message: '사용 가능한 비밀번호 입니다.' } // 유효
+}
+
+// 비밀번호 확인
+const validatePasswordConfirm = (val) => {
+  if (val !== password.value) {
+    return { isValid: false, message: '비밀번호가 일치하지 않습니다' } // 불일치
+  }
+  return { isValid: true, message: '비밀번호가 일치합니다.' } // 일치
 }
 
 // id 중복 확인 버튼 : 아이디가 형식에 맞는 경우에만 버튼 활성화
