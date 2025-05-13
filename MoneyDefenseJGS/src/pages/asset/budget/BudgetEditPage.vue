@@ -23,7 +23,7 @@ const budgetStore = useBudgetStore()
 const assetStore = useAssetStore()
 const router = useRouter()
 
-// ✅ localStorage에서 userId 가져오기
+// localStorage에서 userId 가져오기
 const userId = localStorage.getItem('userId')
 
 if (!userId) {

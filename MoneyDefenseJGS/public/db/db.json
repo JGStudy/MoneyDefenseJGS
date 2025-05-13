@@ -29,12 +29,6 @@
       "name": "관리자5",
       "userId": "admin05",
       "password": "Test1234!"
-    },
-    {
-      "id": "2c2a",
-      "name": "유상은",
-      "userId": "sangeun",
-      "password": "qwer1234#"
     }
   ],
   "categoryExpenses": [
