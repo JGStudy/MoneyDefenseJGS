@@ -17,20 +17,14 @@ import AppLayoutPage from '@/pages/layout/AppLayoutPage.vue'
 const assetStore = useAssetStore()
 const router = useRouter()
 
-// 쿠키에서 userId 추출하는 함수
-function getUserIdFromCookie() {
-  const match = document.cookie.match(/(?:^|; )userId=([^;]*)/)
-  return match ? decodeURIComponent(match[1]) : null
-}
-
 // 자산 정보 가져오기
 onMounted(() => {
-  const userId = getUserIdFromCookie()
+  const userId = localStorage.getItem('userId')
   if (userId) {
     assetStore.userId = userId
     assetStore.fetchAsset()
   } else {
-    console.warn('쿠키에서 userId를 찾을 수 없습니다.')
+    console.warn('localStorage에서 userId를 찾을 수 없습니다.')
   }
 })
 
