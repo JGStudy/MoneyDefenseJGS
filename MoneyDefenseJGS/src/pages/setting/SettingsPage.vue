@@ -28,47 +28,52 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import RealHeader from '@/components/layout/RealHeader.vue'
 import RealFooter from '@/components/setting/RealFooter.vue'
 import ListItem from '@/components/setting/ListItem.vue'
 import SideModal from '@/components/setting/SideModal.vue'
-import { useUserStore } from '@/stores/userStore'
-import axios from 'axios'
+import { getAllUsers } from '@/api/userApi.js'
 
 const router = useRouter()
 const activeModal = ref(null)
-const userStore = useUserStore()
+const userName = ref('사용자')
 
-// 쿠키에서 userId 가져오기
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts.pop().split(';').shift()
+// localStorage에서 userId를 우선 가져오고, 없으면 db에서 검색
+const getUserId = async () => {
+  let userId = localStorage.getItem('userId')
+  if (userId) return userId
+  // localStorage에 없으면 db에서 가장 마지막 사용자 userId를 사용
+  try {
+    const { data } = await getAllUsers()
+    if (data && data.length > 0) {
+      return data[data.length - 1].userId
+    }
+  } catch (e) {
+    // 무시
+  }
+  return null
 }
 
-const userId = getCookie('userId')
-
-// 컴포넌트 마운트 시 사용자 정보 로드
 onMounted(async () => {
+  const userId = await getUserId()
   if (userId) {
     try {
-      const { data } = await axios.get(`/api/Profile/${userId}`)
-      userStore.setUser(data)
+      const { data } = await getAllUsers()
+      const user = data.find((u) => u.userId === userId)
+      if (user) {
+        userName.value = user.name
+      } else {
+        userName.value = '사용자'
+      }
     } catch (error) {
       console.error('사용자 정보 조회 실패:', error)
     }
   }
 })
 
-// Pinia에서 사용자 이름을 반응형으로 가져오기
-const userName = computed(() => userStore.user?.name || '사용자')
-
-// 사용자 정보 수정 페이지로 이동
 const goToUserEdit = () => router.push({ name: 'user-edit' })
-
-// 모달 열기/닫기
 const openModal = (type) => (activeModal.value = type)
 const closeModal = () => (activeModal.value = null)
 </script>
