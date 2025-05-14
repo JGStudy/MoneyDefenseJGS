@@ -66,7 +66,7 @@ const toast = ref(null)
 const name = ref('')
 const user = ref(null)
 
-// localStorage에서 userId를 우선 가져오고, 없으면 db에서 검색
+// localStorage에서 userId를 우선 가져오고, 없으면 db
 const getUserId = async () => {
   let userId = localStorage.getItem('userId')
   if (userId) return userId

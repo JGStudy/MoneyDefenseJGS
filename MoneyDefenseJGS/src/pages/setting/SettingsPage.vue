@@ -40,7 +40,7 @@ const router = useRouter()
 const activeModal = ref(null)
 const userName = ref('사용자')
 
-// localStorage에서 userId를 우선 가져오고, 없으면 db에서 검색
+// localStorage에서 userId를 우선 가져오고, 없으면 db
 const getUserId = async () => {
   let userId = localStorage.getItem('userId')
   if (userId) return userId
