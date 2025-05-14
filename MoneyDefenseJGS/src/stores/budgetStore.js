@@ -4,7 +4,7 @@ import { fetchBudgetByMonth, updateBudget } from '@/api/budgetApi'
 export const useBudgetStore = defineStore('budget', {
   state: () => ({
     userId: null,
-    budget: { amount: 0 }, // { '2025-05': 300000 } 형식
+    budget: {}, // 초기값은 빈 객체
   }),
   actions: {
     setUserId(id) {
@@ -29,37 +29,26 @@ export const useBudgetStore = defineStore('budget', {
       localStorage.setItem('budget', JSON.stringify(this.budget))
     },
 
-    async fetchBudgetByMonth(month) {
+    async fetchBudgetByMonth(month, userId) {
       try {
-        if (!this.userId) {
-          console.error('User ID가 설정되지 않았습니다.')
-          return
-        }
+        console.log('API 호출 파라미터 userId:', userId)
+        console.log('API 호출 파라미터 month:', month)
 
-        console.log('API 호출 파라미터 userId:', this.userId) // userId 확인
-        console.log('API 호출 파라미터 month:', month) // month 확인
+        const budgetItem = await fetchBudgetByMonth(userId, month)
+        console.log('받은 예산 데이터:', budgetItem)
 
-        const res = await fetchBudgetByMonth(this.userId, month)
-
-        // 응답 데이터 확인
-        console.log('API 응답 데이터:', res.data)
-
-        const data = res.data
-        if (Array.isArray(data) && data.length > 0) {
-          const latest = data
-            .filter((item) => item.lastModified)
-            .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))[0]
-          this.budget[month] = latest.amount
+        if (budgetItem) {
+          this.budget[month] = budgetItem.amount
         } else {
-          console.log('예산 데이터 없음, 0으로 설정')
+          console.warn('예산 데이터 없음, 0으로 설정')
           this.budget[month] = 0
         }
-
-        this.saveBudgetToStorage()
       } catch (error) {
-        console.error('예산 데이터를 가져오는 데 실패했습니다:', error)
+        console.error('예산 불러오기 실패:', error)
+        this.budget[month] = 0
       }
     },
+
     async updateBudget(month, newAmount) {
       try {
         if (!this.userId) {
