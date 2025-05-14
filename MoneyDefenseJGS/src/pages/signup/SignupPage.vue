@@ -1,6 +1,5 @@
 <template>
   <div class="mx-6 pt-24 pt-mx-1 font-sans relative h-screen">
-    <!-- <p class="text-body01 mb-2">💰지갑을 지켜라!</p> -->
     <p class="font-bold text-title02 mb-10">회원가입</p>
     <!-- 회원 정보 입력 영역 -->
     <SignupForm @update:formValid="onFormValidUpdate" @update:formValues="onFormValuesUpdate" />
