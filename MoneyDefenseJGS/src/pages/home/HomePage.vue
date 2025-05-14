@@ -35,9 +35,8 @@ import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 import AssetTotalCard from '@/components/home/AssetTotalCard.vue'
 import TransactionCard from '@/components/home/TransactionCard.vue'
 import Button from '@/components/home/EditCardBoardButton.vue'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, markRaw } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUserById } from '@/api/userApi'
 import { getAssetByUserId } from '@/api/assetApi'
 import { useUserStore } from '@/stores/userStore'
 
@@ -49,17 +48,18 @@ const asset = ref(null)
 const isEditMode = ref(false)
 const draggingIndex = ref(null)
 const cards = ref([
-  { id: 1, component: AssetTotalCard, onClick: () => goToAssetPage() },
-  { id: 2, component: TransactionCard },
+  { id: 1, component: markRaw(AssetTotalCard), onClick: () => goToAssetPage() },
+  { id: 2, component: markRaw(TransactionCard) },
 ]) // 보드 편집 세팅
 
 onMounted(async () => {
+  // localStorage.removeItem('userId') // 설정 페이지에 넣어야 할 듯... 로그아웃st로
   if (userId) {
     await userStore.loadUser()
     const userAsset = await getAssetByUserId(userId)
     asset.value = userAsset
   } else {
-    window.location.href = '/onboarding'
+    router.push('/onboarding')
   }
 }) // 로컬스토리지 사용
 
