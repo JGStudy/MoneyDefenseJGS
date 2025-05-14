@@ -5,11 +5,27 @@ export const getUserById = (id) => {
   return axios.get(`/Profile/${id}`)
 } // 특정 id
 
+// userId 무작위 생성 -> 로그인 페이지 구현 후 삭제 예장
+const randomUserId = () => {
+  return 'user' + Math.random().toString(36).substring(2, 10)
+}
+
 // POST
 export const createUser = async (userName) => {
-  const response = await axios.post('/Profile', { name: userName })
+  // const response = await axios.post('/Profile', { name: userName })
+  // return response.data
+  const userId = randomUserId()
+
+  const newUser = {
+    id: userId,
+    name: userName,
+    userId,
+    password: null, // 비밀번호는 사용하지 않기 때문에 null 처리
+  }
+
+  const response = await axios.post('/Profile', newUser)
   return response.data
-}
+} // 로그인 페이지 구현 시 삭제
 
 /**
  * 전체 사용자 목록을 가져오는 함수
