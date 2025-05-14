@@ -64,6 +64,7 @@ const handleSubmit = async () => {
   // userName과 assetTotal 로컬 스토리지 저장
   const newUser = await createUser(userName.value)
   userStore.setUser(newUser)
+  localStorage.setItem('userId', newUser.userId)
 
   await createAsset(newUser.id, Number(assetTotal.value))
 

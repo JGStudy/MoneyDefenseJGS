@@ -1,28 +1,68 @@
-<!-- src/components/common/ConfirmModal.vue -->
 <template>
-    <div v-if="visible" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-        <div class="bg-white dark:bg-kb-dark-line p-6 rounded-xl shadow-xl max-w-sm w-full">
-            <h2 class="text-title02 font-bold text-center mb-4">{{ title }}</h2>
-            <p class="text-body01 text-center text-kb-ui-05 dark:text-kb-dark-subtext mb-6">{{ message }}</p>
-            <div class="flex justify-center gap-4">
-                <button @click="$emit('cancel')"
-                    class="w-full py-2 rounded-xl border border-kb-ui-07 text-kb-ui-02 dark:text-kb-dark-text">
-                    아니오
-                </button>
-                <button @click="$emit('confirm')"
-                    class="w-full py-2 rounded-xl bg-kb-yellow-positive text-black font-semibold">
-                    네
-                </button>
-            </div>
-        </div>
-    </div>
+  <div>
+    <!-- 저장 버튼 -->
+    <button
+      @click="handleSave"
+      class="w-full py-3 rounded-xl bg-kb-yellow-positive text-black font-semibold text-body02 hover:brightness-105 transition"
+    >
+      저장하기
+    </button>
+
+    <!-- 입력 누락 경고 모달 -->
+    <ConfirmPopup
+      :visible="showAlert"
+      title="입력 오류"
+      message="금액, 분류, 카테고리, 결제수단, 날짜를 모두 입력해주세요."
+      @confirm="() => (showAlert.value = false)"
+    />
+  </div>
 </template>
 
 <script setup>
-defineProps({
-    visible: Boolean,
-    title: String,
-    message: String,
-})
-defineEmits(['confirm', 'cancel'])
+import { ref } from 'vue'
+import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
+import { useTransactionStore } from '@/stores/transactionStore'
+
+const store = useTransactionStore()
+const showAlert = ref(false)
+
+function handleSave() {
+  const rawAmount = store.amount
+  const type = (store.type ?? '').toString().trim()
+  const category = (store.category ?? '').toString().trim()
+  const paymentMethod = (store.source ?? '').toString().trim() // source = 결제수단
+  const date = (store.date ?? '').toString().trim()
+
+  const isAmountValid =
+    rawAmount !== undefined &&
+    rawAmount !== null &&
+    rawAmount !== '' &&
+    !isNaN(Number(rawAmount)) &&
+    Number(rawAmount) >= 1
+
+  const isValid =
+    isAmountValid &&
+    type !== '' &&
+    category !== '' &&
+    paymentMethod !== '' &&
+    date !== ''
+
+  if (!isValid) {
+    showAlert.value = true
+    console.log('유효하지 않음')
+    return
+  } else {
+  }
+
+  console.log('저장 성공:', {
+    amount: Number(rawAmount),
+    type,
+    category,
+    paymentMethod,
+    date,
+    memo: store.memo ?? '',
+  })
+
+  // 여기서 저장 API 요청 or 상태 처리 등 실행
+}
 </script>
