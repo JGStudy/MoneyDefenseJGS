@@ -55,40 +55,42 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { getAllUsers } from '@/api/userApi.js'
 import axios from 'axios'
-import { useUserStore } from '@/stores/userStore'
 import SettingToast from '@/components/setting/SettingToast.vue'
 
 const router = useRouter()
-const userStore = useUserStore()
 const toast = ref(null)
 const name = ref('')
+const user = ref(null)
 
-// 쿠키에서 userId 가져오기
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts.pop().split(';').shift()
+// localStorage에서 userId를 우선 가져오고, 없으면 db
+const getUserId = async () => {
+  let userId = localStorage.getItem('userId')
+  if (userId) return userId
+  try {
+    const { data } = await getAllUsers()
+    if (data && data.length > 0) {
+      return data[data.length - 1].userId
+    }
+  } catch (e) {}
+  return null
 }
 
-const userId = getCookie('userId')
-
-// 뒤로가기 (설정 페이지로 이동)
-const goToSetting = () => {
-  router.push({ name: 'setting' }).then(() => {
-    window.location.reload() // 페이지 강제 새로고침 (정상 렌더링 보장)
-  })
-}
-
-// 컴포넌트 마운트 시 닉네임 로드
 onMounted(async () => {
+  const userId = await getUserId()
   if (userId) {
     try {
-      const { data } = await axios.get(`/api/Profile/${userId}`)
-      userStore.setUser(data)
-      name.value = data.name ?? ''
+      const { data } = await getAllUsers()
+      const found = data.find((u) => u.userId === userId)
+      if (found) {
+        user.value = found
+        name.value = found.name
+      } else {
+        toast.value?.show('사용자 정보를 찾을 수 없습니다.', 'error')
+      }
     } catch (error) {
       console.error('사용자 정보 조회 실패:', error)
       toast.value?.show('사용자 정보를 불러오는데 실패했습니다.', 'error')
@@ -98,40 +100,32 @@ onMounted(async () => {
   }
 })
 
-// 사용자 정보 저장 처리
 const handleSave = async () => {
   const hangulRegex = /^[가-힣]{1,12}$/
   if (!hangulRegex.test(name.value)) {
     toast.value.show('닉네임은 한글 1~12자여야 합니다.', 'warning')
     return
   }
-  if (!userId) {
+  if (!user.value?.id) {
     toast.value.show('로그인된 사용자 정보가 없습니다.', 'error')
     return
   }
-
   try {
-    // 1) 사용자 정보 가져오기
-    const { data } = await axios.get(`/api/Profile/${userId}`)
-    if (!data.id) {
-      toast.value.show('존재하지 않는 사용자입니다.', 'error')
-      return
-    }
-
-    // 2) 업데이트 요청
-    await axios.put(`/api/Profile/${userId}`, {
-      id: userId,
+    await axios.put(`/api/Profile/${user.value.id}`, {
+      ...user.value,
       name: name.value,
     })
-
-    // 3) Pinia 스토어 갱신
-    userStore.setUser({ ...data, name: name.value })
-
     toast.value.show('사용자 정보가 저장되었습니다.', 'success')
     router.push({ name: 'setting' })
   } catch (err) {
     console.error('저장 실패:', err)
     toast.value.show('저장에 실패했습니다.', 'error')
   }
+}
+
+const goToSetting = () => {
+  router.push({ name: 'setting' }).then(() => {
+    window.location.reload()
+  })
 }
 </script>
