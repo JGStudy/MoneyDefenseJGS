@@ -38,22 +38,14 @@ defineProps({
   lastModified: String,
 })
 
-// 쿠키에서 userId를 가져오는 함수
-const getUserIdFromCookie = () => {
-  const cookieUserId = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('userId='))
-    ?.split('=')[1]
-  return cookieUserId
-}
-
-// 유저 ID가 변경되거나, 이미 쿠키에 userId가 있을 때 자산을 불러오기
+// userId가 없으면 localStorage에서 가져와 설정
 watch(
   () => userStore.user?.id,
   async (userId) => {
-    if (userId || getUserIdFromCookie()) {
-      const userIdToUse = userId || getUserIdFromCookie()
-      userStore.setUser({ id: userIdToUse }) // 쿠키에서 가져온 경우 userStore 업데이트
+    const storedUserId = localStorage.getItem('userId')
+    if (userId || storedUserId) {
+      const userIdToUse = userId || storedUserId
+      userStore.setUser({ id: userIdToUse })
       assetStore.setUserId(userIdToUse)
       await assetStore.fetchAsset()
     }

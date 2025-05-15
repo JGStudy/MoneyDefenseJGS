@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getUserById } from '@/api/userApi'
-import { id } from 'date-fns/locale'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref(null)
