@@ -10,15 +10,45 @@ ChartJS.register(Title, Tooltip, Legend, ArcElement, PieController)
 const isExpanded = ref(false)
 const category = ref([])
 
-// 데이터 불러오기
+// 데이터 불러오기 및 가공
 onMounted(async () => {
   try {
     const res = await categories()
-    category.value = res.data
+    const transactions = res.data
+
+    // localStorage에서 userId 가져오기
+    const userId = localStorage.getItem('userId')
+
+    if (!userId) {
+      console.error('userId가 없습니다. 로그인 상태를 확인하세요.')
+      return
+    }
+
+    // 해당 유저의 지출만 필터링
+    const expenses = transactions.filter(
+      (t) => t.userid === userId && t.type === '지출'
+    )
+
+    // 카테고리별 금액 합산
+    const grouped = {}
+    expenses.forEach((item) => {
+      if (grouped[item.category]) {
+        grouped[item.category] += item.amount
+      } else {
+        grouped[item.category] = item.amount
+      }
+    })
+
+    //  [{ category: '식비', amount: 20000 }, ...] 형태로 저장
+    category.value = Object.entries(grouped).map(([key, value]) => ({
+      category: key,
+      amount: value,
+    }))
   } catch (error) {
     console.error('카테고리 데이터 로드 실패:', error)
   }
 })
+
 
 // 카테고리 제한
 const displayedCategories = computed(() => {
