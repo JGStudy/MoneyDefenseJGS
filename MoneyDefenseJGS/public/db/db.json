@@ -1,28 +1,98 @@
 {
   "Profile": [
     {
-      "id": "1",
-      "name": "진기스"
+      "id": 1,
+      "name": "관리자1",
+      "userId": "admin01",
+      "password": "Test1234!"
     },
     {
-      "id": "2",
-      "name": "김려린"
+      "id": 2,
+      "name": "관리자2",
+      "userId": "admin02",
+      "password": "Test1234!"
     },
     {
-      "id": "52ab",
-      "name": "김유위나러ㅏㅣㅁ젇ㄹ"
+      "id": 3,
+      "name": "관리자3",
+      "userId": "admin03",
+      "password": "Test1234!"
     },
     {
-      "id": "304b",
-      "name": "상은"
+      "id": 4,
+      "name": "관리자4",
+      "userId": "admin04",
+      "password": "Test1234!"
     },
     {
-      "id": "bcea",
-      "name": "안녕"
+      "id": 5,
+      "name": "관리자5",
+      "userId": "admin05",
+      "password": "Test1234!"
+    }
+  ],
+  "categoryExpenses": [
+    {
+      "month": "2025-02",
+      "category": "식비",
+      "amount": 200000,
+      "id": "e32e"
     },
     {
-      "id": "2362",
-      "name": "상은"
+      "month": "2025-03",
+      "category": "교통비",
+      "amount": 80000,
+      "id": "8ea6"
+    },
+    {
+      "month": "2025-02",
+      "category": "의료비",
+      "amount": 150000,
+      "id": "a7b9"
+    },
+    {
+      "month": "2025-03",
+      "category": "문화생활",
+      "amount": 120000,
+      "id": "4f3d"
+    },
+    {
+      "month": "2025-04",
+      "category": "교육비",
+      "amount": 300000,
+      "id": "b0c7"
+    },
+    {
+      "month": "2025-04",
+      "category": "주거비",
+      "amount": 500000,
+      "id": "d1f9"
+    }
+  ],
+  "categoryIncome": [
+    {
+      "month": "2025-02",
+      "category": "급여",
+      "amount": 200000,
+      "id": "e32e"
+    },
+    {
+      "month": "2025-03",
+      "category": "용돈",
+      "amount": 80000,
+      "id": "8ea6"
+    },
+    {
+      "month": "2025-03",
+      "category": "금융소득",
+      "amount": 80000,
+      "id": "8ea6"
+    },
+    {
+      "month": "2025-03",
+      "category": "기타",
+      "amount": 120000,
+      "id": "4f3d"
     }
   ],
   "Transaction": [
@@ -657,12 +727,6 @@
       "userId": "fc57",
       "totalAsset": 200500,
       "lastModified": "2025-05-07"
-    },
-    {
-      "id": "a316",
-      "userId": "5276",
-      "totalAsset": 12345678,
-      "lastModified": "2025-05-15"
     }
   ],
   "budget": [
