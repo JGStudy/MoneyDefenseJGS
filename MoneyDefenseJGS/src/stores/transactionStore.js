@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useTransactionStore = defineStore('transaction', {
   state: () => ({
     // id: '',
-    userid: '1', // 로그인 사용자 또는 기본값으로 설정
+    userid: '', // 로그인 사용자 또는 기본값으로 설정
     date: '',
     type: '',
     category: '',
