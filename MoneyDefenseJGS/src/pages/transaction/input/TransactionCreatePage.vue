@@ -160,7 +160,7 @@ onMounted(async () => {
 async function handleSubmit() {
   const now = new Date().toISOString().slice(0, 16)
   const payload = {
-    userid: store.userid,
+    userid: localStorage.getItem('userId'),
     date: store.date,
     type: store.type,
     category: store.category,
