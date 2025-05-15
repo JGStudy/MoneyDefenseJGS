@@ -22,9 +22,9 @@
           v-if="tab !== 'calendar'"
           :income="filteredIncome"
           :expense="filteredExpense"
-          :categories="categoryList"
+          :categories="mergedCategories"
           :selectedCategory="selectedCategory"
-          @select-category="(val) => (selectedCategory.value = val)"
+          @select-category="setCategory"
         />
 
         <div class="flex justify-center">
@@ -43,13 +43,14 @@
     </div>
 
     <div class="flex-grow overflow-y-auto px-4">
-      <TransactionList v-if="tab === 'list'" :transactions="filteredTransactions" />
+      <TransactionList v-if="tab === 'list'" :transactions="filteredListTransactions" />
 
       <div v-else class="flex justify-center items-start">
         <Calendar
           :page="calendarPage"
-          :transactions="transactions"
+          :transactions="filteredTransactions"
           :selectedTypes="calendarSelectedTypes"
+          :userId="userId"
           @update:page="(val) => (calendarPage.value = val)"
         />
       </div>
@@ -61,6 +62,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 
 import RealHeader from '@/components/layout/RealHeader.vue'
 import BottomNavBar from '@/components/layout/BottomNavBar.vue'
@@ -70,28 +72,48 @@ import CalendarFilter from '@/components/transaction/calendar/CalendarFilter.vue
 import TransactionList from '@/components/transaction/list/TransactionList.vue'
 import Calendar from '@/components/transaction/calendar/Calendar.vue'
 
-import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
+// import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
+import {
+  getTransactions,
+  getCategoryExpenses,
+  getCategoryIncome,
+  getTransactionsByUserId,
+} from '@/api/transactionApi'
 
+const userStore = useUserStore()
+onMounted(() => {
+  userStore.loadUser()
+})
+
+// const userId = computed(() => String(userStore.user?.userId || '1'))
+const userId = localStorage.getItem('userId')
+
+// const transactions = ref([])
+// onMounted(async () => {
+//   const res = await getTransactions()
+//   transactions.value = [...res.data]
+// })
 const transactions = ref([])
-const listPage = ref({
-  year: new Date().getFullYear(),
-  month: new Date().getMonth() + 1,
+onMounted(async () => {
+  try {
+    const data = await getTransactionsByUserId(userId)
+    transactions.value = [...data]
+  } catch (error) {
+    console.error('거래 불러오기 실패:', error)
+  }
 })
-const calendarPage = ref({
-  year: new Date().getFullYear(),
-  month: new Date().getMonth() + 1,
-})
+
+const listPage = ref({ year: new Date().getFullYear(), month: new Date().getMonth() + 1 })
+const calendarPage = ref({ year: new Date().getFullYear(), month: new Date().getMonth() + 1 })
 const listSelectedTypes = ref(['지출', '수입', '이체'])
 const calendarSelectedTypes = ref(['지출', '수입', '이체'])
 const tab = ref('list')
+const selectedCategory = ref('')
 
-onMounted(async () => {
-  const res = await getTransactions()
-  console.log('불러온 데이터', res.data)
-  transactions.value = res.data
-})
+const filteredTransactions = computed(() =>
+  transactions.value.filter((tx) => String(tx.userid) === userId),
+)
 
-// 리스트 탭용 yearMonth
 const listYearMonth = computed({
   get() {
     return `${listPage.value.year}-${String(listPage.value.month).padStart(2, '0')}`
@@ -104,53 +126,71 @@ const listYearMonth = computed({
   },
 })
 
-// 리스트 탭용 월 필터링
-const filteredTransactions = computed(() => {
-  return transactions.value.filter((tx) => {
+const filteredListTransactions = computed(() => {
+  return filteredTransactions.value.filter((tx) => {
     const txDate = new Date(tx.date)
     const isSameMonth =
       txDate.getFullYear() === listPage.value.year && txDate.getMonth() + 1 === listPage.value.month
     const isSelectedType = listSelectedTypes.value.includes(tx.type)
-    return isSameMonth && isSelectedType
+    const isSelectedCategory = !selectedCategory.value || tx.category === selectedCategory.value
+    return isSameMonth && isSelectedType && isSelectedCategory
   })
 })
 
 const categoryList = ref([])
-const selectedCategory = ref(null)
+const setCategory = (val) => {
+  selectedCategory.value = val
+}
 
 watch([listSelectedTypes, listYearMonth], async () => {
   const types = listSelectedTypes.value
   const [year, month] = listYearMonth.value.split('-')
-  const monthStr = `${year}-${month}`
-
+  const monthStr = `${year}-${String(month).padStart(2, '0')}`
   const result = []
 
   if (types.includes('수입')) {
-    const res = await getCategoryIncome()
+    const res = await getCategoryIncome({ userId })
     result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 
   if (types.includes('지출')) {
-    const res = await getCategoryExpenses()
+    const res = await getCategoryExpenses({ userId })
     result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 
   categoryList.value = result
 })
 
+const defaultCategories = [
+  '식비',
+  '교통비',
+  '의료비',
+  '교육비',
+  '문화생활',
+  '주거비',
+  '기타',
+  '용돈',
+  '금융소득',
+  '급여',
+]
+
+const mergedCategories = computed(() => {
+  const dbCats = categoryList.value.map((c) => c.category)
+  return Array.from(new Set([...defaultCategories, ...dbCats]))
+})
+
 const filteredIncome = computed(() =>
-  filteredTransactions.value
+  filteredListTransactions.value
     .filter((tx) => tx.type === '수입')
     .reduce((sum, tx) => sum + tx.amount, 0),
 )
 
 const filteredExpense = computed(() =>
-  filteredTransactions.value
+  filteredListTransactions.value
     .filter((tx) => tx.type === '지출')
     .reduce((sum, tx) => sum + tx.amount, 0),
 )
 
-// 리스트 탭용 toggleType
 const toggleListType = (type) => {
   if (listSelectedTypes.value.includes(type)) {
     listSelectedTypes.value = listSelectedTypes.value.filter((t) => t !== type)
@@ -159,7 +199,6 @@ const toggleListType = (type) => {
   }
 }
 
-// 달력 탭용 toggleType
 const toggleCalendarType = (type) => {
   if (calendarSelectedTypes.value.includes(type)) {
     calendarSelectedTypes.value = calendarSelectedTypes.value.filter((t) => t !== type)

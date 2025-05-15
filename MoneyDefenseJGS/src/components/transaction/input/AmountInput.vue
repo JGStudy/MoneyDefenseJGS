@@ -1,4 +1,3 @@
-<!-- components/AmountInput.vue -->
 <template>
   <div class="space-y-2">
     <label class="block font-semibold text-body02 text-kb-ui-02 dark:text-kb-dark-text">
@@ -40,12 +39,23 @@
         확인
       </button>
     </div>
+
+    <!-- 모달 팝업 -->
+    <ConfirmPopup
+      :visible="showModal"
+      :message="`${formattedAmount} 저장할까요?`"
+      :cancelText="'취소'"
+      :confirmText="'확인'"
+      @cancel="handleCancel"
+      @confirm="handleConfirm"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, nextTick } from 'vue'
 import { useTransactionStore } from '@/stores/transactionStore'
+import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
 
 const store = useTransactionStore()
 
@@ -53,6 +63,7 @@ const formattedAmount = ref('')
 const showValidationError = ref(false)
 const nonNumericError = ref(false)
 const amountInputRef = ref(null)
+const showModal = ref(false)
 
 const isValidAmount = computed(() => {
   const raw = unformatAmount(formattedAmount.value)
@@ -102,6 +113,16 @@ function clearAmount() {
 function confirmAmount() {
   showValidationError.value = true
   if (!isValidAmount.value) return
-  console.log(`✅ 저장된 금액: ${formattedAmount.value}`)
+  showModal.value = true
+}
+
+function handleConfirm() {
+  showModal.value = false
+  console.log(`저장된 금액: ${formattedAmount.value}`)
+  // 실제 저장 로직을 여기에 추가 가능
+}
+
+function handleCancel() {
+  showModal.value = false
 }
 </script>

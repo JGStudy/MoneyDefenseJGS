@@ -1,8 +1,6 @@
 <template>
   <AppLayout :title="isEditMode ? '거래 수정' : '거래 등록'">
-    <div
-      class="flex flex-col min-h-screen font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text"
-    >
+    <div class="flex flex-col min-h-screen font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text">
       <!-- 스크롤 콘텐츠 -->
       <div class="flex-1 overflow-y-auto pt-6 pb-24 space-y-6 ml-[5%] mr-[5%]">
         <TransactionSummary />
@@ -10,9 +8,7 @@
 
         <!-- 메모 -->
         <div>
-          <label class="text-body03 font-semibold mb-2 block text-kb-ui-02 dark:text-kb-dark-text"
-            >메모</label
-          >
+          <label class="text-body03 font-semibold mb-2 block">메모</label>
           <input
             v-model="store.memo"
             placeholder="입력하세요"
@@ -24,11 +20,9 @@
       </div>
 
       <!-- 하단 버튼 -->
-      <div
-        class="fixed bottom-0 left-0 right-0 bg-white dark:bg-kb-dark-card border-t border-kb-ui-08 dark:border-kb-dark-line z-50 px-6 py-4 space-y-2 max-w-xl mx-auto w-full"
-      >
+      <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-kb-dark-card border-t border-kb-ui-08 dark:border-kb-dark-line z-50 px-6 py-4 space-y-2 max-w-xl mx-auto w-full">
         <button
-          @click="handleSubmit"
+          @click="showModal = true"
           class="w-full py-3 rounded-xl bg-kb-yellow-positive text-black font-semibold text-body02 hover:brightness-105 transition"
         >
           {{ isEditMode ? '수정' : '저장' }}
@@ -43,16 +37,16 @@
         </button>
       </div>
 
-      <!-- ✅ 알림 모달 -->
+      <!-- 입력 누락 알림 -->
       <ConfirmPopup
         :visible="showAlert"
         :message="modalMessage"
         confirmText="확인"
-        @cancel="router.back()"
-        @confirm="router.back()"
+        @confirm="showAlert = false"
+        @cancel="showAlert = false"
       />
 
-      <!-- ✅ 확인 모달 (삭제용) -->
+      <!-- 삭제 확인 모달 -->
       <ConfirmPopup
         :visible="showConfirm"
         message="정말 삭제하시겠습니까?"
@@ -61,6 +55,17 @@
         @cancel="showConfirm = false"
         @confirm="handleDelete"
       />
+
+      <!-- 저장 전 확인 모달 -->
+      <ConfirmPopup
+        :visible="showModal"
+        title="입력 확인"
+        message="입력 내용을 저장하시겠습니까?"
+        confirmText="확인"
+        cancelText="취소"
+        @cancel="showModal = false"
+        @confirm="handleValidatedSubmit"
+      />
     </div>
   </AppLayout>
 </template>
@@ -68,16 +73,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 
 import AppLayout from '@/pages/layout/AppLayoutPage.vue'
 import TransactionSummary from '@/components/transaction/input/TransactionSummary.vue'
 import AmountInput from '@/components/transaction/input/AmountInput.vue'
 import EditableTransactionInformation from '@/components/transaction/input/EditableTransactionInformation.vue'
-
 import ConfirmPopup from '@/components/common/ConfirmPopup.vue'
-import { useTransactionStore } from '@/stores/transactionStore'
 
+import { useTransactionStore } from '@/stores/transactionStore'
 import {
   getTransactionById,
   createTransaction,
@@ -91,9 +94,9 @@ const router = useRouter()
 
 const isEditMode = computed(() => !!route.params.id)
 
-// 모달 관련 상태
 const showAlert = ref(false)
 const showConfirm = ref(false)
+const showModal = ref(false)
 const modalMessage = ref('')
 
 const openAlert = (message) => {
@@ -103,6 +106,41 @@ const openAlert = (message) => {
 
 const openConfirmModal = () => {
   showConfirm.value = true
+}
+
+function handleValidatedSubmit() {
+  showModal.value = false
+
+  const rawAmount = (store.amount ?? '').toString().trim()
+  const type = (store.type ?? '').toString().trim()
+  const category = (store.category ?? '').toString().trim()
+  const paymentMethod = (store.source ?? '').toString().trim()
+  const date = (store.date ?? '').toString().trim()
+
+  const amount = Number(rawAmount)
+
+  if (rawAmount === '' || isNaN(amount) || amount < 1) {
+    openAlert('금액을 1원 이상 입력해주세요.')
+    return
+  }
+  if (type === '') {
+    openAlert('분류를 선택해주세요.')
+    return
+  }
+  if (category === '') {
+    openAlert('카테고리를 선택해주세요.')
+    return
+  }
+  if (paymentMethod === '') {
+    openAlert('결제수단을 선택해주세요.')
+    return
+  }
+  if (date === '') {
+    openAlert('날짜를 입력해주세요.')
+    return
+  }
+
+  handleSubmit()
 }
 
 onMounted(async () => {
@@ -122,7 +160,7 @@ onMounted(async () => {
 async function handleSubmit() {
   const now = new Date().toISOString().slice(0, 16)
   const payload = {
-    userid: store.userid,
+    userid: localStorage.getItem('userId'),
     date: store.date,
     type: store.type,
     category: store.category,

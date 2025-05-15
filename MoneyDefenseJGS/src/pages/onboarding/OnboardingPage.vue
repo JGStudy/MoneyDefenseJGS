@@ -61,10 +61,10 @@ const handleSubmit = async () => {
 
   if (isInvalid.value) return
 
-  // userName과 assetTotal 쿠키에 올리기
+  // userName과 assetTotal 로컬 스토리지 저장
   const newUser = await createUser(userName.value)
   userStore.setUser(newUser)
-  document.cookie = `userId=${newUser.id}; path=/;`
+  localStorage.setItem('userId', newUser.userId)
 
   await createAsset(newUser.id, Number(assetTotal.value))
 
