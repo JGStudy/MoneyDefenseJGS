@@ -10,7 +10,7 @@ export const totalMoney=()=>{
 }
 
 export const categories=()=>{
-    return axios.get('/categoryExpenses')
+    return axios.get('/Transaction')
 }
 
 
@@ -26,5 +26,3 @@ export const updateNetAssets = async (month, netAssets) => {
       throw new Error('해당 월의 데이터가 없습니다!')
     }
 }
-
-
