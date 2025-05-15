@@ -72,19 +72,35 @@ import CalendarFilter from '@/components/transaction/calendar/CalendarFilter.vue
 import TransactionList from '@/components/transaction/list/TransactionList.vue'
 import Calendar from '@/components/transaction/calendar/Calendar.vue'
 
-import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
+// import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
+import {
+  getTransactions,
+  getCategoryExpenses,
+  getCategoryIncome,
+  getTransactionsByUserId,
+} from '@/api/transactionApi'
 
 const userStore = useUserStore()
 onMounted(() => {
   userStore.loadUser()
 })
 
-const userId = computed(() => String(userStore.user?.userId || '1'))
+// const userId = computed(() => String(userStore.user?.userId || '1'))
+const userId = localStorage.getItem('userId')
 
+// const transactions = ref([])
+// onMounted(async () => {
+//   const res = await getTransactions()
+//   transactions.value = [...res.data]
+// })
 const transactions = ref([])
 onMounted(async () => {
-  const res = await getTransactions()
-  transactions.value = [...res.data]
+  try {
+    const data = await getTransactionsByUserId(userId)
+    transactions.value = [...data]
+  } catch (error) {
+    console.error('거래 불러오기 실패:', error)
+  }
 })
 
 const listPage = ref({ year: new Date().getFullYear(), month: new Date().getMonth() + 1 })
@@ -95,7 +111,7 @@ const tab = ref('list')
 const selectedCategory = ref('')
 
 const filteredTransactions = computed(() =>
-  transactions.value.filter((tx) => String(tx.userid) === userId.value),
+  transactions.value.filter((tx) => String(tx.userid) === userId),
 )
 
 const listYearMonth = computed({
@@ -126,19 +142,19 @@ const setCategory = (val) => {
   selectedCategory.value = val
 }
 
-watch([listSelectedTypes, listYearMonth, userId], async () => {
+watch([listSelectedTypes, listYearMonth], async () => {
   const types = listSelectedTypes.value
   const [year, month] = listYearMonth.value.split('-')
   const monthStr = `${year}-${String(month).padStart(2, '0')}`
   const result = []
 
   if (types.includes('수입')) {
-    const res = await getCategoryIncome({ userId: userId.value })
+    const res = await getCategoryIncome({ userId })
     result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 
   if (types.includes('지출')) {
-    const res = await getCategoryExpenses({ userId: userId.value })
+    const res = await getCategoryExpenses({ userId })
     result.push(...res.data.filter((tx) => tx.month === monthStr))
   }
 

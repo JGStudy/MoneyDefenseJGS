@@ -60,3 +60,18 @@ export const getAllTransactions = async () => {
   const { data } = await axios.get('/Transaction')
   return data
 }
+
+/**
+ * 특정 사용자(userId)의 거래 내역을 가져오는 함수
+ * @param {string} userId - 조회할 사용자의 ID
+ * @returns {Promise<AxiosResponse>} 해당 사용자의 거래 데이터 배열
+ */
+export const getTransactionsByUserId = async (userId) => {
+  try {
+    const response = await axios.get(`/Transaction?userid=${userId}`)
+    return response.data
+  } catch (error) {
+    console.error('사용자 거래 조회 실패:', error)
+    throw error
+  }
+}
