@@ -26,7 +26,7 @@
     </div>
 
     <!-- 카테고리 선택 -->
-    <!-- <div class="flex items-center gap-2 cursor-pointer" @click="toggleDropdown">
+    <div class="flex items-center gap-2 cursor-pointer" @click="toggleDropdown">
       <span>{{ selectedCategory || '카테고리 선택' }}</span>
       <svg
         class="w-4 h-4 text-kb-ui-05"
@@ -44,14 +44,20 @@
       class="absolute top-full right-0 mt-2 bg-white shadow rounded text-sm z-10 w-[160px] max-h-64 overflow-y-auto"
     >
       <li
+        @click="selectCategory(null)"
+        class="px-3 py-2 hover:bg-kb-ui-09 cursor-pointer text-gray-500"
+      >
+        전체 보기
+      </li>
+      <li
         v-for="cat in categories"
-        :key="cat.id"
-        @click="() => selectCategory(cat.category)"
+        :key="cat"
+        @click="() => selectCategory(cat)"
         class="px-3 py-2 hover:bg-kb-ui-09 cursor-pointer"
       >
-        {{ cat.category }}
+        {{ cat }}
       </li>
-    </ul> -->
+    </ul>
   </div>
 </template>
 

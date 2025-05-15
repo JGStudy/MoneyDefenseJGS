@@ -22,9 +22,9 @@
           v-if="tab !== 'calendar'"
           :income="filteredIncome"
           :expense="filteredExpense"
-          :categories="categoryList"
+          :categories="mergedCategories"
           :selectedCategory="selectedCategory"
-          @select-category="(val) => (selectedCategory.value = val)"
+          @select-category="setCategory"
         />
 
         <div class="flex justify-center">
@@ -92,6 +92,7 @@ const calendarPage = ref({ year: new Date().getFullYear(), month: new Date().get
 const listSelectedTypes = ref(['지출', '수입', '이체'])
 const calendarSelectedTypes = ref(['지출', '수입', '이체'])
 const tab = ref('list')
+const selectedCategory = ref('')
 
 const filteredTransactions = computed(() =>
   transactions.value.filter((tx) => String(tx.userid) === userId.value),
@@ -115,12 +116,15 @@ const filteredListTransactions = computed(() => {
     const isSameMonth =
       txDate.getFullYear() === listPage.value.year && txDate.getMonth() + 1 === listPage.value.month
     const isSelectedType = listSelectedTypes.value.includes(tx.type)
-    return isSameMonth && isSelectedType
+    const isSelectedCategory = !selectedCategory.value || tx.category === selectedCategory.value
+    return isSameMonth && isSelectedType && isSelectedCategory
   })
 })
 
 const categoryList = ref([])
-const selectedCategory = ref(null)
+const setCategory = (val) => {
+  selectedCategory.value = val
+}
 
 watch([listSelectedTypes, listYearMonth, userId], async () => {
   const types = listSelectedTypes.value
@@ -139,6 +143,24 @@ watch([listSelectedTypes, listYearMonth, userId], async () => {
   }
 
   categoryList.value = result
+})
+
+const defaultCategories = [
+  '식비',
+  '교통비',
+  '의료비',
+  '교육비',
+  '문화생활',
+  '주거비',
+  '기타',
+  '용돈',
+  '금융소득',
+  '급여',
+]
+
+const mergedCategories = computed(() => {
+  const dbCats = categoryList.value.map((c) => c.category)
+  return Array.from(new Set([...defaultCategories, ...dbCats]))
 })
 
 const filteredIncome = computed(() =>
