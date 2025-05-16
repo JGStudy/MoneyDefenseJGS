@@ -56,6 +56,7 @@
       </div>
     </div>
 
+    <AddButton />
     <BottomNavBar />
   </div>
 </template>
@@ -71,6 +72,7 @@ import CategoryFilter from '@/components/transaction/calendar/CategoryFilter.vue
 import CalendarFilter from '@/components/transaction/calendar/CalendarFilter.vue'
 import TransactionList from '@/components/transaction/list/TransactionList.vue'
 import Calendar from '@/components/transaction/calendar/Calendar.vue'
+import AddButton from '@/components/common/AddButton.vue'
 
 // import { getTransactions, getCategoryExpenses, getCategoryIncome } from '@/api/transactionApi'
 import {

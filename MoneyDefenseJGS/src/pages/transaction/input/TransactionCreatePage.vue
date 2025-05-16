@@ -1,6 +1,8 @@
 <template>
   <AppLayout :title="isEditMode ? '거래 수정' : '거래 등록'">
-    <div class="flex flex-col min-h-screen font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text">
+    <div
+      class="flex flex-col min-h-screen font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text"
+    >
       <!-- 스크롤 콘텐츠 -->
       <div class="flex-1 overflow-y-auto pt-6 pb-24 space-y-6 ml-[5%] mr-[5%]">
         <TransactionSummary />
@@ -20,7 +22,9 @@
       </div>
 
       <!-- 하단 버튼 -->
-      <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-kb-dark-card border-t border-kb-ui-08 dark:border-kb-dark-line z-50 px-6 py-4 space-y-2 max-w-xl mx-auto w-full">
+      <div
+        class="fixed bottom-0 left-0 right-0 bg-white dark:bg-kb-dark-card border-t border-kb-ui-08 dark:border-kb-dark-line z-50 px-6 py-4 space-y-2 max-w-xl mx-auto w-full"
+      >
         <button
           @click="showModal = true"
           class="w-full py-3 rounded-xl bg-kb-yellow-positive text-black font-semibold text-body02 hover:brightness-105 transition"
@@ -179,6 +183,7 @@ async function handleSubmit() {
       await createTransaction(payload)
       openAlert('거래가 등록되었습니다.')
     }
+    router.back()
   } catch (err) {
     console.error('저장 실패:', err)
     router.back()
