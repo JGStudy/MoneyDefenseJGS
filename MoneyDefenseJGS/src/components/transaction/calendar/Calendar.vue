@@ -83,7 +83,7 @@ const formatAmount = (amt) => Math.abs(amt).toLocaleString() + '원'
 const filteredTransactions = computed(() =>
   props.transactions.filter(
     (tx) => String(tx.userid) === props.userId && props.selectedTypes.includes(tx.type),
-  )
+  ),
 )
 
 const onDayClick = (day) => {
@@ -98,10 +98,12 @@ const onDayClick = (day) => {
 
 const getFilteredDailyTransactions = (date) => {
   const target = format(date, 'yyyy-MM-dd')
-  return filteredTransactions.value.filter((tx) => {
-    const txDate = format(new Date(tx.date), 'yyyy-MM-dd')
-    return txDate === target
-  })
+  return filteredTransactions.value
+    .filter((tx) => format(new Date(tx.date), 'yyyy-MM-dd') === target)
+    .sort((a, b) => {
+      const order = { 지출: 0, 수입: 1, 이체: 2 } // 원하는 정렬 기준
+      return order[a.type] - order[b.type]
+    })
 }
 
 const getStyleByType = (type) => {
@@ -124,8 +126,16 @@ const calendarAttributes = computed(() => {
   })
   return [
     { key: 'expense', dates: typeGroups['지출'], highlight: { color: 'kb-yellow', fillMode: '' } },
-    { key: 'income', dates: typeGroups['수입'], highlight: { color: 'status-positive', fillMode: '' } },
-    { key: 'transfer', dates: typeGroups['이체'], highlight: { color: 'status-caution', fillMode: '' } },
+    {
+      key: 'income',
+      dates: typeGroups['수입'],
+      highlight: { color: 'status-positive', fillMode: '' },
+    },
+    {
+      key: 'transfer',
+      dates: typeGroups['이체'],
+      highlight: { color: 'status-caution', fillMode: '' },
+    },
   ]
 })
 </script>
