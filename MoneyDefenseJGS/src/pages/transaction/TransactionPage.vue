@@ -47,6 +47,7 @@
         v-if="tab === 'list'"
         :transactions="filteredListTransactions"
         @delete="deleteTransaction"
+        @click-transaction="goToDetail"
       />
 
       <div v-else class="flex justify-center items-start">
@@ -68,6 +69,12 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const goToDetail = (id) => {
+  router.push(`/transaction/${id}`)
+}
 
 import RealHeader from '@/components/layout/RealHeader.vue'
 import BottomNavBar from '@/components/layout/BottomNavBar.vue'

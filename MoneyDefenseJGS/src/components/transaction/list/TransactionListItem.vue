@@ -1,9 +1,12 @@
 <template>
-  <li class="flex items-center justify-between gap-4 p-4">
+  <li
+    @click="$emit('click', transaction.id)"
+    class="flex items-center justify-between gap-4 p-4 cursor-pointer hover:bg-kb-ui-11 transition"
+  >
     <!-- 아이콘 (삭제 트리거) -->
     <div
       class="relative w-10 h-10 flex-none rounded-[22px] bg-kb-ui-09 flex items-center justify-center cursor-pointer"
-      @click="showPopup = true"
+      @click.stop="showPopup = true"
     >
       <span class="text-kb-ui-05 text-number-lg font-nums opacity-50">
         <i :class="['xi', isPositive ? 'xi-plus' : 'xi-minus', 'text-xl']"></i>

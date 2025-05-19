@@ -42,9 +42,24 @@ const router = createRouter({
 
     // transaction
     { path: '/transaction', name: 'transaction', component: TransactionPage },
+    // 거래 상세 보기 (읽기 전용)
     {
-      path: '/transaction/create/:id?',
-      name: 'transaction-page',
+      path: '/transaction/:id',
+      name: 'TransactionDetail',
+      component: TransactionCreatePage,
+    },
+
+    // 거래 수정
+    {
+      path: '/transaction/:id/edit',
+      name: 'TransactionEdit',
+      component: TransactionCreatePage,
+    },
+
+    // 거래 등록
+    {
+      path: '/transaction/create',
+      name: 'TransactionCreate',
       component: TransactionCreatePage,
     },
 
