@@ -6,7 +6,12 @@
       </div>
       <div class="h-px bg-kb-ui-07 mx-4"></div>
       <ul>
-        <TransactionListItem v-for="item in items" :key="item.id" :transaction="item" />
+        <TransactionListItem
+          v-for="item in items"
+          :key="item.id"
+          :transaction="item"
+          @delete="handleDelete"
+        />
       </ul>
     </template>
   </div>
@@ -15,6 +20,7 @@
 <script setup>
 import { computed } from 'vue'
 import TransactionListItem from './TransactionListItem.vue'
+const emit = defineEmits(['delete'])
 
 const props = defineProps({
   transactions: {
@@ -52,5 +58,9 @@ function formatDateLabel(dateStr) {
   const day = target.getDate()
 
   return isToday ? `${day}일 오늘` : `${day}일 ${weekday}요일`
+}
+
+const handleDelete = (id) => {
+  emit('delete', id)
 }
 </script>

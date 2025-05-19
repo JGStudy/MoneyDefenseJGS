@@ -43,7 +43,11 @@
     </div>
 
     <div class="flex-grow overflow-y-auto px-4">
-      <TransactionList v-if="tab === 'list'" :transactions="filteredListTransactions" />
+      <TransactionList
+        v-if="tab === 'list'"
+        :transactions="filteredListTransactions"
+        @delete="deleteTransaction"
+      />
 
       <div v-else class="flex justify-center items-start">
         <Calendar
@@ -80,6 +84,7 @@ import {
   getCategoryExpenses,
   getCategoryIncome,
   getTransactionsByUserId,
+  deleteTransactionById,
 } from '@/api/transactionApi'
 
 const userStore = useUserStore()
@@ -206,6 +211,15 @@ const toggleCalendarType = (type) => {
     calendarSelectedTypes.value = calendarSelectedTypes.value.filter((t) => t !== type)
   } else {
     calendarSelectedTypes.value.push(type)
+  }
+}
+
+const deleteTransaction = async (id) => {
+  try {
+    await deleteTransactionById(id) // 그냥 지움
+    transactions.value = transactions.value.filter((tx) => tx.id !== id) // 로컬에서 제거
+  } catch (error) {
+    console.error('삭제 실패:', error)
   }
 }
 </script>

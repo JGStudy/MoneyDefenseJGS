@@ -75,3 +75,8 @@ export const getTransactionsByUserId = async (userId) => {
     throw error
   }
 }
+
+export async function deleteTransactionById(id) {
+  const res = await axios.delete(`/Transaction/${id}`) // 대문자 T로 맞춰줌
+  return res.data
+}
