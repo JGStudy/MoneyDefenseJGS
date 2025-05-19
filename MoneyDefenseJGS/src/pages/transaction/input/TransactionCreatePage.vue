@@ -1,5 +1,5 @@
 <template>
-  <AppLayout :title="isEditMode ? '거래 수정' : '거래 등록'">
+  <AppLayout :title="isEditMode ? '거래 수정' : isViewOnly ? '거래 상세' : '거래 등록'">
     <div
       class="flex flex-col min-h-screen font-sans bg-white dark:bg-kb-dark-line text-kb-ui-02 dark:text-kb-dark-text"
     >
@@ -11,6 +11,7 @@
         <!-- 메모 -->
         <div>
           <label class="text-body03 font-semibold mb-2 block">메모</label>
+
           <input
             v-model="store.memo"
             placeholder="입력하세요"
@@ -21,8 +22,9 @@
         <EditableTransactionInformation />
       </div>
 
-      <!-- 하단 버튼 -->
+      <!-- 하단 버튼: 보기 모드일 때 숨김 -->
       <div
+        v-if="!isViewOnly"
         class="fixed bottom-0 left-0 right-0 bg-white dark:bg-kb-dark-card border-t border-kb-ui-08 dark:border-kb-dark-line z-50 px-6 py-4 space-y-2 max-w-xl mx-auto w-full"
       >
         <button
@@ -38,6 +40,16 @@
           class="w-full py-3 rounded-xl bg-status-error text-white font-semibold text-body02 hover:brightness-90 transition"
         >
           삭제
+        </button>
+      </div>
+
+      <!-- 보기 모드: 수정하기 버튼만 -->
+      <div v-if="isViewOnly" class="px-6 mt-4">
+        <button
+          @click="router.push(`/transaction/${route.params.id}/edit`)"
+          class="w-full py-3 rounded-xl bg-kb-yellow-positive text-black font-semibold text-body02"
+        >
+          수정하기
         </button>
       </div>
 
@@ -96,7 +108,9 @@ const store = useTransactionStore()
 const route = useRoute()
 const router = useRouter()
 
-const isEditMode = computed(() => !!route.params.id)
+const isViewOnly = computed(() => route.name === 'TransactionDetail')
+const isEditMode = computed(() => route.name === 'TransactionEdit')
+const isNewMode = computed(() => route.name === 'TransactionCreate')
 
 const showAlert = ref(false)
 const showConfirm = ref(false)
@@ -148,7 +162,7 @@ function handleValidatedSubmit() {
 }
 
 onMounted(async () => {
-  if (isEditMode.value) {
+  if (!isNewMode.value) {
     try {
       const { data } = await getTransactionById(route.params.id)
       Object.assign(store, data)
@@ -183,7 +197,7 @@ async function handleSubmit() {
       await createTransaction(payload)
       openAlert('거래가 등록되었습니다.')
     }
-    router.back()
+    router.push('/transaction')
   } catch (err) {
     console.error('저장 실패:', err)
     router.back()
@@ -195,7 +209,7 @@ async function handleDelete() {
   try {
     await deleteTransaction(route.params.id)
     openAlert('거래가 삭제되었습니다.')
-    router.back()
+    router.push('/transaction') // ✅ 변경
   } catch (err) {
     console.error('삭제 실패:', err)
     router.back()

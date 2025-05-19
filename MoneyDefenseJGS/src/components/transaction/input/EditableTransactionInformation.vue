@@ -2,10 +2,16 @@
   <div class="space-y-6 font-sans">
     <!-- 📌 분류 -->
     <div>
-      <label class="block text-body03 font-medium mb-2 text-kb-ui-02 dark:text-kb-dark-text"
-        >분류</label
+      <label class="block text-body03 font-medium mb-2 text-kb-ui-02 dark:text-kb-dark-text">
+        분류
+      </label>
+      <div
+        v-if="isViewOnly"
+        class="px-4 py-3 rounded-xl bg-gray-100 dark:bg-kb-dark-muted text-body02"
       >
-      <div class="flex gap-2">
+        {{ store.type || '선택 안 됨' }}
+      </div>
+      <div v-else class="flex gap-2">
         <button
           v-for="type in types"
           :key="type"
@@ -24,86 +30,107 @@
 
     <!-- 📂 카테고리 -->
     <div class="relative">
-      <label class="text-body03 font-medium mb-2 block text-kb-ui-02 dark:text-kb-dark-text"
-        >카테고리</label
-      >
+      <label class="text-body03 font-medium mb-2 block text-kb-ui-02 dark:text-kb-dark-text">
+        카테고리
+      </label>
+
       <div
-        class="w-full px-4 py-3 rounded-xl bg-kb-ui-11 dark:bg-kb-dark-muted border border-kb-ui-07 cursor-pointer"
-        @click="toggleCategory"
+        v-if="isViewOnly"
+        class="px-4 py-3 rounded-xl bg-gray-100 dark:bg-kb-dark-muted text-body02"
       >
-        {{ store.category || '선택하세요' }}
+        {{ store.category || '선택 안 됨' }}
       </div>
-      <div
-        v-if="showCategory"
-        class="absolute left-0 right-0 mt-2 bg-white dark:bg-kb-dark-line border border-kb-ui-07 rounded-xl shadow z-20 max-h-60 overflow-y-auto"
-      >
-        <button
-          v-for="cat in currentCategories"
-          :key="cat"
-          @click="selectCategory(cat)"
-          class="w-full text-left px-4 py-3 hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted text-body02"
+
+      <div v-else>
+        <div
+          class="w-full px-4 py-3 rounded-xl bg-kb-ui-11 dark:bg-kb-dark-muted border border-kb-ui-07 cursor-pointer"
+          @click="toggleCategory"
         >
-          {{ cat }}
-        </button>
+          {{ store.category || '선택하세요' }}
+        </div>
+        <div
+          v-if="showCategory"
+          class="absolute left-0 right-0 mt-2 bg-white dark:bg-kb-dark-line border border-kb-ui-07 rounded-xl shadow z-20 max-h-60 overflow-y-auto"
+        >
+          <button
+            v-for="cat in currentCategories"
+            :key="cat"
+            @click="selectCategory(cat)"
+            class="w-full text-left px-4 py-3 hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted text-body02"
+          >
+            {{ cat }}
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- 💳 결제수단 -->
     <div class="relative">
-      <label class="text-body03 font-medium mb-2 block text-kb-ui-02 dark:text-kb-dark-text"
-        >결제수단</label
-      >
+      <label class="text-body03 font-medium mb-2 block text-kb-ui-02 dark:text-kb-dark-text">
+        결제수단
+      </label>
+
       <div
-        class="w-full px-4 py-3 rounded-xl bg-kb-ui-11 dark:bg-kb-dark-muted border border-kb-ui-07 cursor-pointer"
-        @click="toggleSource"
+        v-if="isViewOnly"
+        class="px-4 py-3 rounded-xl bg-gray-100 dark:bg-kb-dark-muted text-body02"
       >
-        {{ store.source || '선택하세요' }}
+        {{ store.source || '선택 안 됨' }}
       </div>
-      <div
-        v-if="showSource"
-        class="absolute left-0 right-0 mt-2 bg-white dark:bg-kb-dark-line border border-kb-ui-07 rounded-xl shadow z-20 max-h-60 overflow-y-auto"
-      >
-        <button
-          v-for="source in paymentSources"
-          :key="source"
-          @click="selectSource(source)"
-          class="w-full text-left px-4 py-3 hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted text-body02"
+
+      <div v-else>
+        <div
+          class="w-full px-4 py-3 rounded-xl bg-kb-ui-11 dark:bg-kb-dark-muted border border-kb-ui-07 cursor-pointer"
+          @click="toggleSource"
         >
-          {{ source }}
-        </button>
+          {{ store.source || '선택하세요' }}
+        </div>
+        <div
+          v-if="showSource"
+          class="absolute left-0 right-0 mt-2 bg-white dark:bg-kb-dark-line border border-kb-ui-07 rounded-xl shadow z-20 max-h-60 overflow-y-auto"
+        >
+          <button
+            v-for="source in paymentSources"
+            :key="source"
+            @click="selectSource(source)"
+            class="w-full text-left px-4 py-3 hover:bg-kb-ui-10 dark:hover:bg-kb-dark-muted text-body02"
+          >
+            {{ source }}
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- 📅 날짜 -->
     <div>
-      <label class="block text-body03 font-medium mb-2 text-kb-ui-02 dark:text-kb-dark-text"
-        >날짜</label
+      <label class="block text-body03 font-medium mb-2 text-kb-ui-02 dark:text-kb-dark-text">
+        날짜
+      </label>
+      <div
+        v-if="isViewOnly"
+        class="px-4 py-3 rounded-xl bg-gray-100 dark:bg-kb-dark-muted text-body02"
       >
+        {{ store.date || '입력 안 됨' }}
+      </div>
       <input
+        v-else
         v-model="store.date"
         type="date"
         class="w-full px-4 py-3 rounded-xl bg-white dark:bg-kb-dark-muted border border-kb-ui-07 text-body02 text-kb-ui-02 dark:text-kb-dark-text focus:outline-none focus:border-kb-yellow-positive transition"
       />
     </div>
-
-    <!-- 📝 메모 -->
-    <!-- <div>
-      <label class="block text-body03 font-medium mb-2 text-kb-ui-02 dark:text-kb-dark-text"
-        >메모</label
-      >
-      <textarea
-        v-model="store.memo"
-        rows="3"
-        placeholder="메모를 작성하세요"
-        class="w-full px-4 py-3 rounded-xl bg-kb-ui-11 dark:bg-kb-dark-muted border border-kb-ui-07 text-body02 text-kb-ui-02 dark:text-kb-dark-text placeholder:text-kb-ui-05 focus:outline-none focus:border-kb-yellow-positive transition"
-      ></textarea>
-    </div> -->
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
 import { useTransactionStore } from '@/stores/transactionStore'
+
+const props = defineProps({
+  isViewOnly: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const store = useTransactionStore()
 
@@ -112,6 +139,7 @@ const types = ['수입', '지출', '이체']
 const incomeCategories = ['월급', '급여', '용돈', '이자수익', '배당금', '기타']
 const expenseCategories = ['식비', '교통비', '도서비', '정기구독비', '기타']
 const transferCategories = ['계좌이체', '충전', '출금']
+
 const currentCategories = computed(() => {
   if (store.type === '수입') return incomeCategories
   if (store.type === '지출') return expenseCategories

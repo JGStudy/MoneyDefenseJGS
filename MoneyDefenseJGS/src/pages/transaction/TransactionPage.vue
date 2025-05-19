@@ -43,7 +43,12 @@
     </div>
 
     <div class="flex-grow overflow-y-auto px-4">
-      <TransactionList v-if="tab === 'list'" :transactions="filteredListTransactions" />
+      <TransactionList
+        v-if="tab === 'list'"
+        :transactions="filteredListTransactions"
+        @delete="deleteTransaction"
+        @click-transaction="goToDetail"
+      />
 
       <div v-else class="flex justify-center items-start">
         <Calendar
@@ -64,6 +69,12 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const goToDetail = (id) => {
+  router.push(`/transaction/${id}`)
+}
 
 import RealHeader from '@/components/layout/RealHeader.vue'
 import BottomNavBar from '@/components/layout/BottomNavBar.vue'
@@ -80,6 +91,7 @@ import {
   getCategoryExpenses,
   getCategoryIncome,
   getTransactionsByUserId,
+  deleteTransactionById,
 } from '@/api/transactionApi'
 
 const userStore = useUserStore()
@@ -206,6 +218,15 @@ const toggleCalendarType = (type) => {
     calendarSelectedTypes.value = calendarSelectedTypes.value.filter((t) => t !== type)
   } else {
     calendarSelectedTypes.value.push(type)
+  }
+}
+
+const deleteTransaction = async (id) => {
+  try {
+    await deleteTransactionById(id) // 그냥 지움
+    transactions.value = transactions.value.filter((tx) => tx.id !== id) // 로컬에서 제거
+  } catch (error) {
+    console.error('삭제 실패:', error)
   }
 }
 </script>
